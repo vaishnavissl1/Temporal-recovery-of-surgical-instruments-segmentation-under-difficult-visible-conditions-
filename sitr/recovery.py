@@ -72,10 +72,9 @@ class TemporalRecovery:
         self.instrument_ids = list(instrument_ids) if instrument_ids else [1]
 
     def __call__(self, state: FrameState) -> RecoveryResult:
-        assert state.needs_recovery, (
-            "TemporalRecovery called on a frame that does not need recovery")
-        assert len(state.memory) > 0, (
-            "TemporalRecovery called with empty memory (cold start)")
+        if len(state.memory) == 0:
+            # Cold start — no memory to recover from
+            return RecoveryResult(mask=state.mask, source_frames=())
 
         C, H, W = state.probs.shape
         t = state.t
@@ -192,15 +191,19 @@ class TemporalRecovery:
             return self._translate_probs_by_regions(
                 entry.mask, warped_mask, probs_s, H, W)
         else:
-            # Farneback or similar dense-flow aligner: warp each channel
-            aligned = np.zeros_like(probs_s)
+            # Farneback or similar dense-flow aligner: compute flow ONCE,
+            # then warp each probability channel with the same remap.
             gray_t = cv2.cvtColor(state.image, cv2.COLOR_RGB2GRAY)
+            remap = self._compute_flow_remap(entry.gray, gray_t, H, W)
+            if remap is None:
+                return probs_s
+            map_x, map_y = remap
+            aligned = np.zeros_like(probs_s)
             for c in range(C):
-                channel = probs_s[c]  # [H, W]
-                # Use the aligner's flow but with bilinear for probabilities
-                # We compute flow from mask warp and apply to probs
-                aligned[c] = self._warp_channel_with_flow(
-                    channel, entry.gray, gray_t)
+                aligned[c] = cv2.remap(
+                    probs_s[c].astype(np.float32), map_x, map_y,
+                    interpolation=cv2.INTER_LINEAR,
+                    borderMode=cv2.BORDER_CONSTANT, borderValue=0.0)
             return aligned
 
     def _translate_probs_by_regions(
@@ -267,13 +270,12 @@ class TemporalRecovery:
 
         return result
 
-    def _warp_channel_with_flow(self, channel: np.ndarray,
-                                gray_s: Optional[np.ndarray],
-                                gray_t: np.ndarray) -> np.ndarray:
-        """Warp a single probability channel using Farneback flow."""
+    def _compute_flow_remap(self, gray_s: Optional[np.ndarray],
+                            gray_t: np.ndarray, h: int, w: int
+                            ) -> Optional[tuple]:
+        """Compute Farneback flow ONCE and return (map_x, map_y) for remap."""
         if gray_s is None:
-            return channel
-        h, w = channel.shape
+            return None
         if gray_s.shape != gray_t.shape:
             gray_s = cv2.resize(gray_s, (gray_t.shape[1], gray_t.shape[0]),
                                 interpolation=cv2.INTER_AREA)
@@ -290,11 +292,7 @@ class TemporalRecovery:
 
         xs, ys = np.meshgrid(np.arange(w, dtype=np.float32),
                              np.arange(h, dtype=np.float32))
-        map_x = xs + flow[..., 0]
-        map_y = ys + flow[..., 1]
-        return cv2.remap(channel.astype(np.float32), map_x, map_y,
-                         interpolation=cv2.INTER_LINEAR,
-                         borderMode=cv2.BORDER_CONSTANT, borderValue=0.0)
+        return (xs + flow[..., 0], ys + flow[..., 1])
 
     def _collect_instrument_embeddings(
             self, state: FrameState) -> Dict[int, np.ndarray]:

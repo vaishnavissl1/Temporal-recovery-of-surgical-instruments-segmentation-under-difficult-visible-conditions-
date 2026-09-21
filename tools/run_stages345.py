@@ -39,7 +39,6 @@ from sitr.identity import HungarianIdentityVerifier  # noqa: E402
 from sitr.metrics import frame_iou  # noqa: E402
 from sitr.recovery import TemporalRecovery  # noqa: E402
 from sitr.runtime import ReleaseBundle  # noqa: E402
-from sitr.stage34_interface import RecoveryResult  # noqa: E402
 
 
 def run_sequence_eval(bundle, seq, mode, aligner, gamma, verbose=False):
@@ -55,32 +54,15 @@ def run_sequence_eval(bundle, seq, mode, aligner, gamma, verbose=False):
         # No recovery at all
         runner = bundle.runner(recovery=None, identity=None, aligner=None)
     elif mode == "always":
-        # Recovery on EVERY frame (Baseline B)
+        # Recovery on EVERY frame (Baseline B).
+        # We use the same recovery module but override state.reliable = False
+        # before each step() so SelectiveInference routes ALL frames through
+        # recovery (except cold starts, which have no memory).
         rec = TemporalRecovery(
             aligner=aligner, tau=tau, gamma=gamma,
             num_classes=num_classes, instrument_ids=instrument_ids)
         iv = HungarianIdentityVerifier(instrument_ids=instrument_ids)
-
-        class AlwaysRecover:
-            """Wrapper: runs recovery on every frame, not just unreliable."""
-            def __init__(self, inner):
-                self._inner = inner
-
-            def __call__(self, state):
-                # Override the assertion — we intentionally run on all frames
-                if len(state.memory) == 0:
-                    return RecoveryResult(mask=state.mask, source_frames=())
-                # Temporarily bypass the needs_recovery check
-                old_reliable = state.reliable
-                state.reliable = False
-                try:
-                    return self._inner(state)
-                except AssertionError:
-                    return RecoveryResult(mask=state.mask, source_frames=())
-                finally:
-                    state.reliable = old_reliable
-
-        runner = bundle.runner(recovery=AlwaysRecover(rec), identity=iv)
+        runner = bundle.runner(recovery=rec, identity=iv)
     else:  # selective
         rec = TemporalRecovery(
             aligner=aligner, tau=tau, gamma=gamma,
@@ -93,6 +75,12 @@ def run_sequence_eval(bundle, seq, mode, aligner, gamma, verbose=False):
     n_frames = 0
 
     for state in bundle.stream(seq, with_gt=True):
+        if mode == "always":
+            # Force ALL frames through recovery path by overriding routing.
+            # Recalculate cold_start based on the RUNNER's actual memory,
+            # not the stream's internal memory.
+            state.reliable = False
+            state.cold_start = (len(runner.memory) == 0)
         final_mask, _ = runner.step(state)
         if state.ground_truth is not None:
             iou = frame_iou(final_mask, state.ground_truth, num_classes,
@@ -215,14 +203,14 @@ def main():
     print(f"  Always vs Base:     {always - base:+.4f}")
 
     if sel > base:
-        print("\n  ✓ Selective recovery improves over baseline")
+        print("\n  [PASS] Selective recovery improves over baseline")
     else:
-        print("\n  ✗ Selective recovery does NOT improve over baseline")
+        print("\n  [FAIL] Selective recovery does NOT improve over baseline")
 
     if sel > always:
-        print("  ✓ Selectivity matters: selective > always-on")
+        print("  [PASS] Selectivity matters: selective > always-on")
     else:
-        print("  ✗ Selectivity does not help: always-on >= selective")
+        print("  [FAIL] Selectivity does not help: always-on >= selective")
 
     # Save report
     if args.output:

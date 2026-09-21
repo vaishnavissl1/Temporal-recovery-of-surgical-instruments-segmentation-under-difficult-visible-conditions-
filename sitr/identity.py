@@ -167,13 +167,6 @@ class HungarianIdentityVerifier:
                 assignments[ri] = mem_id
                 matched_cur.add(ri)
 
-                # Check for identity switch
-                # A switch occurs if this region had a different identity before
-                cr = cur_regions[ri]
-                mr = mem_regions[ci]
-                if cr["label"] != mr["label"]:
-                    switches += 1
-
         # Unmatched current regions get uncertain identity
         for i in range(n_cur):
             if i not in assignments:

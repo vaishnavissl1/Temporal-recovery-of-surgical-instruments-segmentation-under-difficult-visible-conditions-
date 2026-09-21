@@ -230,7 +230,7 @@ class RegionAligner:
         # build warped mask — start with background
         warped = np.zeros_like(mask_s)
         for ri, ci in zip(row_ind, col_ind):
-            if cost[ri, ci] > 2.0:
+            if cost[ri, ci] > 1.0:
                 # cost too high — discard this source region
                 continue
             sr = src_regions[ri]
