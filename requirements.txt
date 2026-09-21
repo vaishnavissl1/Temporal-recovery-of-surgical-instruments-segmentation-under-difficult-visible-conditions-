@@ -2,4 +2,6 @@ torch>=1.13
 torchvision>=0.14
 opencv-python-headless>=4.5
 numpy>=1.21
+scipy>=1.7            # Stage 5: Hungarian assignment for identity verification
 matplotlib>=3.5   # optional: Stage 2 diagnostic figure only
+
