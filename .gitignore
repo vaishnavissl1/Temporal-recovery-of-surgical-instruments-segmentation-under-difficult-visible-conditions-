@@ -1,0 +1,32 @@
+# datasets and derived caches — never commit these
+data/
+runs/
+work/
+*.npz
+*.pt
+*.pth
+*.ckpt
+prepared_*/
+endovis*/
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.ipynb_checkpoints/
+
+# outputs
+*.png
+!docs/*.png
+*.log
+wandb/
+
+# os / editor
+.DS_Store
+._*
+__MACOSX/
+.vscode/
+.idea/
