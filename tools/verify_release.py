@@ -44,8 +44,10 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--release", required=True)
-    ap.add_argument("--sequences", type=int, default=3,
-                    help="how many validation sequences to replay")
+    ap.add_argument("--sequences", type=int, default=None,
+                    help="how many sequences to replay (default: all the "
+                         "manifest's verification sequences for v2 releases, "
+                         "3 validation sequences for v1)")
     ap.add_argument("--device", default="auto")
     ap.add_argument("--batch-size", type=int, default=8)
     ap.add_argument("--data", default=None,
@@ -82,11 +84,21 @@ def main() -> int:
           f"Stage 2 AUC={m['stage2'].get('auc_detect_bad_frames', float('nan')):.4f}")
 
     # ------------------------------------------------------------- replay
-    val = set(m.get("val_seqs", []))
-    seqs = [s for s in bundle.sequences("train") if s.index in val][:args.sequences]
-    if not seqs:
-        seqs = bundle.sequences("train")[:args.sequences]
-    print(f"\n2. replaying {len(seqs)} validation sequences "
+    ver = m.get("verify")
+    if ver:
+        # v2 releases: Stage 1 was trained on every training sequence, so the
+        # only honest replay set is the one the report was measured on -- the
+        # official test sequences.
+        want = set(ver["seqs"])
+        seqs = [s for s in bundle.sequences(ver["split"]) if s.index in want]
+        if args.sequences:
+            seqs = seqs[:args.sequences]
+    else:
+        val = set(m.get("val_seqs", []))
+        seqs = [s for s in bundle.sequences("train") if s.index in val][:args.sequences]
+        if not seqs:
+            seqs = bundle.sequences("train")[:args.sequences]
+    print(f"\n2. replaying {len(seqs)} sequences "
           f"({[s.name for s in seqs]}) ...")
 
     offered, n_frames = [], 0
@@ -151,7 +163,7 @@ def main() -> int:
     # -------------------------------------------------- routing agreement
     print("\n3. does the shipped system reproduce the reported routing rate?")
     observed = 1.0 - seen_reliable / max(n_frames, 1)
-    reported = m.get("routing_rate_rho")
+    reported = (m.get("verify") or {}).get("rho", m.get("routing_rate_rho"))
     print(f"   observed rho = {observed:.3f}   reported rho = "
           f"{reported if reported is None else f'{reported:.3f}'}")
     if reported is None:

@@ -4,4 +4,6 @@ opencv-python-headless>=4.5
 numpy>=1.21
 scipy>=1.7            # Stage 5: Hungarian assignment for identity verification
 matplotlib>=3.5   # optional: Stage 2 diagnostic figure only
-
+scikit-learn>=1.3  # Stage 2 v2: gradient-boosted reliability model. Stage 3-5
+                   # users must have the SAME scikit-learn version as whoever
+                   # built the release, or the pickled model may not load.

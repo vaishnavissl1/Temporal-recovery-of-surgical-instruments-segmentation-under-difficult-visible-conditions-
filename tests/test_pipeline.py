@@ -522,6 +522,107 @@ def main() -> int:
             inf.step(st)
         assert seen["n"] > 0, "recovery never ran; test proved nothing"
 
+    # ------------------------------------------------------------ v2
+    @check("v2: CAFormer-FPN (both variants) - shapes, gradients, full-res features")
+    def _():
+        from sitr.models import build_model, encoder_param_names
+        for arch in ("caformer_surgenet", "caformer_imagenet"):
+            m = build_model(5, arch, pretrained=False, grad_checkpoint=True).train()
+            lo, fe = m(torch.randn(2, 3, 64, 96))
+            assert lo.shape == (2, 5, 64, 96) and fe.shape == (2, 32, 64, 96)
+            lo.mean().backward()
+            enc = encoder_param_names(arch)
+            assert all(p.grad is not None for n, p in m.named_parameters()
+                       if n.split(".")[0] not in enc or "norm" not in n)
+            try:
+                m(torch.randn(1, 3, 60, 96))
+                raise AssertionError("non-multiple-of-32 input accepted")
+            except ValueError:
+                pass
+
+    @check("v2: weight loader handles DINO/prefixed checkpoints and REFUSES mismatches")
+    def _():
+        import tempfile
+        import torch.nn as nn
+        from sitr.third_party.metaformer import caformer_s18
+        from sitr.pretrained import load_encoder_weights
+
+        def fresh(v):
+            e = caformer_s18(v); e.head = nn.Identity(); e.norm = nn.Identity()
+            return e
+        src = caformer_s18("surgenet").state_dict()
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "a.pth")
+            torch.save({"teacher": {"backbone." + k: v for k, v in src.items()}}, p)
+            e = fresh("surgenet")
+            st = load_encoder_weights(e, "surgenetxl", path=p, verbose=False)
+            assert st["matched"] == st["needed"]
+            assert all(torch.equal(e.state_dict()[k], src[k]) for k in e.state_dict())
+            for variant, ck in (("imagenet", src), ("surgenet", {"x": torch.zeros(1)})):
+                torch.save(ck, p)
+                try:
+                    load_encoder_weights(fresh(variant), "x", path=p, verbose=False)
+                    raise AssertionError("mismatched weights were accepted")
+                except RuntimeError:
+                    pass
+
+    @check("v2: folds keep whole sequences, cover all, balance frames")
+    def _():
+        from sitr.stage2v2 import make_folds
+        items = [(f"train/seq_{i}", 149 if i != 3 else 148) for i in
+                 (1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16)]
+        for k in (3, 5):
+            folds = make_folds(items, k)
+            flat = [x for f in folds for x in f]
+            assert sorted(flat) == sorted(i for i, _ in items) and len(set(flat)) == len(flat)
+            sizes = [len(f) for f in folds]
+            assert max(sizes) - min(sizes) <= 1, sizes
+            assert make_folds(items, k) == folds          # deterministic
+
+    @check("v2: conformal threshold is monotone and holds its risk bound")
+    def _():
+        from sitr.stage2v2 import conformal_tau
+        rng = np.random.default_rng(0)
+        r_star = rng.uniform(0, 1, 4000)
+        r_hat = np.clip(r_star + rng.normal(0, 0.15, 4000), 0, 1)
+        prev_tau = -1
+        for a in (0.15, 0.10, 0.05, 0.02):
+            c = conformal_tau(r_hat[:2000], r_star[:2000], 0.5, a)
+            assert c["feasible"] and c["tau"] >= prev_tau     # smaller budget -> stricter
+            prev_tau = c["tau"]
+            acc = r_hat[2000:] >= c["tau"]                    # fresh exchangeable data
+            risk = float(np.mean(acc & (r_star[2000:] < 0.5)))
+            assert risk <= a + 0.02, (a, risk)                # bound holds (+MC slack)
+
+    @check("v2: gradient-boosted reliability drops into the runtime interface")
+    def _():
+        from sklearn.ensemble import HistGradientBoostingRegressor
+        from sitr.meta_models import SklearnReliability
+        X = np.random.default_rng(0).uniform(0, 1, (200, 9))
+        est = HistGradientBoostingRegressor(max_iter=20).fit(X, X[:, 0])
+        m = SklearnReliability(est, in_dim=9).eval()
+        out = m(torch.as_tensor(X[:5], dtype=torch.float32))
+        assert out.shape == (5,) and float(out.min()) >= 0 and float(out.max()) <= 1
+        assert m.in_dim == 9
+
+    @check("runtime rebuilds the reliability MLP WITH its training dropout")
+    def _():
+        # Regression: dropout layers shift nn.Sequential indices, so a model
+        # trained with --dropout 0.2 could not be loaded by a runtime that
+        # rebuilt it without dropout.
+        m = ReliabilityMLP(9, 64, dropout=0.2)
+        plain = ReliabilityMLP(9, 64, dropout=0.0)
+        try:
+            plain.load_state_dict(m.state_dict())
+            mismatch = False
+        except RuntimeError:
+            mismatch = True
+        assert mismatch, "expected the index shift this test guards against"
+        ReliabilityMLP(9, 64, dropout=0.2).load_state_dict(m.state_dict())
+        import inspect
+        import sitr.runtime as rt
+        assert 'a.get("dropout"' in inspect.getsource(rt.ReleaseBundle.load)
+
     @check("Protocol conformance is structural (duck typing works)")
     def _():
         class R:

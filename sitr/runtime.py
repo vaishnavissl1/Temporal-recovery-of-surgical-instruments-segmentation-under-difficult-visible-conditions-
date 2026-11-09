@@ -97,11 +97,19 @@ class ReleaseBundle:
 
         rel_ckpt = load_checkpoint(os.path.join(root, "stage2_reliability.pt"),
                                    map_location=dev)
-        names = rel_ckpt["meta"]["feature_names"]
-        rel = ReliabilityMLP(in_dim=len(names),
-                             hidden=int(rel_ckpt["meta"].get("args", {})
-                                        .get("hidden", 64))).to(dev)
-        rel.load_state_dict(rel_ckpt["model"])
+        rmeta = rel_ckpt["meta"]
+        names = rmeta["feature_names"]
+        if rmeta.get("kind") == "sklearn":
+            # v2: gradient-boosted trees selected by cross-validation
+            from .meta_models import SklearnReliability
+            rel = SklearnReliability(rel_ckpt["estimator"], in_dim=len(names))
+        else:
+            # Rebuild with the SAME dropout it was trained with: dropout layers
+            # shift the Sequential indices, so a mismatch fails to load.
+            a = rmeta.get("args", {})
+            rel = ReliabilityMLP(in_dim=len(names), hidden=int(a.get("hidden", 64)),
+                                 dropout=float(a.get("dropout", 0.0))).to(dev)
+            rel.load_state_dict(rel_ckpt["model"])
         rel.eval()
 
         b = ReleaseBundle(root=root, manifest=manifest, class_map=cm,

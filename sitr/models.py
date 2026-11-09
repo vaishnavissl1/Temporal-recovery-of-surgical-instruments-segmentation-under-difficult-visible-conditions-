@@ -31,7 +31,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-ARCHITECTURES = ("unet11", "resnet34_unet", "convnext_unet")
+ARCHITECTURES = ("unet11", "resnet34_unet", "convnext_unet",
+                 "caformer_surgenet", "caformer_imagenet")
 
 
 # --------------------------------------------------------------------------- #
@@ -257,10 +258,157 @@ class ConvNeXtUNet(nn.Module):
         return self.final(feat), feat
 
 
+
+
+# --------------------------------------------------------------------------- #
+# CAFormer-S18 + FPN (+ full-resolution refinement)          -- v2 default
+# --------------------------------------------------------------------------- #
+def _gn(ch: int) -> nn.GroupNorm:
+    for g in (32, 16, 8, 4, 2):
+        if ch % g == 0:
+            return nn.GroupNorm(g, ch)
+    return nn.GroupNorm(1, ch)
+
+
+class GNConv(nn.Module):
+    """3x3 conv + GroupNorm + ReLU.
+
+    GroupNorm, not BatchNorm: on an 8 GB GPU at 512x640 the batch is 2, and
+    BatchNorm statistics over two images are noise.
+    """
+
+    def __init__(self, in_ch: int, out_ch: int):
+        super().__init__()
+        self.block = nn.Sequential(nn.Conv2d(in_ch, out_ch, 3, padding=1, bias=False),
+                                   _gn(out_ch), nn.ReLU(inplace=True))
+
+    def forward(self, x):
+        return self.block(x)
+
+
+class CaFormerFPN(nn.Module):
+    """CAFormer-S18 encoder, FPN decoder, and a full-resolution refinement path.
+
+    Encoder weights:
+      caformer_surgenet  SurgeNetXL: DINO self-supervised on 4.7M SURGICAL
+                         frames (Jaspers et al., Medical Image Analysis 2025).
+                         The authors report +14.4% on semantic segmentation
+                         over ImageNet initialisation of the same network.
+      caformer_imagenet  identical network, ImageNet-1k weights -- the controlled
+                         comparison that isolates the effect of surgical
+                         pretraining.
+
+    Decoder: the FPN is the one SurgeNet was evaluated with (4 pyramid levels,
+    256 ch, merged by concatenation at 1/4 resolution). An FPN alone outputs
+    at 1/4 resolution, which blurs 2-4 px needle, thread and clasper tips, so
+    two extra stages bring it back to full resolution with skips from a cheap
+    full-resolution branch on the raw image -- the same fix convnext_unet uses.
+
+    Returns (logits, features) with features = 32 channels at input resolution,
+    exactly like every other model here, so Stages 2-5 are unchanged.
+    """
+
+    feature_dim = 32
+
+    def __init__(self, num_classes: int, weights: str = None,
+                 variant: str = "surgenet", pretrained_path: str = None,
+                 drop_path_rate: float = 0.1, grad_checkpoint: bool = False):
+        super().__init__()
+        from .third_party.metaformer import caformer_s18
+        from .pretrained import VARIANT_OF, load_encoder_weights
+        if weights:
+            variant = VARIANT_OF[weights]
+        self.variant = variant
+        self.encoder = caformer_s18(variant, drop_path_rate=drop_path_rate)
+        self.encoder.head = nn.Identity()   # classifier: unused for segmentation
+        self.encoder.norm = nn.Identity()   # pooled-output norm: unused too
+        if weights:
+            load_encoder_weights(self.encoder, weights, pretrained_path)
+        self.grad_checkpoint = bool(grad_checkpoint)
+
+        enc_ch, P, S = (64, 128, 320, 512), 256, 128
+        self.lateral = nn.ModuleList([nn.Conv2d(c, P, 1) for c in enc_ch])
+        # level i lives at 1/(4*2^i); bring each to 1/4 with i upsampling convs
+        self.seg_blocks = nn.ModuleList()
+        for i in range(4):
+            blocks = [GNConv(P, S)]
+            blocks += [GNConv(S, S) for _ in range(max(0, i - 1))]
+            self.seg_blocks.append(nn.ModuleList(blocks))
+        self.fuse = GNConv(4 * S, 128)                    # 1/4
+
+        self.hi1 = GNConv(3, 32)                           # 1/1
+        self.hi2 = nn.Sequential(nn.MaxPool2d(2, 2), GNConv(32, 48))  # 1/2
+        self.up2 = GNConv(128 + 48, 64)                    # 1/2
+        self.up1 = GNConv(64 + 32, 32)                     # 1/1 -> features
+        self.final = nn.Conv2d(32, num_classes, 1)
+        for m in [self.lateral, self.seg_blocks, self.fuse, self.hi1, self.hi2,
+                  self.up2, self.up1, self.final]:
+            for mm in m.modules():
+                if isinstance(mm, nn.Conv2d):
+                    nn.init.kaiming_normal_(mm.weight, mode="fan_out",
+                                            nonlinearity="relu")
+                    if mm.bias is not None:
+                        nn.init.zeros_(mm.bias)
+
+    def _encode(self, x):
+        enc, feats, y = self.encoder, [], x
+        for i in range(enc.num_stage):
+            y = enc.downsample_layers[i](y)
+            if self.grad_checkpoint and self.training:
+                y = torch.utils.checkpoint.checkpoint(enc.stages[i], y,
+                                                      use_reentrant=False)
+            else:
+                y = enc.stages[i](y)
+            feats.append(y.permute(0, 3, 1, 2).contiguous())   # B,H,W,C -> B,C,H,W
+        return feats
+
+    def forward(self, x):
+        H, W = x.shape[-2:]
+        if H % 32 or W % 32:
+            raise ValueError(f"input {H}x{W} must be a multiple of 32")
+        c = self._encode(x)
+        p = [None] * 4
+        p[3] = self.lateral[3](c[3])
+        for i in (2, 1, 0):
+            p[i] = self.lateral[i](c[i]) + F.interpolate(
+                p[i + 1], size=c[i].shape[-2:], mode="nearest")
+        q_size = c[0].shape[-2:]
+        outs = []
+        for i in range(4):
+            y = p[i]
+            for j, blk in enumerate(self.seg_blocks[i]):
+                y = blk(y)
+                if i > 0 and j < i:          # upsample once per level step
+                    y = F.interpolate(y, scale_factor=2, mode="bilinear",
+                                      align_corners=False)
+            if y.shape[-2:] != q_size:
+                y = F.interpolate(y, size=q_size, mode="bilinear",
+                                  align_corners=False)
+            outs.append(y)
+        d = self.fuse(torch.cat(outs, 1))                               # 1/4
+        h1 = self.hi1(x)
+        h2 = self.hi2(h1)
+        d = F.interpolate(d, size=h2.shape[-2:], mode="bilinear", align_corners=False)
+        d = self.up2(torch.cat([d, h2], 1))                              # 1/2
+        d = F.interpolate(d, size=h1.shape[-2:], mode="bilinear", align_corners=False)
+        feat = self.up1(torch.cat([d, h1], 1))                           # 1/1
+        return self.final(feat), feat
+
 # --------------------------------------------------------------------------- #
 def build_model(num_classes: int, arch: str = "resnet34_unet",
-                pretrained: bool = True, num_filters: int = 32) -> nn.Module:
+                pretrained: bool = True, num_filters: int = 32,
+                pretrained_path: str = None, grad_checkpoint: bool = False,
+                drop_path_rate: float = 0.1) -> nn.Module:
+    """`pretrained=False` builds the architecture only (used when loading a
+    trained checkpoint); it never downloads anything."""
     arch = (arch or "resnet34_unet").lower()
+    if arch in ("caformer_surgenet", "caformer_imagenet"):
+        src = "surgenetxl" if arch == "caformer_surgenet" else "imagenet"
+        variant = "surgenet" if arch == "caformer_surgenet" else "imagenet"
+        return CaFormerFPN(num_classes, weights=src if pretrained else None,
+                           variant=variant, pretrained_path=pretrained_path,
+                           grad_checkpoint=grad_checkpoint,
+                           drop_path_rate=drop_path_rate)
     if arch == "unet11":
         return UNet11(num_classes, num_filters, pretrained)
     if arch == "resnet34_unet":
@@ -280,6 +428,8 @@ def encoder_param_names(arch: str) -> Tuple[str, ...]:
         return ("stem", "layer1", "layer2", "layer3", "layer4")
     if arch == "convnext_unet":
         return ("stage1", "stage2", "stage3", "stage4")
+    if arch in ("caformer_surgenet", "caformer_imagenet"):
+        return ("encoder",)
     raise ValueError(f"unknown arch {arch!r}")
 
 

@@ -30,6 +30,37 @@ the contract your teammate builds Stages 3–5 against.
 
 ---
 
+
+## Version 2 (recommended): stronger Stage 1, honest Stage 2
+
+v1 (`tools/run_all.py`) is kept unchanged and still works. v2 (`tools/run_v2.py`) changes five things, each for a stated reason:
+
+| | v1 | v2 | why |
+|---|---|---|---|
+| Stage 1 encoder | ResNet34, ImageNet | **CAFormer-S18, SurgeNetXL** (surgical self-supervised, 4.7M frames) | surgical pretraining is reported to add +14.4% segmentation over ImageNet init (Jaspers et al., MedIA 2025) |
+| resolution / classes | 256×320, 9 | **512×640, all 12** | thin instruments need resolution; 12 classes make the number comparable to published EndoVis 2018 results |
+| Stage 2 training data | Stage 1 predictions on sequences Stage 1 **trained on** | **cross-fitted**: each sequence predicted by a model that never saw it | v1 learned from unrealistically good examples |
+| Stage 2 model | MLP, assumed | **MLP vs gradient boosting, K and τ_train** chosen by leave-fold-out CV | selected by data, criterion fixed in code |
+| routing threshold τ | Youden's J | **conformal risk control**: at most α of frames may be bad-and-unrepaired | an operational guarantee instead of an arbitrary optimum |
+| evaluation | our held-out split | **official 4 test sequences**, challenge protocol at full 1280×1024 | the only number comparable to the literature |
+
+**Run it** (8 GB-class laptop GPU; plan for 2–3 days):
+
+```cmd
+pip install -r requirements.txt
+python -m tools.check_backbone
+python -m tools.run_v2 --root "C:\...\endovis2018_cvdataset" --out work_v2 --class-map work\class_map.json --batch-size <from check> --accum-steps <from check>
+```
+
+`check_backbone` proves the SurgeNetXL weights load (every tensor matched, or it stops), finds the batch size that fits your GPU, and estimates the run time. `run_v2` is resumable: if the laptop sleeps or you stop it, run the same command again.
+
+**Stated, not learned:** α (risk budget, default 0.05), θ (a frame is "bad" below 0.5 instrument IoU), epochs, image size. Everything else in Stage 2 is selected by cross-validation.
+
+**Licence:** SurgeNetXL weights are CC-BY-NC-SA 4.0 (non-commercial). Fine for academic work; a model trained from them inherits that restriction.
+
+See `NOVELTY.md` → *Prior work this project MUST cite* before writing any novelty claim.
+
+
 ## Install
 
 ```bash

@@ -1,3 +1,30 @@
+# Prior work this project MUST cite and position against
+
+*Checked against primary sources, September 2026. Read this before claiming
+novelty for any part of Stages 1–2.*
+
+| Work | What it already does | Consequence for our claims |
+|---|---|---|
+| **MetaSeg** — Rottmann et al., *Prediction Error Meta Classification in Semantic Segmentation* (arXiv:1811.00648) and CVPRW 2019 | Predicts per-segment IoU from aggregated softmax dispersion (entropy, margin, variation ratio) plus segment size and shape, with linear models, gradient boosting and neural nets | Predicting segmentation quality from confidence and shape cues is **not new**. Our Stage 2 is in this family. |
+| **Time-dynamic MetaSeg** — Maag, Rottmann, Gottschalk (arXiv:1911.05075) | Tracks segments across video frames and feeds **time series** of those metrics to the meta-model; temporal information improves IoU prediction (R² ≈ 86–88%, AUROC ≈ 86–89% on VIPER/KITTI) | Adding temporal cues to a quality estimator is **not new** either. |
+| **TCSR-Monitor** — Pham, Cao, Huynh, *Beyond Uncertainty: Generalizable Failure Monitoring for Surgical Segmentation under Acquisition Degradation* (arXiv:2608.16748, Aug 2026) | Post-hoc surgical segmentation failure monitor combining confidence, **shape, temporal-consistency and image-quality cues**, with a **conformal** risk threshold, on EndoVis **2017** | Closest prior work to our Stage 2. Its finding that a single global threshold still false-alarms on up to 40% of good frames matches our own routing rate. |
+| **TAFP** — Yuan & Ban, *Temporal Propagation of Asymmetric Feature Pyramid for Surgical Scene Segmentation* (arXiv:2504.13440; COLAS 2025, LNCS 2026) | **Temporal propagation** across frames for EndoVis 2018 scene segmentation; reports **82.6% mIoU**, the best number we found | Temporal propagation *for every frame* is prior art for Stages 3–4. Its public repo (cyuan-sjtu/ViT-asym) contained no EndoVis configs or weights when checked, so the number cannot be reproduced. |
+| **TAFE** — (arXiv:2410.17642) | Single-frame transformer, 77.5% mIoU on EndoVis 2018 (512×1024) | Single-frame state of the art. |
+| **SurgeNet / SurgeNetXL** — Jaspers et al., Medical Image Analysis 2025 (arXiv:2501.09436) | Surgical self-supervised backbones (4.7M frames), reported +14.4% segmentation over ImageNet initialisation | The v2 Stage 1 encoder. We use it; we do not claim it. |
+
+## What is still defensibly ours
+
+None of the works above does **all** of the following together, which is the actual contribution:
+
+1. **Selective** recovery: the reliability gate decides *which* frames get temporal repair, instead of propagating on every frame (the contrast with TAFP), and repaired frames are kept separate from the memory that feeds future repairs.
+2. **Memory admission tied to reliability**, with the admission threshold kept separate from the routing threshold. We measured that merging the two inflates routing from 34% to 55% through a feedback loop.
+3. **Exposure-bias-aware training** of the gate (scheduled sampling / DAgger on self-predicted history), with the train-vs-inference gap reported.
+4. **Cross-fitted** training data for the gate on EndoVis 2018, and a risk-controlled routing threshold evaluated on the **official test sequences**.
+
+Say it this way in the paper. Claiming "a novel reliability estimator" or "novel temporal indicators" would be refuted by the table above.
+
+---
+
 # Novelty — what is actually new in Stages 1–2
 
 This file separates three things that get conflated in write-ups: what is

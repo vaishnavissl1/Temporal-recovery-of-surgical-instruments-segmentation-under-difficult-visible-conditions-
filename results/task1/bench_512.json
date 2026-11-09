@@ -1,0 +1,44 @@
+[
+ {
+  "h": 512,
+  "w": 640,
+  "batch": 1,
+  "ckpt": true,
+  "free_before_gb": 3.210644531995058,
+  "total_gb": 3.99951171875,
+  "status": "ok",
+  "peak_alloc_gb": 1.4823956489562988,
+  "peak_reserved_gb": 1.71484375,
+  "img_per_s": 1.8823387683023791,
+  "sec_per_step": 0.5312539999916529,
+  "params_m": 25.85838
+ },
+ {
+  "h": 512,
+  "w": 640,
+  "batch": 2,
+  "ckpt": true,
+  "free_before_gb": 3.210644531995058,
+  "total_gb": 3.99951171875,
+  "status": "ok",
+  "peak_alloc_gb": 2.5770726203918457,
+  "peak_reserved_gb": 2.9296875,
+  "img_per_s": 3.9048020963494707,
+  "sec_per_step": 0.5121898499977154,
+  "params_m": 25.85838
+ },
+ {
+  "h": 512,
+  "w": 640,
+  "batch": 3,
+  "ckpt": true,
+  "free_before_gb": 3.210644531995058,
+  "total_gb": 3.99951171875,
+  "status": "ok",
+  "peak_alloc_gb": 3.6622281074523926,
+  "peak_reserved_gb": 4.283203125,
+  "img_per_s": 1.5616072405284054,
+  "sec_per_step": 1.9210976499986525,
+  "params_m": 25.85838
+ }
+]

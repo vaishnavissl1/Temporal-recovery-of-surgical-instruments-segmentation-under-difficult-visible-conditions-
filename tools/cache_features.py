@@ -59,6 +59,10 @@ def build_args():
     ap.add_argument("--splits", nargs="+", default=["train"],
                     choices=["train", "test"])
     ap.add_argument("--checkpoint", required=True, help="Stage 1 checkpoint")
+    ap.add_argument("--seq-keys", nargs="*", default=None,
+                    help="cache ONLY these sequences, e.g. train/seq_3 "
+                         "test/seq_1 (cross-fitting: a fold model caches just "
+                         "its held-out fold)")
     ap.add_argument("--out", default="runs/cache")
     ap.add_argument("--class-map", default=None)
     ap.add_argument("--calibration", default=None,
@@ -285,6 +289,14 @@ def main() -> int:
     else:
         seqs = discover_sequences(args.root, require_labels=True,
                                   apply_repairs=True, splits=tuple(args.splits))
+
+    if args.seq_keys:
+        want = set(args.seq_keys)
+        unknown = want - {s.key for s in seqs}
+        if unknown:
+            raise SystemExit(f"--seq-keys not found: {sorted(unknown)}; "
+                             f"available: {sorted(s.key for s in seqs)}")
+        seqs = [s for s in seqs if s.key in want]
 
     index, t0 = [], time.time()
     for s in seqs:

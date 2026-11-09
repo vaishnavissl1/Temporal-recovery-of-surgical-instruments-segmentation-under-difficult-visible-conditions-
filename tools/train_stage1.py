@@ -36,7 +36,7 @@ from sitr.labels import ClassMap, build_class_map  # noqa: E402
 from sitr.calibration import calibration_report, fit_temperature  # noqa: E402
 from sitr.losses import SegLoss  # noqa: E402
 from sitr.metrics import ConfusionMatrix, frame_iou  # noqa: E402
-from sitr.models import (build_model, count_parameters,  # noqa: E402
+from sitr.models import (ARCHITECTURES, build_model, count_parameters,  # noqa: E402
                          encoder_param_names, predict_with_tta)
 from sitr.utils import (AverageMeter, amp_enabled, cosine_lr, get_device,  # noqa: E402
                         save_checkpoint, set_seed, write_json)
@@ -53,17 +53,45 @@ def build_args():
     ap.add_argument("--task", default="instruments",
                     choices=["binary", "parts", "instruments", "full"])
     ap.add_argument("--instrument-classes", nargs="*", default=None)
+    ap.add_argument("--no-val", action="store_true",
+                    help="train on EVERY training sequence (the cross-fitting "
+                         "final model). Implies --select last; pass the "
+                         "temperature with --temperature.")
+    ap.add_argument("--temperature", type=float, default=None,
+                    help="with --no-val: calibration temperature to store "
+                         "(cross-fitting uses the mean of the fold models' T)")
+    ap.add_argument("--select", default="best", choices=["best", "last"],
+                    help="best = checkpoint with highest val mIoU; last = final "
+                         "epoch. Cross-fitting fold models MUST use last: "
+                         "picking the epoch by the held-out fold's labels would "
+                         "leak those labels into the out-of-fold predictions.")
     ap.add_argument("--val-seqs", nargs="+", type=int, default=[2, 5, 9, 15],
                     help="held-out sequence indices (sequence-level split)")
 
     ap.add_argument("--arch", default="resnet34_unet",
-                    choices=["resnet34_unet", "convnext_unet", "unet11"],
+                    choices=list(ARCHITECTURES),
                     help="unet11 = the report's TernausNet baseline, for "
                          "comparability; the others are stronger")
     ap.add_argument("--height", type=int, default=256)
     ap.add_argument("--width", type=int, default=320)
     ap.add_argument("--epochs", type=int, default=60)
     ap.add_argument("--batch-size", type=int, default=8)
+    ap.add_argument("--accum-steps", type=int, default=1,
+                    help="gradient accumulation: effective batch = "
+                         "batch-size x accum-steps (lets an 8 GB GPU train at "
+                         "512x640 with batch 2 but behave like batch 8)")
+    ap.add_argument("--grad-checkpoint", action="store_true",
+                    help="recompute encoder activations in the backward pass: "
+                         "~35%% less memory, ~25%% slower (caformer_* only)")
+    ap.add_argument("--ema", type=float, default=0.0,
+                    help="EMA of weights with this decay (e.g. 0.999); the EMA "
+                         "copy is what gets evaluated and saved. Steadies "
+                         "small-batch training. 0 disables.")
+    ap.add_argument("--drop-path", type=float, default=0.1,
+                    help="stochastic depth for caformer_* encoders")
+    ap.add_argument("--pretrained-path", default=None,
+                    help="local copy of the encoder weights, if the automatic "
+                         "download is blocked")
     ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--encoder-lr-scale", type=float, default=0.1,
                     help="the pretrained VGG encoder is fine-tuned at lr*scale")
@@ -166,18 +194,23 @@ def main() -> int:
               f"(repaired frames: {sum(len(s.repaired) for s in seqs)})")
         print("  tip: tools/prepare_dataset.py makes epochs ~10x faster")
 
-    train_seqs, val_seqs = split_sequences(seqs, args.val_seqs)
+    if args.no_val:
+        args.select = "last"
+        train_seqs, val_seqs = list(seqs), []
+    else:
+        train_seqs, val_seqs = split_sequences(seqs, args.val_seqs)
     print(f"device={device}  amp={use_amp}")
     print(f"train seqs ({len(train_seqs)}): {[s.name for s in train_seqs]}")
     print(f"val   seqs ({len(val_seqs)}): {[s.name for s in val_seqs]}")
 
     train_ds = FrameDataset(train_seqs, class_map, args.task, args.height,
                             args.width, augment=True, seed=args.seed)
-    val_ds = FrameDataset(val_seqs, class_map, args.task, args.height,
-                          args.width, augment=False)
+    val_ds = (FrameDataset(val_seqs, class_map, args.task, args.height,
+                           args.width, augment=False) if val_seqs else [])
     if args.limit_frames:
         train_ds.items = train_ds.items[:args.limit_frames]
-        val_ds.items = val_ds.items[:args.limit_frames]
+        if val_seqs:
+            val_ds.items = val_ds.items[:args.limit_frames]
 
     num_classes, names = train_ds.num_classes, train_ds.target_names
     instrument_ids = train_ds.instrument_ids
@@ -206,12 +239,16 @@ def main() -> int:
         prefetch_factor=4 if args.workers > 0 else None)
     val_loader = DataLoader(
         val_ds, batch_size=max(1, args.batch_size), shuffle=False,
-        num_workers=max(2, args.workers // 2), pin_memory=pin,
-        persistent_workers=args.workers > 0)
+        num_workers=max(2, args.workers // 2) if args.workers else 0,
+        pin_memory=pin,
+        persistent_workers=args.workers > 0) if len(val_ds) else None
 
     # -------------------------------------------------------------- model
     model = build_model(num_classes, arch=args.arch,
-                        pretrained=not args.no_pretrained).to(device)
+                        pretrained=not args.no_pretrained,
+                        pretrained_path=args.pretrained_path,
+                        grad_checkpoint=args.grad_checkpoint,
+                        drop_path_rate=args.drop_path).to(device)
     print(f"arch={args.arch}  model params: {count_parameters(model):,}")
     if args.channels_last and device.type == "cuda":
         model = model.to(memory_format=torch.channels_last)
@@ -240,7 +277,27 @@ def main() -> int:
                         class_weights=weights)
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
 
-    steps_per_epoch = max(1, len(train_loader))
+    ema = None
+    if args.ema > 0:
+        import copy
+        ema = copy.deepcopy(model).eval()
+        for p_ in ema.parameters():
+            p_.requires_grad_(False)
+        print(f"  EMA of weights, decay={args.ema}")
+
+    @torch.no_grad()
+    def ema_update():
+        d = args.ema
+        for pe, pm in zip(ema.parameters(), model.parameters()):
+            pe.mul_(d).add_(pm.detach(), alpha=1.0 - d)
+        for be, bm in zip(ema.buffers(), model.buffers()):
+            be.copy_(bm)
+
+    accum = max(1, int(args.accum_steps))
+    if accum > 1:
+        print(f"  gradient accumulation: {accum} x batch {args.batch_size} = "
+              f"effective batch {accum * args.batch_size}")
+    steps_per_epoch = max(1, len(train_loader) // accum)
     total_steps = steps_per_epoch * args.epochs
     warmup = int(max(0, args.warmup_frac) * total_steps)
 
@@ -255,6 +312,8 @@ def main() -> int:
         best = float(ck["meta"].get("stats", {}).get("mIoU", -1.0))
         gstep = start_epoch * steps_per_epoch
         print(f"resumed from {args.resume} at epoch {start_epoch} (best={best:.4f})")
+        if ema is not None:
+            ema.load_state_dict(model.state_dict())
 
     save_manifest(os.path.join(args.out, "data_manifest.json"), seqs,
                   extra={"val_seqs": args.val_seqs, "task": args.task})
@@ -265,34 +324,53 @@ def main() -> int:
         meter, ce_m, dc_m, tv_m = (AverageMeter(), AverageMeter(),
                                    AverageMeter(), AverageMeter())
         t0 = time.time()
-        for batch in train_loader:
+        optimizer.zero_grad(set_to_none=True)
+        lrs = [g["lr"] for g in optimizer.param_groups]
+        for it, batch in enumerate(train_loader):
             images = batch["image"].to(device, non_blocking=True)
             if args.channels_last and device.type == "cuda":
                 images = images.contiguous(memory_format=torch.channels_last)
             masks = batch["mask"].to(device, non_blocking=True)
 
-            lrs = cosine_lr(optimizer, base_lrs, gstep, total_steps, warmup,
-                            args.min_lr_factor)
-            optimizer.zero_grad(set_to_none=True)
-            with torch.autocast("cuda", enabled=use_amp):
-                logits, _ = model(images)
-                loss, parts = criterion(logits, masks)
-            scaler.scale(loss).backward()
-            if args.clip_grad > 0:
-                scaler.unscale_(optimizer)
-                torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip_grad)
-            scaler.step(optimizer)
-            scaler.update()
+            try:
+                with torch.autocast("cuda", enabled=use_amp):
+                    logits, _ = model(images)
+                    loss, parts = criterion(logits, masks)
+                scaler.scale(loss / accum).backward()
+            except torch.cuda.OutOfMemoryError:
+                raise SystemExit(
+                    "\nGPU out of memory. Halve --batch-size and double "
+                    "--accum-steps (same effective batch), and/or add "
+                    "--grad-checkpoint. `python -m tools.check_backbone` finds "
+                    "a setting that fits your GPU.")
 
             n = images.size(0)
             meter.update(float(loss.detach()), n)
             ce_m.update(parts["ce"], n)
             dc_m.update(parts["dice"], n)
             tv_m.update(parts.get("tversky", 0.0), n)
+
+            if (it + 1) % accum and (it + 1) != len(train_loader):
+                continue
+            lrs = cosine_lr(optimizer, base_lrs, gstep, total_steps, warmup,
+                            args.min_lr_factor)
+            if args.clip_grad > 0:
+                scaler.unscale_(optimizer)
+                torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip_grad)
+            scaler.step(optimizer)
+            scaler.update()
+            optimizer.zero_grad(set_to_none=True)
+            if ema is not None:
+                ema_update()
             gstep += 1
 
-        stats = evaluate(model, val_loader, device, num_classes, names,
-                         instrument_ids, use_amp, tta=args.tta)
+        net = ema if ema is not None else model
+        if val_loader is not None:
+            stats = evaluate(net, val_loader, device, num_classes, names,
+                             instrument_ids, use_amp, tta=args.tta)
+        else:
+            stats = {"mIoU": float("nan"), "challenge_IoU_union": float("nan"),
+                     "instrument_IoU_per_frame": float("nan")}
         row = {"epoch": epoch, "lr_decoder": lrs[-1], "loss": meter.avg,
                "ce": ce_m.avg, "dice_loss": dc_m.avg, "tversky": tv_m.avg,
                "secs": round(time.time() - t0, 1), **stats}
@@ -301,7 +379,8 @@ def main() -> int:
               f"(ce={ce_m.avg:.4f} dice={dc_m.avg:.4f})  "
               f"val mIoU={stats['mIoU']:.4f}  "
               f"chIoU={stats['challenge_IoU_union']:.4f}  "
-              f"instIoU={stats['instrument_IoU_per_frame']:.4f}  {row['secs']}s")
+              f"instIoU={stats['instrument_IoU_per_frame']:.4f}  {row['secs']}s"
+              f"  (ETA {row['secs'] * (args.epochs - epoch - 1) / 3600:.1f} h)")
 
         meta = {"args": vars(args), "epoch": epoch, "stats": stats,
                 "num_classes": num_classes, "target_names": names,
@@ -309,10 +388,19 @@ def main() -> int:
                 "arch": args.arch,
                 "height": args.height, "width": args.width,
                 "class_map_path": os.path.abspath(cm_path)}
+        meta["ema"] = float(args.ema)
+        # last.pt = the RAW weights + optimizer, for resuming; best.pt = the
+        # evaluated weights (EMA copy if enabled), for everything downstream
         save_checkpoint(os.path.join(args.out, "last.pt"), model, meta, optimizer)
-        if stats["mIoU"] > best:
+        if args.select == "last":
+            # best.pt is what every downstream tool reads; under --select last
+            # it is simply the latest epoch -- never chosen by held-out labels
+            save_checkpoint(os.path.join(args.out, "best.pt"), net, meta)
+            if stats["mIoU"] == stats["mIoU"]:
+                best = stats["mIoU"]
+        elif stats["mIoU"] > best:
             best, bad_epochs = stats["mIoU"], 0
-            save_checkpoint(os.path.join(args.out, "best.pt"), model, meta)
+            save_checkpoint(os.path.join(args.out, "best.pt"), net, meta)
             print(f"        new best mIoU={best:.4f} -> best.pt")
         else:
             bad_epochs += 1
@@ -335,6 +423,18 @@ def main() -> int:
     best_path = os.path.join(args.out, "best.pt")
     ck = load_checkpoint(best_path, map_location=device)
     model.load_state_dict(ck["model"])
+    if val_loader is None:
+        T = float(args.temperature) if args.temperature else 1.0
+        ck["meta"]["temperature"] = T
+        ck["meta"]["temperature_source"] = ("given (--temperature)" if
+                                            args.temperature else "none")
+        torch.save(ck, best_path)
+        write_json(os.path.join(args.out, "calibration.json"),
+                   {"temperature": T, "source": ck["meta"]["temperature_source"]})
+        print(f"\nno validation split: stored temperature T={T:.3f} "
+              f"({ck['meta']['temperature_source']})")
+        print(f"Done. Final-epoch model in {best_path}")
+        return 0
     T = fit_temperature(model, val_loader, device, use_amp,
                         channels_last=args.channels_last)
     if T is None:

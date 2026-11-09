@@ -25,6 +25,15 @@ need is behind one module: `sitr/stage34_interface.py`.
 Please don't edit files under `sitr/` that Stages 1–2 own. Put your work in new
 modules and work on a branch; see "Suggested first commit" at the end.
 
+## If you receive a v2 release
+
+Nothing in your code changes. The interface is identical. What differs:
+
+* `bundle.num_classes` is **12** (all classes), not 9, and images are **512×640**. Read both from the bundle; never hardcode them.
+* The reliability model may be gradient-boosted trees instead of an MLP. It has the same call interface. You need the **same scikit-learn version** as the release builder (`pip install -r requirements.txt`).
+* `verify_release` replays the **official test sequences**, because the v2 Stage 1 was trained on all 15 training sequences.
+* τ comes from conformal risk control with budget α (see `manifest.json`). It is still provisional: re-tune once recovery exists, keeping the same risk-based criterion.
+
 ## The boundary in one equation
 
 Stages 1–2 produce the left-hand side of the report's central decision (eq. 26):
