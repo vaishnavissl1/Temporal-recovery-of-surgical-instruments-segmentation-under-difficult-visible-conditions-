@@ -1,0 +1,27 @@
+{
+  "folds": [
+    [
+      "train/seq_1",
+      "train/seq_10",
+      "train/seq_15",
+      "train/seq_3",
+      "train/seq_6"
+    ],
+    [
+      "train/seq_11",
+      "train/seq_13",
+      "train/seq_14",
+      "train/seq_4",
+      "train/seq_7"
+    ],
+    [
+      "train/seq_12",
+      "train/seq_16",
+      "train/seq_2",
+      "train/seq_5",
+      "train/seq_9"
+    ]
+  ],
+  "k": 3,
+  "note": "whole sequences only; chosen by exhaustive search to maximise the worst-case rare-class training coverage (tools/make_folds_balanced.py)"
+}

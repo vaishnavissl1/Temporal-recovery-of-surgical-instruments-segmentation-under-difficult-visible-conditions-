@@ -38,6 +38,34 @@ def amp_enabled(device: torch.device, requested: bool) -> bool:
     return bool(requested and device.type == "cuda")
 
 
+def cap_gpu_memory(max_gb: float) -> None:
+    """Make an over-budget allocation raise OutOfMemoryError instead of spilling.
+
+    On Windows (WDDM) CUDA does not fail when VRAM is full: it silently pages
+    into system RAM and training becomes 2-8x slower with no error. A hard cap
+    turns that silent slowdown into a loud, catchable failure. 0 disables.
+    """
+    if max_gb <= 0 or not torch.cuda.is_available():
+        return
+    total_gb = torch.cuda.get_device_properties(0).total_memory / 2 ** 30
+    torch.cuda.set_per_process_memory_fraction(min(1.0, max_gb / total_gb))
+    print(f"  GPU memory hard cap: {max_gb:.2f} GB of {total_gb:.2f} GB")
+
+
+def keep_awake() -> bool:
+    """Ask Windows not to idle-sleep while this process is running.
+
+    Per-process and released when the process exits; no system setting is
+    changed. It does not stop a lid-close or a manual Sleep. No-op elsewhere.
+    """
+    if os.name != "nt":
+        return False
+    import ctypes
+    ES_CONTINUOUS, ES_SYSTEM_REQUIRED = 0x80000000, 0x00000001
+    ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
+    return True
+
+
 class AverageMeter:
     def __init__(self):
         self.sum = 0.0

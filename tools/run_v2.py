@@ -88,6 +88,10 @@ def main() -> int:
     ap.add_argument("--ema", type=float, default=0.999)
     ap.add_argument("--lr", type=float, default=3e-4)
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--gpu-mem-cap-gb", type=float, default=0.0,
+                    help="hard GPU memory cap passed to every training "
+                         "(0 = off). Use it on Windows laptops: a full GPU "
+                         "spills to system RAM silently instead of erroring")
     ap.add_argument("--pretrained-path", default=None)
     ap.add_argument("--alpha", type=float, default=0.05)
     ap.add_argument("--device", default="auto")
@@ -150,7 +154,8 @@ def main() -> int:
              "--epochs", str(args.epochs), "--batch-size", str(args.batch_size),
              "--accum-steps", str(args.accum_steps), "--ema", str(args.ema),
              "--lr", str(args.lr), "--workers", str(args.workers),
-             "--device", args.device, "--early-stop", "0", "--out", outdir] + extra
+             "--device", args.device, "--early-stop", "0", "--out", outdir,
+             "--gpu-mem-cap-gb", str(args.gpu_mem_cap_gb)] + extra
         if args.grad_checkpoint:
             a.append("--grad-checkpoint")
         if args.pretrained_path:

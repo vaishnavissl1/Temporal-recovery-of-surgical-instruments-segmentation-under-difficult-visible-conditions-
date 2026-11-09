@@ -1,0 +1,15 @@
+SGBM diagnostic (tools/task1_scans/sgbm_diag.py). NOT used to re-tune. Rule declared before running:
+adopt (block 15, uniq 0) unless (a) its implausible-disparity rate among LR-consistent pixels exceeds that of
+(block 9, uniq 5) by > 1 percentage point, or (b) its LR-pass on thin classes (clasper, thread, needle) is lower.
+30 training frames (middle and quarter frame of each of 15 training sequences), geometry = calibration + self-calibration.
+
+config (block,uniq) | LR% all | LR% instrument | LR% THIN (clasper,thread,needle) | LR% instrument-boundary band | implausible disp % of consistent | s/frame
+(5, 5): 61.5 | 45.8 | 66.0 (n=1453148) | 46.4 | 1.63 | 0.56
+(9, 5): 64.1 | 48.6 | 69.4 (n=1453148) | 48.8 | 1.75 | 0.54
+(15, 0): 66.9 | 52.1 | 72.5 (n=1453148) | 52.1 | 1.93 | 0.53
+
+rule (a): implausible-rate difference (15,0) - (9,5) = +0.18 pp (adopt-(9,5) if > +1.00)
+rule (b): thin-class LR difference (15,0) - (9,5) = +3.13 pp (adopt-(9,5) if < 0)
+DECISION: (15,0) criterion-optimal
+
+Note: "LR-consistent" is a consistency measure, not an accuracy measure; there is no ground-truth disparity in the dataset.

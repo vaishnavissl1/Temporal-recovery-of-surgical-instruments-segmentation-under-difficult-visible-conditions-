@@ -118,6 +118,35 @@ def frame_iou(pred: np.ndarray, gt: np.ndarray, num_classes: int,
     return float(np.mean(ious))
 
 
+def official_class_ious(pred: np.ndarray, gt: np.ndarray, num_classes: int):
+    """Per-class IoU exactly as the EndoVis 2018 evaluator computes it
+    (test_data/utils.py, MulticlassIntersectionOverUnionError.get_error):
+
+      * class 0 (background) is never scored                      (utils.py:172)
+      * IoU = TP / (TP + FP + FN)                                 (utils.py:141-147)
+      * a class is scored ONLY if it appears in the GROUND TRUTH, so a class the
+        model hallucinates but the GT lacks is not penalised      (utils.py:143)
+
+    Returns {class id: IoU} for the scored classes of this frame."""
+    inter, pr, gc = _class_counts(pred, gt, num_classes)
+    out = {}
+    for c in range(1, num_classes):
+        g = int(gc[c])
+        if g == 0:
+            continue
+        out[c] = float(inter[c]) / float(g + int(pr[c]) - int(inter[c]))
+    return out
+
+
+def official_frame_iou(pred: np.ndarray, gt: np.ndarray, num_classes: int
+                       ) -> Optional[float]:
+    """The challenge's per-frame score: mean of `official_class_ious`.
+    None when the frame has no non-background class in the GT (the official
+    evaluator skips such a frame entirely)."""
+    v = official_class_ious(pred, gt, num_classes)
+    return float(np.mean(list(v.values()))) if v else None
+
+
 def instrument_iou(a: np.ndarray, b: np.ndarray, num_classes: int,
                    instrument_ids: Sequence[int],
                    empty_value: float = 1.0) -> float:

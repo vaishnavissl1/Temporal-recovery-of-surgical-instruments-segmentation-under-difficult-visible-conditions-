@@ -50,6 +50,11 @@ def probe(arch, bs, H, W, gc, device, pretrained_path, steps=4):
             if i:
                 times.append(time.time() - t)
         peak = torch.cuda.max_memory_allocated() / 2**30
+        # Windows spills to system RAM instead of raising OOM, so a "fit" is
+        # only real if the memory held stays inside the GPU's own free memory.
+        usable_gb = (torch.cuda.mem_get_info()[0] + torch.cuda.memory_reserved()) / 2**30
+        if torch.cuda.max_memory_reserved() / 2**30 > usable_gb:
+            return False, None, None
         return True, peak, sum(times) / len(times)
     except torch.cuda.OutOfMemoryError:
         return False, None, None

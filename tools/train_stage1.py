@@ -38,8 +38,9 @@ from sitr.losses import SegLoss  # noqa: E402
 from sitr.metrics import ConfusionMatrix, frame_iou  # noqa: E402
 from sitr.models import (ARCHITECTURES, build_model, count_parameters,  # noqa: E402
                          encoder_param_names, predict_with_tta)
-from sitr.utils import (AverageMeter, amp_enabled, cosine_lr, get_device,  # noqa: E402
-                        save_checkpoint, set_seed, write_json)
+from sitr.utils import (AverageMeter, amp_enabled, cap_gpu_memory, cosine_lr,  # noqa: E402
+                        get_device, keep_awake, save_checkpoint, set_seed,
+                        write_json)
 
 
 def build_args():
@@ -120,6 +121,10 @@ def build_args():
     ap.add_argument("--compile", action="store_true",
                     help="torch.compile the model (Linux/WSL; flaky on Windows)")
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--gpu-mem-cap-gb", type=float, default=0.0,
+                    help="hard cap on GPU memory (0 = off). On Windows a full "
+                         "GPU spills to system RAM silently instead of raising "
+                         "OOM; the cap makes it fail loudly instead")
     ap.add_argument("--no-pretrained", action="store_true")
     ap.add_argument("--amp", action="store_true", default=True)
     ap.add_argument("--no-amp", dest="amp", action="store_false")
@@ -170,6 +175,10 @@ def main() -> int:
     device = get_device(args.device)
     use_amp = amp_enabled(device, args.amp)
     os.makedirs(args.out, exist_ok=True)
+    if keep_awake():
+        print("  keep-awake requested (no idle sleep while training)")
+    if device.type == "cuda":
+        cap_gpu_memory(args.gpu_mem_cap_gb)
 
     # ------------------------------------------------------------ class map
     cm_path = args.class_map

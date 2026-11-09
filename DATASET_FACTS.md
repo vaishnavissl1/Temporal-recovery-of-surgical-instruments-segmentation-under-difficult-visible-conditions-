@@ -32,6 +32,8 @@ opencv 5.0.0, numpy 2.4.6.
 | 13 | README test counts (27 / 19) | Repo suites: `test_pipeline` 30 before the v2 merge, **36 after**; `test_stages345` 20. Total **56** | README test counts are stale |
 | 14 | 149 frames x 15 sequences | Confirmed: 2235 training frames, one image/label per frame, `seq_8` absent. (`.DS_Store` files inside `labels/` and `left_frames/` made seq_1, 3, 4 look like 150 files) | Junk filter must also exclude `.DS_Store`, not just `__MACOSX` and `._*` |
 | 15 | `repairs/` = 7 corrected masks | Confirmed 7, and **they are large corrections** (section 4) | Must be applied |
+| 16 | (found in Task 2) Calibration "per sequence" is accurate enough to rectify | It is **not** on every sequence. The shipped per-rig file leaves a stable vertical tilt of 3-14 px on training seq_2, 4, 5, 7 (and ~2-3 px on 13, 15, 16): the cameras are rolled ~0.3-0.8 degrees relative to each other while the files list `Omega_z ~ 0`. All 4 TEST sequences are fine (0.7-0.9 px). Details: `results/task2/STEREO_REPORT.md` | Calibration alone is reported as the measured result. A label-free per-sequence self-calibration (`sitr/stereo.py`) is added and reported separately: mean vertical error 2.64 -> 1.21 px on disjoint frames |
+| 17 | (found in Task 3 prep) The v2 code's "challenge IoU" is the challenge metric | **It is not.** `frame_iou(..., class_ids=None)` averages class 0 (**background**) too, in `train_stage1.evaluate` and `eval_stage1`, which raises the score (background IoU ~0.95). The official evaluator skips class 0 and counts a class only if it is in the GT | `sitr/metrics.py` now has `official_frame_iou` (tested against hand-computed values from the quoted `utils.py` lines). Every headline number in this project uses it. The v2 `challenge_IoU_*` fields are kept only as diagnostics |
 
 Things the brief said that were **confirmed**: right_frames matches left_frames
 1:1 for all 19 sequences; all frames 1280x1024 RGB; stereo extrinsics present
@@ -396,3 +398,20 @@ is touched before Task 6 (the brief forbids it).
 Not worth doing: using the unlabelled test frames for self-training or
 test-time adaptation (violates the "no test data in training" rule); monocular
 depth (real stereo exists).
+
+---
+
+## 11. Stereo findings (Task 2) — see `results/task2/STEREO_REPORT.md` for every number
+
+* **Calibrated stereo is viable.** No stop condition tripped (mean vertical error < 3 px, > 40 % of pixels survive the left-right
+  check, instrument pixels are not starved of disparity).
+* Calibration alone: vertical error mean / median / p95 = 2.64 / 0.68 / 5.04 px over 20 pairs from all 19 sequences; 4 of 20 pairs
+  above 3 px (worst 12.6 px). With the label-free self-calibration (estimated on frames 0-35, evaluated on other frames):
+  1.21 / 0.57 / 3.43 px, 1 of 20 above 3 px.
+* LR-consistent pixels 64.1 % (calibration only) -> 69.3 % (self-calibrated). Instrument pixels 45.6 % -> 54.3 %, tissue 65.2 % -> 71.1 %.
+  **Instruments get weaker stereo evidence than tissue**, as expected for shiny metal; they are not starved.
+* Expected disparity range holds: p1 27.6, median 85.0, p95 139.4, p99 186.5 px; 0.85 % of consistent pixels sit at the 192-px cap.
+* SGBM: block 15, uniqueness 0, no speckle filter (criterion fixed in advance; optimum is on the grid edge; a pre-declared diagnostic did
+  not overturn it). The stereo evidence cache (`tools/cache_stereo.py`) lives on the 512x640 original-left grid.
+* **Why the self-calibration matters beyond Task 2:** without it a stereo-disagreement indicator would partly measure each sequence's
+  calibration error instead of the frame's difficulty. Test frames never needed it (max implied correction 1.3 px).
