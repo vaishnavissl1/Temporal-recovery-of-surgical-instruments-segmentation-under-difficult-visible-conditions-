@@ -55,8 +55,36 @@ def policy_rows(block):
     return out
 
 
+def per_frame(choices_path, actions_dir):
+    """Per-frame numbers for the 4 test sequences (no images): reliability r, whether the gate routed the
+    frame, the selector's choice, instrument IoU before, and the measured IoU change of each correction."""
+    import numpy as np
+
+    c = np.load(choices_path, allow_pickle=True)
+    out = {}
+    for seq in sorted(set(c["seq"].tolist())):
+        m = c["seq"] == seq
+        a = np.load(os.path.join(actions_dir, f"test__{seq.replace('/', '_')}.npz"), allow_pickle=True)
+        t = c["t"][m]
+        assert np.array_equal(t, a["t"][: len(t)]), "frame order mismatch"
+        choice = c["choice"][m].tolist()
+        gains = {k: np.nan_to_num(a[f"d_{k}"][: len(t)]) for k in ("A1", "A2", "A3", "FUSE")}
+        chosen = [float(gains[ch][i]) if ch in gains else 0.0 for i, ch in enumerate(choice)]
+        pred = {k: np.nan_to_num(c[f"pred_{k}"][m]) for k in ("A1", "A2", "A3", "FUSE")}
+        pred_chosen = [float(pred[ch][i]) if ch in pred else 0.0 for i, ch in enumerate(choice)]
+        r4 = lambda v: [round(float(x), 4) for x in v]
+        out[seq] = {
+            "n": int(len(t)), "t": t.tolist(), "r": r4(c["r"][m]), "routed": c["routed"][m].astype(int).tolist(),
+            "choice": choice, "before": r4(c["instr_before"][m]), "gain": r4(chosen), "pred_gain": r4(pred_chosen),
+            "difficulty": r4(c["difficulty"][m]),
+            "gain_by": {k: r4(v) for k, v in gains.items()},
+        }
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--actions", default="work_v2/actions")
     ap.add_argument("--results", default="results")
     ap.add_argument("--out", default="web/data/results.json")
     a = ap.parse_args()
@@ -78,6 +106,7 @@ def main():
             "latency_mean_ms": lat.get("mean_ms"), "latency_p95_ms": lat.get("p95_ms"),
             "per_sequence": m["per_sequence"], "by_difficulty_quartile": m["by_difficulty_quartile"],
             "per_class": {CLASS_LABELS.get(c, c): v["iou"] for c, v in m["per_class"].items()},
+            "class_frames": {CLASS_LABELS.get(c, c): v["n_frames"] for c, v in m["per_class"].items()},
         })
 
     def gate(src):
@@ -87,7 +116,10 @@ def main():
         return [{"pair": k, "auc_diff": v["auc"]["mean"], "auc_lo": v["auc"]["ci95"][0], "auc_hi": v["auc"]["ci95"][1],
                  "verdict": v["verdict"]} for k, v in src.items()]
 
+    frames = per_frame(os.path.join(R, "task5", "choices_test.npz"), os.path.join(a.actions))
+
     out = {
+        "frames": frames,
         "meta": {"n_test_frames": t6["n_frames"], "n_test_sequences": t6["n_sequences"], "n_routed": t6["n_routed"],
                  "harm_margin": t6["harm_margin"], "boundary_tol_px": t6["boundary_tol_px"]},
         "crosscheck": t6["crosscheck_official_run_py"],
