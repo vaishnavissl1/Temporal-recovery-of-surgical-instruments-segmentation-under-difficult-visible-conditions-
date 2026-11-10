@@ -100,3 +100,33 @@ an objective index") is **not supported on this data**. Full output: results/tas
 ### Statistical note
 HistGradientBoosting without subsampling is deterministic, so "run several seeds" would show zero variation. Differences between indicator sets
 are therefore tested with a paired cluster bootstrap over SEQUENCES (tools/compare_stereo.py).
+
+### Task 4 result: stereo indicators do NOT beat temporal ones (measured, recorded as the result)
+Cross-fitted CV on 15 held-out sequences (GBM, K=5, tau_train=0.5, same for every set), paired bootstrap over sequences:
+| set | AUC | AURC (floor 0.211, random 0.375) | Pearson | MSE |
+|---|---|---|---|---|
+| paper4 | 0.745 | 0.288 | 0.512 | 0.0411 |
+| extended (9) | 0.770 | 0.274 | 0.573 | 0.0324 |
+| extended_stereo (9+3) | 0.773 | 0.272 | 0.592 | 0.0311 |
+| nontemporal (5) | 0.749 | 0.279 | 0.576 | 0.0299 |
+| nontemporal_stereo (5+3) | 0.743 | 0.279 | 0.569 | 0.0297 |
+| stereo3 alone | **0.432** | 0.376 | 0.060 | 0.0510 |
+- 9+3 vs 9: dAUC +0.005 [-0.020, +0.037] -> TIED. nontemporal+stereo vs nontemporal: dAUC -0.004 [-0.033, +0.028] -> TIED.
+- stereo3 alone LOSES to nontemporal (dAUC -0.30, interval excludes 0) and is below chance.
+- Individual stereo indicators: |Pearson| <= 0.095 with IoU. Leave-one-out AUC drops: stereo_disagreement +0.003, occluded +0.007, confidence +0.001.
+- CONTRADICTION WITH THE BRIEF: temporal agreement is NOT weak here. T_temporal Pearson +0.49 (AUC 0.84; within-sequence +0.33); its
+  removal costs the most AUC of any indicator (-0.038). The brief's "+0.05 to +0.15" came from the earlier ResNet-UNet/256x320 model.
+  extended beats nontemporal on AURC (-0.0056, interval excludes 0): temporal evidence adds a small real amount.
+- Consequence: the project's central argument ("temporal evidence is weak, stereo replaces it") is NOT supported on this data and model.
+  Novelty claims 1-2 (stereo as evidence) stand only as method contributions, not as measured gains for failure detection.
+
+### Task 4 difficulty index on the official TEST sequences (997 frames), recorded as the result
+Index vs (1 - instrument IoU): Pearson +0.180, Spearman +0.081, within-sequence Spearman +0.083 (95% CI -0.145..+0.312; 2/4 sequences positive).
+Quartiles: bad-frame rate 0.249 / 0.201 / 0.349 / 0.392 (not monotone; Q4 highest, Q2 lowest). On out-of-fold training frames it was -0.03.
+Verdict: **not validated.** Sign differs between the two evaluations and the within-sequence interval includes 0. Do not claim it.
+
+### Task 4 on the OFFICIAL TEST sequences (gate fit on all out-of-fold frames), recorded as the result
+AUC: paper4 0.846, extended 0.845, extended+stereo 0.846, nontemporal 0.847, nontemporal+stereo 0.838, stereo3 alone 0.638.
+- 9+3 vs 9: dAUC +0.004 [-0.007, +0.033] TIED. nontemporal+stereo vs nontemporal: dAUC -0.012 [-0.025, -0.004] LOSES.
+- stereo3 alone vs nontemporal: dAUC -0.187, LOSES. (4 test sequences: coarse intervals.)
+Consistent with the out-of-fold result: **stereo indicators do not improve failure detection; confidence/shape indicators carry the signal.**
