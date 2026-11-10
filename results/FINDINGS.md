@@ -5,7 +5,7 @@ Plain-language summary of what was measured. Every number comes from a file in `
 ## The short version
 
 1. The base segmenter (M1) scores **0.6128 mIoU** on the official test set (our implementation reproduces the official `run.py` to 1e-16).
-2. **No correction method changes that number in any meaningful way.** M1 to M6 all lie between 0.6128 and 0.6141. The largest gain (M5, +0.0013) is smaller than the gap between sequences by two orders of magnitude.
+2. **No correction method changes that number in any meaningful way.** M1 to M6 all lie between 0.6128 and 0.6141. The largest gain (M5, +0.0012) is smaller than the gap between sequences by two orders of magnitude.
 3. **The stereo premise is not supported.** Stereo evidence is viable geometrically (Task 2) but adds nothing to the reliability gate (Task 4) and its correction action changes the answer by +0.0001 to +0.0009 (Tasks 5, 6). The temporal indicators carry the gate.
 4. The selective selector (M6) **does reduce harmful corrections per frame processed** versus blind fusion (0.80% vs 1.20% of all frames) but **it is worse per correction made** (3.1% vs 1.2% of corrected frames) and it **does not beat the simplest baseline** (always apply the morphological refinement), which has about twice its mean gain.
 5. What we can defend is a cost result: M6 reaches the same mIoU as blind fusion at about a third of the latency (792 ms vs 2201 ms mean per frame, composed from measured components).
@@ -27,7 +27,7 @@ Plain-language summary of what was measured. Every number comes from a file in `
 
 **Dataset (Task 1).** 17 places where the dataset differs from the brief are listed at the top of `DATASET_FACTS.md`. The two that matter most: the supplied calibration leaves a several-pixel vertical tilt on some training sequences, and the previous code's "challenge IoU" wrongly included background.
 
-**Stereo (Task 2).** Rectification works. Mean vertical error is 2.64 px with calibration only and 1.21 px after a label-free per-sequence correction. The four test sequences need no correction. Stereo is therefore not blocked by geometry.
+**Stereo (Task 2).** Rectification works. Mean vertical error is 2.64 px with calibration only and 1.21 px after a label-free per-sequence correction. The four test sequences were already within about 1 px; the correction was applied to one of them (seq 3, 1.3 px implied) with negligible effect (0.66 to 0.62 px). Stereo is therefore not blocked by geometry.
 
 **Does correction help (Task 3).** Yes, by a very small amount. On test, always-correct moves instrument IoU from 0.6105 to 0.6140 (+0.0035, CI +0.0002 to +0.0081) and the official-metric IoU from 0.6397 to 0.6397 (+0.0001, CI -0.0002 to +0.0002). Out-of-fold on training sequences the picture is the same (+0.0030 instrument, +0.0003 official). Almost all routed frames are unchanged.
 
@@ -47,7 +47,7 @@ Supported by our measurements:
 
 Not supported:
 - That stereo evidence improves failure detection or correction (measured: no).
-- That any correction raises mIoU in a way that matters (measured: at most +0.0013).
+- That any correction raises mIoU in a way that matters (measured: at most +0.0012).
 - That the difficulty index predicts failures.
 - That the learned selector beats a fixed morphological refinement.
 - Novelty claim 6 from the brief (stereo-temporal advantage) and the premise that stereo beats temporal cues.

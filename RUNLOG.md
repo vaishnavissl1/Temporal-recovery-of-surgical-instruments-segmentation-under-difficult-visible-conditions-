@@ -160,3 +160,9 @@ Harmful corrections, % of ALL frames: M4 1.20 vs M6 0.80 (M6 better). % of CORRE
 M6 activation 25.9% vs 99.9%; mean latency 792 ms vs 2201 ms (composed from measured components).
 Plain reading: no correction moves mIoU meaningfully; the supportable result is the compute saving, not an accuracy gain. Written up in results/FINDINGS.md.
 No errors in this task. (Environment: final_eval's scoring is CPU by design; GPU used only for the latency benchmark.)
+
+### Task 7 progress: results website (from the user's PrebuiltUI Next.js template)
+User asked for the supplied template to be modified into a multi-page results/use-case site with buttons. Built as web/ (copy of the template; original left untouched): pages Home, Problem, Results, Stereo, Selector, Limits, Run it. Static export, no analytics, aggregates only (web/data/results.json written by tools/export_web_data.py from results/*.json). Real-estate content, stock photos and template logo removed.
+Error #15: first `next build` failed type-check (highlight prop got a number, expects number[]); fixed the call. Error #16: my first Run-page commands used flags from memory that do not exist (e.g. --work on run_v2); corrected against each tool's argparse before building.
+Corrections found while checking the pages against the data: M5 gain is +0.0012 not +0.0013; self-calibration was applied to one test sequence (seq_3, 1.3 px implied, negligible effect), so "test needs no correction" was reworded.
+Not done: Streamlit demo (Streamlit is installed in the sitr env; the website replaces it as the presentation layer unless asked), Vercel deploy (needs the user to log in: `vercel login`, then `npx vercel --prod` in web/).
