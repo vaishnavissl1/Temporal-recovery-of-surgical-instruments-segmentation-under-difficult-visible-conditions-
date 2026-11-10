@@ -23,7 +23,7 @@ from typing import Dict, Optional, Sequence
 
 import numpy as np
 
-CANDIDATES = ("A1", "A2", "A3")
+CANDIDATES = ("A1", "A2", "A3", "FUSE")
 MARGIN = 0.01          # abstain unless the best predicted IoU gain exceeds this
 
 

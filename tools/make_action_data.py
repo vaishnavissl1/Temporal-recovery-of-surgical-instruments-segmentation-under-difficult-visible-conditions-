@@ -48,7 +48,7 @@ from sitr.utils import keep_awake  # noqa: E402
 from tools.measure_recovery import fold_bundles  # noqa: E402
 
 DELTA_KEYS = ("A1", "A2", "A3", "FUSE", "FUSE_REFINE")
-FEAT_KEYS = ("A1", "A2", "A3")
+FEAT_KEYS = ("A1", "A2", "A3", "FUSE")
 CUE_RAW_NAMES = ("stereo_lr_fail", "occluded", "specular", "lap_var", "brightness", "contrast",
                  "dark_channel", "under_frac", "over_frac")
 

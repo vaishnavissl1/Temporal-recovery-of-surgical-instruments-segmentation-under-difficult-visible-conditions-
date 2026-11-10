@@ -232,6 +232,11 @@ def main():
         print(f"\nOFFICIAL TEST: {len(T['t'])} frames, routed {int(routed_te.sum())} ({100*routed_te.mean():.1f}%)")
         R["test"] = evaluate(T, choice_te, routed_te, a.margin_eval, diff_te)
         print_table("OFFICIAL TEST SEQUENCES (selector fit on all training frames)", R["test"])
+        pt = sel.predict(Ft, Gt)
+        np.savez(os.path.join(a.out, "choices_test.npz"), seq=T["seq"].astype("U32"), t=T["t"],
+                 choice=np.where(routed_te, choice_te, "A0").astype("U8"), routed=routed_te,
+                 difficulty=diff_te, r=T["r"], instr_before=T["instr_before"],
+                 **{f"pred_{x}": pt[x] for x in CANDIDATES})
 
     # --------------------------------------------------------------- stop check
     def gain(res, k):

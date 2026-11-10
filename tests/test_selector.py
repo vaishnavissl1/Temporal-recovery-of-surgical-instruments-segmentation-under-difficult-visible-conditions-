@@ -45,7 +45,8 @@ def synth(n=600, seed=0):
     # A1 helps when F0 > 0.5, A2 helps when F1 > 0.5, A3 always slightly harms
     d = {"A1": np.where(F[:, 0] > .5, .2, -.05) + rng.normal(0, .01, n),
          "A2": np.where(F[:, 1] > .5, .15, -.08) + rng.normal(0, .01, n),
-         "A3": np.full(n, -.01) + rng.normal(0, .005, n)}
+         "A3": np.full(n, -.01) + rng.normal(0, .005, n),
+         "FUSE": np.where(F[:, 2] > 1.5, .12, -.04) + rng.normal(0, .01, n)}
     return F, G, d
 
 
