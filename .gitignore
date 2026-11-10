@@ -33,3 +33,6 @@ __MACOSX/
 
 # long-run outputs (checkpoints, caches); the folds used are kept in results/
 work_v2/
+
+# website built from a licensed template (license forbids publishing its source); built output is deployed, source stays local
+/web/

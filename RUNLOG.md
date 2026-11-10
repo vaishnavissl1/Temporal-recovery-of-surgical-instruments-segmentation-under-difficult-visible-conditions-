@@ -166,3 +166,6 @@ User asked for the supplied template to be modified into a multi-page results/us
 Error #15: first `next build` failed type-check (highlight prop got a number, expects number[]); fixed the call. Error #16: my first Run-page commands used flags from memory that do not exist (e.g. --work on run_v2); corrected against each tool's argparse before building.
 Corrections found while checking the pages against the data: M5 gain is +0.0012 not +0.0013; self-calibration was applied to one test sequence (seq_3, 1.3 px implied, negligible effect), so "test needs no correction" was reworded.
 Not done: Streamlit demo (Streamlit is installed in the sitr env; the website replaces it as the presentation layer unless asked), Vercel deploy (needs the user to log in: `vercel login`, then `npx vercel --prod` in web/).
+
+### Error #17 (licensing): web/ was pushed to GitHub
+The supplied PrebuiltUI template license (section 3) forbids publishing the template source files publicly, including on GitHub. I pushed web/ (template-derived) in the previous commit before reading the license. Fix applied: web/ untracked and git-ignored; only the built site is to be deployed. The earlier commit still exists in branch history on origin; removing it needs a history rewrite and force-push, which is the user's call (and matters only if the repository is public).
