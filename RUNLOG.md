@@ -169,3 +169,7 @@ Not done: Streamlit demo (Streamlit is installed in the sitr env; the website re
 
 ### Error #17 (licensing): web/ was pushed to GitHub
 The supplied PrebuiltUI template license (section 3) forbids publishing the template source files publicly, including on GitHub. I pushed web/ (template-derived) in the previous commit before reading the license. Fix applied: web/ untracked and git-ignored; only the built site is to be deployed. The earlier commit still exists in branch history on origin; removing it needs a history rewrite and force-push, which is the user's call (and matters only if the repository is public).
+
+### Task 7 deployed
+Vercel CLI login completed by the user (device approval); the built static output (web/out only, no template source) was deployed to production: https://stereo-gated-results.vercel.app (project stereo-gated-results). Home and /results/ verified HTTP 200. The localhost error the user saw was because my preview server had been stopped; `npm run dev` in web/ serves http://localhost:3000.
+Not done by choice: Streamlit demo (website replaces it); removing the template-derived commit 10fa909 from GitHub history (needs force-push, awaiting the user's decision).
