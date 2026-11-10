@@ -172,7 +172,7 @@ def save_panels(items, outdir, names, tag):
             col[m == 255] = (80, 80, 80)
             tiles.append(col[..., ::-1])
         h = min(t.shape[0] for t in tiles)
-        tiles = [t[:h] for t in tiles]
+        tiles = [np.ascontiguousarray(t[:h]) for t in tiles]  # cv2.putText needs contiguous memory
         for t, lab in zip(tiles, ("image", "ground truth", f"BEFORE {it['ib']:.2f}", f"AFTER {it['ia']:.2f}")):
             cv2.putText(t, lab, (6, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2, cv2.LINE_AA)
         row = np.hstack(tiles)
@@ -195,7 +195,9 @@ def interpret(s):
         return "WITHIN NOISE OF ZERO: the mean change's 95% interval includes 0"
     if hi < 0:
         return "DAMAGES on average"
-    return "IMPROVES most routed frames: premise holds" if s["pct_improved"] > s["pct_worse"] else "mixed"
+    return ("IMPROVES: more routed frames got better than worse and the mean CI is above 0 "
+            "(read the effect size and the unchanged share before calling it useful)"
+            if s["pct_improved"] > s["pct_worse"] else "mixed")
 
 
 def fold_bundles(release, work):
@@ -231,12 +233,16 @@ def fold_bundles(release, work):
         model.load_state_dict(ck["model"]); model.eval()
         for p in model.parameters():
             p.requires_grad_(False)
-        fam = FAMILIES[fam_name](seed=0).fit([c for k, c in oof.items() if k not in held], cfg)
-        if fam_name != "gbm":
-            raise SystemExit("per-fold gate export is implemented for the gbm family only")
+        kw = {"seed": 0}
+        if fam_name == "mlp":
+            kw["epochs"] = 300          # the value stage 2 selection used (tools/train_stage2_cv.py default)
+        fam = FAMILIES[fam_name](**kw).fit([c for k, c in oof.items() if k not in held], cfg)
         b = copy.copy(base)
         b.model = model
-        b.reliability = SklearnReliability(fam.model, in_dim=len(man["indicator_names"]))
+        if fam_name == "gbm":
+            b.reliability = SklearnReliability(fam.model, in_dim=len(man["indicator_names"]))
+        else:
+            b.reliability = fam.model.to(base.device).eval()
         # Same rule run_v2 used for the OOF caches: the calibration temperature of a
         # fold's predictions is the mean over the OTHER folds (never its own).
         temps = [json.load(open(os.path.join(work, "crossfit", f"fold{j}", "calibration.json")))["temperature"]

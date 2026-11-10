@@ -1,0 +1,30 @@
+release: num_classes=12 tau=0.6400 tau_memory=0.5000 K=3  instrument_ids=[1, 2, 3, 6, 7, 8, 9, 11]
+4 sequences, aligner=identity, gamma=0.95
+
+--- SELECTIVE ---
+    [selective] test/seq_1: 250 frames, 82 routed, 116s
+    [selective] test/seq_2: 249 frames, 2 routed, 57s
+    [selective] test/seq_3: 249 frames, 13 routed, 198s
+    [selective] test/seq_4: 249 frames, 110 routed, 915s
+  frames=997 routed=207 (20.8%)
+  instrument IoU  n= 207  before 0.4240 -> after 0.4389  mean change +0.0149 (95% CI +0.0005..+0.0340)
+    improved 2.9%  WORSE 1.4%  unchanged 95.7%   [strict sign: better 72.0% / worse 22.7% / exactly 0 5.3%]
+    mean gain when improved +0.5058   mean damage when worse 0.0474   sign-test p=1.49e-13
+  official IoU    n= 207  before 0.4860 -> after 0.4862  mean change +0.0003 (95% CI -0.0007..+0.0010)
+    improved 1.4%  WORSE 1.9%  unchanged 96.6%   [strict sign: better 71.5% / worse 24.6% / exactly 0 3.9%]
+    mean gain when improved +0.0116   mean damage when worse 0.0364   sign-test p=3.74e-12
+  VERDICT (selective, instrument IoU): IMPROVES most routed frames: premise holds
+
+--- ALWAYS ---
+    [always] test/seq_1: 250 frames, 249 routed, 1826s
+    [always] test/seq_2: 249 frames, 248 routed, 1599s
+    [always] test/seq_3: 249 frames, 247 routed, 1720s
+    [always] test/seq_4: 249 frames, 136 routed, 1245s
+  frames=997 routed=880 (88.3%)
+  instrument IoU  n= 880  before 0.6105 -> after 0.6140  mean change +0.0035 (95% CI +0.0002..+0.0081)
+    improved 0.7%  WORSE 0.3%  unchanged 99.0%   [strict sign: better 16.9% / worse 5.3% / exactly 0 77.7%]
+    mean gain when improved +0.5058   mean damage when worse 0.0474   sign-test p=1.49e-13
+  official IoU    n= 880  before 0.6397 -> after 0.6397  mean change +0.0001 (95% CI -0.0002..+0.0002)
+    improved 0.3%  WORSE 0.5%  unchanged 99.2%   [strict sign: better 16.8% / worse 5.8% / exactly 0 77.4%]
+    mean gain when improved +0.0116   mean damage when worse 0.0364   sign-test p=3.74e-12
+  VERDICT (always, instrument IoU): IMPROVES most routed frames: premise holds

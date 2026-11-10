@@ -130,3 +130,14 @@ AUC: paper4 0.846, extended 0.845, extended+stereo 0.846, nontemporal 0.847, non
 - 9+3 vs 9: dAUC +0.004 [-0.007, +0.033] TIED. nontemporal+stereo vs nontemporal: dAUC -0.012 [-0.025, -0.004] LOSES.
 - stereo3 alone vs nontemporal: dAUC -0.187, LOSES. (4 test sequences: coarse intervals.)
 Consistent with the out-of-fold result: **stereo indicators do not improve failure detection; confidence/shape indicators carry the signal.**
+
+### Error #14 (Task 3, test run) - panel writer crashed after the numbers were printed
+Cause: cv2.putText got a non-contiguous array (a sliced, channel-reversed view) in save_panels, so results/task3/measure_recovery.json was never written; the measured numbers are in the console log, kept as results/task3/measure_recovery_test_log.txt.
+Fix: np.ascontiguousarray on the tiles. The already-running out-of-fold job loaded the old code and will hit the same crash at the very end; its log is then the record.
+Also reworded interpret()'s top verdict: it said "premise holds" even when 99% of frames were unchanged. Numbers and thresholds untouched.
+
+### Task 3 result on the 4 official test sequences (measurement, not tuned)
+Selective (routed 207/997 frames, 20.8%) and always-correct (880/997) both give a statistically positive but tiny change.
+Always mode, instrument IoU: 0.6105 -> 0.6140 (+0.0035, 95% CI +0.0002..+0.0081). Official-metric IoU: 0.6397 -> 0.6397 (+0.0001, CI -0.0002..+0.0002), i.e. no change.
+Only 0.7% of routed frames improved by more than the margin and 0.3% got worse; 99% were unchanged at that margin (strict sign: 16.9% better, 5.3% worse, 77.7% exactly zero).
+Plain reading: temporal correction rarely matters and, in the official metric, does nothing measurable on test. Not evidence of a large gain.
