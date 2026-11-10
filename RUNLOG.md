@@ -141,3 +141,7 @@ Selective (routed 207/997 frames, 20.8%) and always-correct (880/997) both give 
 Always mode, instrument IoU: 0.6105 -> 0.6140 (+0.0035, 95% CI +0.0002..+0.0081). Official-metric IoU: 0.6397 -> 0.6397 (+0.0001, CI -0.0002..+0.0002), i.e. no change.
 Only 0.7% of routed frames improved by more than the margin and 0.3% got worse; 99% were unchanged at that margin (strict sign: 16.9% better, 5.3% worse, 77.7% exactly zero).
 Plain reading: temporal correction rarely matters and, in the official metric, does nothing measurable on test. Not evidence of a large gain.
+
+### Task 3 out-of-fold (15 training sequences, per-fold models; measurement, not tuned)
+Always-correct mode: instrument IoU 0.6597 -> 0.6627 (+0.0030, CI +0.0010..+0.0055); official IoU 0.6772 -> 0.6774 (+0.0003, CI +0.0001..+0.0004). 1.8% of routed frames improved past the margin, 0.7% worse, 97.5% unchanged (strict sign: 27.7% better, 7.3% worse, 65% exactly 0).
+Same picture as test: a real but very small gain; no harm on average. The out-of-fold job crashed in the panel writer at the end as predicted (error #14); numbers kept in results/task3_oof/measure_recovery_oof_log.txt, no JSON.

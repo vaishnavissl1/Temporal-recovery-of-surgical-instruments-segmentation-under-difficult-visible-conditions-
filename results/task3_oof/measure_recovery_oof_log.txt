@@ -1,0 +1,59 @@
+release: num_classes=12 tau=0.6400 tau_memory=0.5000 K=3  instrument_ids=[1, 2, 3, 6, 7, 8, 9, 11]
+split=train-OOF: honest evaluation of the training sequences, per-fold models
+15 sequences, aligner=identity, gamma=0.95
+
+--- SELECTIVE ---
+  [fold0] held-out sequences ['train/seq_1', 'train/seq_10', 'train/seq_15', 'train/seq_3', 'train/seq_6']
+    [selective] train/seq_1: 149 frames, 15 routed, 521s
+    [selective] train/seq_10: 149 frames, 24 routed, 697s
+    [selective] train/seq_15: 149 frames, 39 routed, 914s
+    [selective] train/seq_3: 149 frames, 34 routed, 867s
+    [selective] train/seq_6: 149 frames, 71 routed, 1000s
+  [fold1] held-out sequences ['train/seq_11', 'train/seq_13', 'train/seq_14', 'train/seq_4', 'train/seq_7']
+    [selective] train/seq_11: 149 frames, 25 routed, 807s
+    [selective] train/seq_13: 149 frames, 53 routed, 1062s
+    [selective] train/seq_14: 149 frames, 100 routed, 1243s
+    [selective] train/seq_4: 149 frames, 127 routed, 635s
+    [selective] train/seq_7: 149 frames, 0 routed, 192s
+  [fold2] held-out sequences ['train/seq_12', 'train/seq_16', 'train/seq_2', 'train/seq_5', 'train/seq_9']
+    [selective] train/seq_12: 149 frames, 39 routed, 222s
+    [selective] train/seq_16: 149 frames, 4 routed, 199s
+    [selective] train/seq_2: 149 frames, 54 routed, 333s
+    [selective] train/seq_5: 149 frames, 28 routed, 277s
+    [selective] train/seq_9: 149 frames, 10 routed, 201s
+  frames=2235 routed=623 (27.9%)
+  instrument IoU  n= 623  before 0.5289 -> after 0.5374  mean change +0.0084 (95% CI +0.0028..+0.0161)
+    improved 5.1%  WORSE 1.9%  unchanged 92.9%   [strict sign: better 77.5% / worse 20.4% / exactly 0 2.1%]
+    mean gain when improved +0.1675   mean damage when worse 0.0563   sign-test p=8.42e-50
+  official IoU    n= 623  before 0.6227 -> after 0.6234  mean change +0.0007 (95% CI +0.0003..+0.0011)
+    improved 1.9%  WORSE 1.8%  unchanged 96.3%   [strict sign: better 75.4% / worse 23.0% / exactly 0 1.6%]
+    mean gain when improved +0.0151   mean damage when worse 0.0263   sign-test p=1.32e-41
+  VERDICT (selective, instrument IoU): IMPROVES most routed frames: premise holds
+
+--- ALWAYS ---
+  [fold0] held-out sequences ['train/seq_1', 'train/seq_10', 'train/seq_15', 'train/seq_3', 'train/seq_6']
+    [always] train/seq_1: 149 frames, 21 routed, 207s
+    [always] train/seq_10: 149 frames, 145 routed, 291s
+    [always] train/seq_15: 149 frames, 146 routed, 292s
+    [always] train/seq_3: 149 frames, 43 routed, 212s
+    [always] train/seq_6: 149 frames, 148 routed, 313s
+  [fold1] held-out sequences ['train/seq_11', 'train/seq_13', 'train/seq_14', 'train/seq_4', 'train/seq_7']
+    [always] train/seq_11: 149 frames, 144 routed, 293s
+    [always] train/seq_13: 149 frames, 148 routed, 297s
+    [always] train/seq_14: 149 frames, 148 routed, 390s
+    [always] train/seq_4: 149 frames, 148 routed, 396s
+    [always] train/seq_7: 149 frames, 0 routed, 187s
+  [fold2] held-out sequences ['train/seq_12', 'train/seq_16', 'train/seq_2', 'train/seq_5', 'train/seq_9']
+    [always] train/seq_12: 149 frames, 98 routed, 255s
+    [always] train/seq_16: 149 frames, 148 routed, 294s
+    [always] train/seq_2: 149 frames, 113 routed, 385s
+    [always] train/seq_5: 149 frames, 148 routed, 348s
+    [always] train/seq_9: 149 frames, 143 routed, 265s
+  frames=2235 routed=1741 (77.9%)
+  instrument IoU  n=1741  before 0.6597 -> after 0.6627  mean change +0.0030 (95% CI +0.0010..+0.0055)
+    improved 1.8%  WORSE 0.7%  unchanged 97.5%   [strict sign: better 27.7% / worse 7.3% / exactly 0 65.0%]
+    mean gain when improved +0.1675   mean damage when worse 0.0563   sign-test p=8.42e-50
+  official IoU    n=1741  before 0.6772 -> after 0.6774  mean change +0.0003 (95% CI +0.0001..+0.0004)
+    improved 0.7%  WORSE 0.6%  unchanged 98.7%   [strict sign: better 27.0% / worse 8.2% / exactly 0 64.8%]
+    mean gain when improved +0.0151   mean damage when worse 0.0263   sign-test p=1.32e-41
+  VERDICT (always, instrument IoU): IMPROVES most routed frames: premise holds
