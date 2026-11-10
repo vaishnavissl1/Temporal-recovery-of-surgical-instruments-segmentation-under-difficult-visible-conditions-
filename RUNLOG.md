@@ -173,3 +173,7 @@ The supplied PrebuiltUI template license (section 3) forbids publishing the temp
 ### Task 7 deployed
 Vercel CLI login completed by the user (device approval); the built static output (web/out only, no template source) was deployed to production: https://stereo-gated-results.vercel.app (project stereo-gated-results). Home and /results/ verified HTTP 200. The localhost error the user saw was because my preview server had been stopped; `npm run dev` in web/ serves http://localhost:3000.
 Not done by choice: Streamlit demo (website replaces it); removing the template-derived commit 10fa909 from GitHub history (needs force-push, awaiting the user's decision).
+
+### Website redesign and results bundle
+Redesigned the website as a plain research-page style (serif headings, one accent colour, text tabs, thin-rule tables; removed gradient hero, section-label squares, coloured callout boxes, icon cards, scroll animations and repeated copy) and redeployed to https://stereo-gated-results.vercel.app (verified 200 on / and /stereo/).
+All results collected into C:\Users\Chandaluri Vaishnavi\Downloads\cvrsfesp\results (README.md index, task1-6 outputs, logs, training histories, FINDINGS/RUNLOG/DATASET_FACTS, website data and built site). Weights, caches and the 2000-file official-check scratch folder were left out.
