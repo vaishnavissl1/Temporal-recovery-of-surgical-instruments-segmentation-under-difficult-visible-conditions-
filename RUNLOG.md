@@ -153,3 +153,10 @@ Official test (997 frames, routed 30.4%): selector +0.0096, harmful 1.2%, activa
 STOP check: oracle has real headroom over always-A2 (+0.0105 OOF, +0.0184 test), so the selector was worth building.
 Plain reading: the selector does NOT beat the simplest baseline. Always applying the class-conditioned morphological refinement (A3, no stereo, no temporal) gets about twice the mean gain of the selector on both sets, with similar harm. Stereo evidence (A1) gives essentially nothing. Selector predictions are weak for A1/A3 (Pearson -0.03 / +0.14), moderate for A2/FUSE (+0.33 / +0.46). The selector's only edge is abstaining on frames where nothing helps.
 Compute: selector ~32 ms/frame CPU on test vs 300 ms for fuse+refine on every frame.
+
+### Task 6 result: final M1-M6 on the official test set (997 frames, full resolution, official metric; measurement, not tuned)
+mIoU: M1 0.6128, M2 0.6137, M3 0.6129, M4 0.6138, M5 0.6141, M6 0.6128. Our scorer matches the official run.py (|diff| 1.1e-16).
+Harmful corrections, % of ALL frames: M4 1.20 vs M6 0.80 (M6 better). % of CORRECTED frames: M4 1.20 vs M6 3.10 (M6 worse). STOP condition (M6 must beat M4 on harmful rate) is met under the first definition and not the second; both recorded.
+M6 activation 25.9% vs 99.9%; mean latency 792 ms vs 2201 ms (composed from measured components).
+Plain reading: no correction moves mIoU meaningfully; the supportable result is the compute saving, not an accuracy gain. Written up in results/FINDINGS.md.
+No errors in this task. (Environment: final_eval's scoring is CPU by design; GPU used only for the latency benchmark.)
