@@ -147,6 +147,35 @@ def official_frame_iou(pred: np.ndarray, gt: np.ndarray, num_classes: int
     return float(np.mean(list(v.values()))) if v else None
 
 
+def risk_coverage(scores: np.ndarray, losses: np.ndarray):
+    """Risk-coverage curve (Geifman & El-Yaniv; recommended for failure detection
+    by Zenk et al. 2024). Accept frames from the most to the least trusted
+    (highest score first); at coverage k/n the risk is the MEAN loss of the k
+    accepted frames. Returns (coverage [n], risk [n]). Ties in `scores` are
+    broken by a stable sort, so results are deterministic."""
+    s = np.asarray(scores, dtype=np.float64)
+    l = np.asarray(losses, dtype=np.float64)
+    ok = np.isfinite(s) & np.isfinite(l)
+    s, l = s[ok], l[ok]
+    order = np.argsort(-s, kind="mergesort")
+    cum = np.cumsum(l[order])
+    k = np.arange(1, l.size + 1, dtype=np.float64)
+    return k / l.size, cum / k
+
+
+def aurc(scores: np.ndarray, losses: np.ndarray) -> float:
+    """Area under the risk-coverage curve = mean of the selective risk over all
+    coverages. LOWER is better. A random ranking scores the overall mean loss;
+    a perfect ranking scores the minimum possible for these losses."""
+    cov, risk = risk_coverage(scores, losses)
+    return float(risk.mean()) if risk.size else float("nan")
+
+
+def aurc_oracle(losses: np.ndarray) -> float:
+    """AURC of the best possible ranking (accept lowest-loss first): the floor."""
+    return aurc(-np.asarray(losses, dtype=np.float64), losses)
+
+
 def instrument_iou(a: np.ndarray, b: np.ndarray, num_classes: int,
                    instrument_ids: Sequence[int],
                    empty_value: float = 1.0) -> float:

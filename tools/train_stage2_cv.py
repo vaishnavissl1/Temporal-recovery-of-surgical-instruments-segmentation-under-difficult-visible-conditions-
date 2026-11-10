@@ -33,8 +33,8 @@ import torch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from sitr.reliability import (SequenceCache, StreamConfig,  # noqa: E402
-                              indicator_names)
+from sitr.reliability import (INDICATOR_SETS, SequenceCache,  # noqa: E402
+                              StreamConfig, indicator_names)
 from sitr.stage2v2 import (FAMILIES, collect, conformal_tau,  # noqa: E402
                            cross_validate, diagnostics, make_folds, realised_risk)
 from sitr.utils import save_checkpoint, write_json  # noqa: E402
@@ -65,7 +65,7 @@ def main() -> int:
     ap.add_argument("--memory-sizes", nargs="+", type=int, default=[3, 5, 8])
     ap.add_argument("--tau-trains", nargs="+", type=float, default=[0.5])
     ap.add_argument("--indicators", default="extended",
-                    choices=["paper4", "extended"])
+                    choices=sorted(INDICATOR_SETS))
     ap.add_argument("--theta", type=float, default=0.5,
                     help="a frame is BAD if its instrument IoU is below this")
     ap.add_argument("--alpha", type=float, default=0.05,

@@ -198,9 +198,60 @@ def interpret(s):
     return "IMPROVES most routed frames: premise holds" if s["pct_improved"] > s["pct_worse"] else "mixed"
 
 
+def fold_bundles(release, work):
+    """Honest bundles for the TRAINING sequences: for each cross-fitting fold, the
+    segmenter is that fold's model (it never saw those sequences) and the
+    reliability gate is fit on the OTHER folds' out-of-fold caches. Yields
+    (fold index, bundle, held-out sequences).
+
+    Caveat, stated not hidden: the routing threshold tau is the release's, chosen
+    by conformal control on ALL out-of-fold frames, so it has seen these frames'
+    reliability labels. It decides which frames are routed, not their masks."""
+    import copy
+    import torch
+    from sitr.meta_models import SklearnReliability
+    from sitr.reliability import StreamConfig
+    from sitr.stage2v2 import FAMILIES
+    from sitr.models import build_model
+    from sitr.utils import load_checkpoint
+    from tools.compare_stereo import load_dir
+    base = ReleaseBundle.load(release)
+    man = base.manifest
+    folds = json.load(open(os.path.join(work, "folds.json")))["folds"]
+    oof = load_dir(os.path.join(work, "cache_oof"))
+    fam_name = man.get("stage2_family", "gbm")
+    cfg = StreamConfig(memory_size=int(man["memory_size"]), tau=float(man.get("tau_train", 0.5)),
+                       indicators=man["indicator_set"])
+    all_seqs = {s.key: s for s in base.sequences("train")}
+    for i, held in enumerate(folds):
+        ck = load_checkpoint(os.path.join(work, "crossfit", f"fold{i}", "best.pt"), map_location=base.device)
+        meta = ck["meta"]
+        model = build_model(int(meta["num_classes"]), arch=meta.get("arch", meta.get("args", {}).get("arch")),
+                            pretrained=False).to(base.device)
+        model.load_state_dict(ck["model"]); model.eval()
+        for p in model.parameters():
+            p.requires_grad_(False)
+        fam = FAMILIES[fam_name](seed=0).fit([c for k, c in oof.items() if k not in held], cfg)
+        if fam_name != "gbm":
+            raise SystemExit("per-fold gate export is implemented for the gbm family only")
+        b = copy.copy(base)
+        b.model = model
+        b.reliability = SklearnReliability(fam.model, in_dim=len(man["indicator_names"]))
+        # Same rule run_v2 used for the OOF caches: the calibration temperature of a
+        # fold's predictions is the mean over the OTHER folds (never its own).
+        temps = [json.load(open(os.path.join(work, "crossfit", f"fold{j}", "calibration.json")))["temperature"]
+                 for j in range(len(folds))]
+        b.manifest = dict(man)
+        b.manifest["temperature"] = float(np.mean([t for j, t in enumerate(temps) if j != i]))
+        yield i, b, [all_seqs[k] for k in held]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--release", required=True)
+    ap.add_argument("--oof-work", default=None,
+                    help="work_v2 folder: evaluate the TRAINING sequences honestly with per-fold models "
+                         "(instead of --split)")
     ap.add_argument("--split", default="test", choices=["test", "train"])
     ap.add_argument("--aligner", default="identity", choices=["identity", "farneback", "region"])
     ap.add_argument("--gamma", type=float, default=0.95)
@@ -221,10 +272,16 @@ def main():
           f"K={bundle.memory_size}  instrument_ids={bundle.instrument_ids}")
     kw = {"instrument_ids": bundle.instrument_ids} if a.aligner == "region" else {}
     aligner = build_align(a.aligner, **kw)
-    seqs = bundle.sequences(split=a.split)
-    if a.sequences:
-        seqs = seqs[:a.sequences]
-    print(f"split={a.split}: {len(seqs)} sequences, aligner={aligner.name}, gamma={a.gamma}")
+    if a.oof_work:
+        groups = [(f"fold{i}", b, s) for i, b, s in fold_bundles(a.release, a.oof_work)]
+        a.split = "train-OOF"
+        print("split=train-OOF: honest evaluation of the training sequences, per-fold models")
+    else:
+        seqs = bundle.sequences(split=a.split)
+        if a.sequences:
+            seqs = seqs[:a.sequences]
+        groups = [(a.split, bundle, seqs)]
+    print(f"{sum(len(g[2]) for g in groups)} sequences, aligner={aligner.name}, gamma={a.gamma}")
 
     best, worst = Keeper(a.n_images, True), Keeper(a.n_images, False)
     res = {"release": os.path.abspath(a.release), "split": a.split, "aligner": a.aligner,
@@ -232,7 +289,11 @@ def main():
     all_recs = {}
     for mode in ("selective", "always"):
         print(f"\n--- {mode.upper()} ---")
-        recs = run_mode(bundle, seqs, mode, aligner, a.gamma, best, worst)
+        recs = []
+        for gname, gb, gseqs in groups:
+            if a.oof_work:
+                print(f"  [{gname}] held-out sequences {[s.key for s in gseqs]}")
+            recs += run_mode(gb, gseqs, mode, aligner, a.gamma, best, worst)
         all_recs[mode] = recs
         n, nr = len(recs), sum(r["routed"] for r in recs)
         res[mode] = dict(n_frames=n, n_routed=nr, routing_rate=nr / max(n, 1),

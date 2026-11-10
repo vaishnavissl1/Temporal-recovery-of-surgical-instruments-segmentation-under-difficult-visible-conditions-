@@ -376,6 +376,58 @@ def compute_evidence(left_bgr: np.ndarray, right_bgr: np.ndarray, rect: "Rectifi
         image_cues=image_cues(left_bgr))
 
 
+def right_to_left_grid(right_map: np.ndarray, disparity: np.ndarray, rect: "Rectifier",
+                       corr: Optional["VerticalCorrection"], out_hw: Tuple[int, int],
+                       interp: int = cv2.INTER_NEAREST, outside=255) -> np.ndarray:
+    """Pull a map defined on the ORIGINAL RIGHT working grid onto the ORIGINAL LEFT
+    working grid, through the cached left disparity.
+
+    For each left pixel: its rectified-left position (xl, yl); the matching
+    rectified-right position (xl - d, yl) (the self-calibration offset is undone
+    first); that position's coordinates in the ORIGINAL right image, read from the
+    right camera's own rectification maps; and finally the right map sampled there.
+    Pixels without a disparity or that land outside the right image get `outside`.
+    Label maps use nearest neighbour (never blend class ids)."""
+    H, W = out_hw
+    xl, yl = rect.orig_grid_maps(out_hw)
+    d = disparity.astype(np.float32)
+    valid = np.isfinite(d)
+    xr = (xl - np.where(valid, d, 0)).astype(np.float32)
+    ysrc = yl - (corr.offset(xr, yl) if corr is not None else 0.0)
+    ysrc = ysrc.astype(np.float32)
+    big = -1e4
+    ox = cv2.remap(rect.mapR[0], xr, ysrc, cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=big)
+    oy = cv2.remap(rect.mapR[1], xr, ysrc, cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT, borderValue=big)
+    w0, h0 = rect.rig.size
+    ux = ((ox + 0.5) * (W / w0) - 0.5).astype(np.float32)
+    uy = ((oy + 0.5) * (H / h0) - 0.5).astype(np.float32)
+    out = cv2.remap(right_map, ux, uy, interp, borderMode=cv2.BORDER_CONSTANT, borderValue=outside)
+    out[~valid | (ox < -1e3)] = outside
+    return out
+
+
+def instrument_stereo_indicators(pred_mask: np.ndarray, lr_ok: np.ndarray,
+                                 occluded: np.ndarray, confidence: np.ndarray,
+                                 in_view: np.ndarray, instrument_ids) -> Tuple[float, float, float]:
+    """The three frame-level stereo indicators of the reliability gate, over the
+    PREDICTED-instrument pixels that lie inside the stereo field of view:
+
+      stereo_disagreement  fraction failing the left-right consistency check
+      occluded_fraction    fraction hidden from the right camera
+      disparity_confidence mean per-pixel confidence (0..1)
+
+    All inputs are on the same grid (the cache stores evidence at the mask grid's
+    2x; resize before calling if they differ). Ground truth never enters here.
+    Returns (0, 0, 0) when the predicted foreground is empty, matching the repo's
+    eq. (10) convention that an empty foreground leaves every indicator at 0."""
+    fg = np.isin(pred_mask, np.asarray(list(instrument_ids), dtype=pred_mask.dtype)) & in_view
+    n = int(fg.sum())
+    if n == 0:
+        return 0.0, 0.0, 0.0
+    return (float((~lr_ok[fg]).mean()), float(occluded[fg].mean()),
+            float(confidence[fg].astype(np.float32).mean() / 255.0))
+
+
 # --------------------------------------------------------------------------- #
 # per-sequence self-calibration (label-free)
 # --------------------------------------------------------------------------- #

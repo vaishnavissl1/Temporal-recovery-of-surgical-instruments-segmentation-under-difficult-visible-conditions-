@@ -90,6 +90,33 @@ def main() -> int:
         assert official_frame_iou(pr, gt, 3) == 0.0
         assert legacy > 0.4, legacy
 
+    print("\nRisk-coverage / AURC")
+    from sitr.metrics import aurc, aurc_oracle, risk_coverage
+
+    @check("AURC: perfect ranking = oracle floor, reversed ranking is worst, random ~ mean loss")
+    def _():
+        loss = np.array([0.0, 0.1, 0.2, 0.9, 1.0])
+        perfect = -loss                         # trust the low-loss frames first
+        assert abs(aurc(perfect, loss) - aurc_oracle(loss)) < 1e-12
+        # hand computed: risks at k=1..5 = 0, .05, .1, .3, .44 -> mean 0.178
+        assert abs(aurc_oracle(loss) - np.mean([0, .05, .1, .3, .44])) < 1e-12
+        assert aurc(loss, loss) > aurc(perfect, loss)
+        rng = np.random.default_rng(0)
+        big = rng.random(5000)
+        assert abs(aurc(rng.random(5000), big) - big.mean()) < 0.02
+
+    @check("risk-coverage: coverage runs 1/n..1 and the last risk is the overall mean")
+    def _():
+        loss = np.array([.3, .1, .8, .4])
+        cov, risk = risk_coverage(np.array([4., 3., 1., 2.]), loss)
+        assert np.allclose(cov, [.25, .5, .75, 1.0])
+        assert abs(risk[-1] - loss.mean()) < 1e-12
+        assert abs(risk[0] - 0.3) < 1e-12     # highest score first -> loss .3
+
+    @check("AURC ignores non-finite entries instead of propagating NaN")
+    def _():
+        assert np.isfinite(aurc(np.array([1., np.nan, 2.]), np.array([.1, .2, .3])))
+
     print(f"\n{'='*66}\n{len(PASS)} passed, {len(FAIL)} failed")
     if FAIL:
         for n, e in FAIL:

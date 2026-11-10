@@ -64,6 +64,8 @@ def _cache(T=40, extended=True, seed=0):
     if extended:
         kw.update({k: r.random(T).astype(np.float32)
                    for k in ("ent", "margin", "bnd", "frag")})
+        # stereo indicators too, so the "every indicator set" tests cover them
+        kw.update({k: r.random(T).astype(np.float32) for k in ("sd", "oc", "dc")})
     return SequenceCache(**kw)
 
 

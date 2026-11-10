@@ -176,6 +176,83 @@ def main() -> int:
         err = np.abs(back[inner].astype(np.float32) - direct[inner].astype(np.float32))
         assert err.mean() < 2.0, err.mean()
 
+    @check("right->left warp: constant map stays constant where a disparity exists, 255 elsewhere")
+    def _():
+        from sitr.stereo import right_to_left_grid
+        rc = Rectifier(rig_from(GOOD), alpha=1.0)
+        disp = np.full((512, 640), 90.0, np.float32); disp[:100, :] = np.nan
+        out = right_to_left_grid(np.full((512, 640), 5, np.uint8), disp, rc, None, (512, 640))
+        assert (out[:100] == 255).all()
+        inner = out[200:480, 150:600]
+        assert (inner == 5).mean() > 0.95, (inner == 5).mean()
+        assert set(np.unique(out).tolist()) <= {5, 255}
+
+    @check("right->left warp geometry: with zero disparity a pattern shifts by the principal-point offset (~50 working px)")
+    def _():
+        from sitr.stereo import right_to_left_grid
+        ideal = GOOD.replace("1083.43 1083.22", "1084.21 1084.05").replace("680.91 505.81", "680.91 506.79") \
+                    .replace("-0.0002 -0.0011 -0.0000", "0 0 0").replace("-4.3499 0.0333 -0.0369", "-4.35 0 0")
+        txt = "\n".join(l if "Camera-0-K" not in l and "Camera-1-K" not in l
+                        else l.split(":")[0] + ": 0 0 0 0 0" for l in ideal.splitlines())
+        rc = Rectifier(rig_from(txt), alpha=1.0)
+        cols = (np.arange(640)[None, :].repeat(512, 0) // 3).astype(np.uint8)       # label = working column // 3 (max 213)
+        out = right_to_left_grid(cols, np.zeros((512, 640), np.float32),
+                                 rc, None, (512, 640), interp=cv2.INTER_NEAREST)
+        # left working column u maps to right working column ~ u + (cx_R - cx_L)/2
+        u = np.arange(100, 400)
+        got = out[256, u].astype(np.float32) * 3 + 1.0
+        assert (out[256, u] != 255).all()
+        shift = np.median(got - u)
+        assert 40 < shift < 60, shift
+        assert np.std(got - u - shift) < 3.5
+
+    print("\nStereo indicators")
+
+    @check("stereo indicators: fractions over PREDICTED-instrument pixels in view only")
+    def _():
+        from sitr.stereo import instrument_stereo_indicators as ind
+        pred = np.zeros((10, 10), np.uint8); pred[:, :4] = 1          # instrument = columns 0-3
+        in_view = np.ones((10, 10), bool); in_view[:, 0] = False       # column 0 outside the view
+        lr = np.ones((10, 10), bool); lr[:, 1] = False                 # column 1 fails LR
+        occ = np.zeros((10, 10), bool); occ[:, 2] = True               # column 2 occluded
+        conf = np.full((10, 10), 255, np.uint8); conf[:, 3] = 0        # column 3 no confidence
+        sd, oc, dc = ind(pred, lr, occ, conf, in_view, [1])
+        assert abs(sd - 1 / 3) < 1e-6 and abs(oc - 1 / 3) < 1e-6 and abs(dc - 2 / 3) < 1e-6
+        assert ind(np.zeros((10, 10), np.uint8), lr, occ, conf, in_view, [1]) == (0.0, 0.0, 0.0)
+
+    @check("SequenceCache stereo fields round-trip and require() enforces them")
+    def _():
+        import tempfile
+        from sitr.reliability import SequenceCache
+        T = 5
+        c = SequenceCache(name="train/seq_1", q=np.ones(T), area=np.ones(T, np.int64) * 9,
+                          emb=np.ones((T, 4)), masks=np.zeros((T, 4, 4), np.uint8),
+                          r_star=np.ones(T), ent=np.ones(T), margin=np.ones(T), bnd=np.ones(T),
+                          frag=np.ones(T), num_classes=3, instrument_ids=(1,))
+        assert not c.has_stereo
+        for name in ("extended_stereo", "nontemporal_stereo", "stereo3"):
+            try:
+                c.require(name)
+            except ValueError:
+                pass
+            else:
+                raise AssertionError(name)
+        c.require("extended"); c.require("nontemporal")
+        c.sd, c.oc, c.dc = np.full(T, .1), np.full(T, .2), np.full(T, .9)
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "x.npz"); c.save(p)
+            c2 = SequenceCache.load(p)
+        c2.require("extended_stereo")
+        assert np.allclose(c2.sd, .1) and np.allclose(c2.dc, .9)
+
+    @check("indicator sets: nontemporal has no T/A/F/Drift, stereo sets add exactly the 3")
+    def _():
+        from sitr.reliability import indicator_names as nm
+        tmp = {"T_temporal", "A_area_stability", "F_feature_cos", "Drift_prev_cos"}
+        assert not (set(nm("nontemporal")) & tmp) and not (set(nm("nontemporal_stereo")) & tmp)
+        assert set(nm("extended_stereo")) - set(nm("extended")) == set(nm("stereo3"))
+        assert len(nm("extended_stereo")) == 12 and len(nm("extended")) == 9
+
     print("\nDisparity")
 
     def textured_pair(d=20, h=240, w=320):

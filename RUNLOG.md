@@ -74,3 +74,29 @@ measurement is never an error — it is recorded as the result, whatever it is.
 ### Measurement findings recorded as results (not errors)
 - The v2 code's "challenge IoU" includes the background class and is NOT the official metric (DATASET_FACTS contradiction 17).
 - Task 2's SGBM criterion cannot see over-smoothing; disclosed, tested, not overturned.
+
+## Task 4 (stereo evidence, difficulty index, gate comparison) — in progress
+
+### Done
+- Stereo evidence cache for ALL 3232 labelled frames (2235 train + 997 test), 512x640 original-left grid, **1.23 GB** (limit was 20 GB),
+  45 min train + 26 min test in parallel on CPU while the GPU trained. Per-sequence self-calibration stored in `stereo_meta.json`.
+- Cross-fitting finished (3 class-aware folds x 20 epochs, ~160 min each). Out-of-fold predictions cached for all 15 training sequences.
+- Stereo indicators added to the OOF caches (`tools/add_stereo_indicators.py`). Frame names/counts are verified, not assumed.
+
+### Measured result (not an error): the difficulty index does NOT track segmentation error
+On 2235 held-out (out-of-fold) frames: index vs (1 - instrument IoU) Pearson -0.017, Spearman -0.029; within-sequence Spearman +0.036
+(95% CI -0.057..+0.121, 11/15 sequences positive). Quartiles are not monotone: the hardest quartile has the LOWEST bad-frame rate (0.197 vs
+0.283-0.346). Strongest pooled cue is haze but in the WRONG direction (-0.46) and ~0 within sequences, i.e. a sequence effect, not a frame effect.
+The cue directions were fixed a priori and nothing was re-fitted. Consequence: novelty claim 6 ("gains concentrate on hard frames, measured by
+an objective index") is **not supported on this data**. Full output: results/task4_difficulty_oof.log, results/task4/difficulty_report.json.
+
+### Errors / fixes
+| # | What happened | Cause | Fix |
+|---|---|---|---|
+| 11 | 2 existing tests failed after adding stereo indicator sets | the shared test cache had no stereo fields, and the tests loop over every indicator set | gave the test cache stereo fields; assertions unchanged. 36/36 pass |
+| 12 | `python3` not found in the Bash tool | only the conda env's `python.exe` exists | used the Edit tool / the env interpreter |
+| 13 | the training log showed nothing for hours | child process stdout is block-buffered when piped | progress is read from `work_v2/crossfit/*/stage1_history.json` instead; no effect on results |
+
+### Statistical note
+HistGradientBoosting without subsampling is deterministic, so "run several seeds" would show zero variation. Differences between indicator sets
+are therefore tested with a paired cluster bootstrap over SEQUENCES (tools/compare_stereo.py).

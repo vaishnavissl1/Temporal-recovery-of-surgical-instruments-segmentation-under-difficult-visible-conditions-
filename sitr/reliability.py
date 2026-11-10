@@ -72,12 +72,31 @@ INDICATOR_SETS: Dict[str, Tuple[str, ...]] = {
     "extended": ("q_confidence", "T_temporal", "A_area_stability",
                  "F_feature_cos", "H_entropy_conf", "M_margin",
                  "Bnd_compactness", "Frag_largest_cc", "Drift_prev_cos"),
+    # ---- stereo (Task 4). The three stereo indicators are fractions/means over
+    # the PREDICTED-instrument pixels, computed from the cached stereo evidence.
+    "stereo3": ("stereo_disagreement", "occluded_fraction", "disparity_confidence"),
+    "extended_stereo": ("q_confidence", "T_temporal", "A_area_stability",
+                        "F_feature_cos", "H_entropy_conf", "M_margin",
+                        "Bnd_compactness", "Frag_largest_cc", "Drift_prev_cos",
+                        "stereo_disagreement", "occluded_fraction",
+                        "disparity_confidence"),
+    # no temporal indicator at all (T, A, F, Drift removed): the fair test of
+    # "does stereo replace temporal evidence?"
+    "nontemporal": ("q_confidence", "H_entropy_conf", "M_margin",
+                    "Bnd_compactness", "Frag_largest_cc"),
+    "nontemporal_stereo": ("q_confidence", "H_entropy_conf", "M_margin",
+                           "Bnd_compactness", "Frag_largest_cc",
+                           "stereo_disagreement", "occluded_fraction",
+                           "disparity_confidence"),
 }
 
 #: indicators that come straight from the cached per-frame scalars
 _STATIC = {"q_confidence": "q", "H_entropy_conf": "ent",
            "M_margin": "margin", "Bnd_compactness": "bnd",
-           "Frag_largest_cc": "frag"}
+           "Frag_largest_cc": "frag",
+           "stereo_disagreement": "sd", "occluded_fraction": "oc",
+           "disparity_confidence": "dc"}
+_STEREO_KEYS = ("sd", "oc", "dc")
 
 
 def indicator_names(name: str) -> Tuple[str, ...]:
@@ -105,6 +124,11 @@ class SequenceCache:
     frag: Optional[np.ndarray] = None      # [T] largest-cc share
     num_classes: int = 2
     instrument_ids: Tuple[int, ...] = (1,)
+    # stereo indicators (tools/add_stereo_indicators.py), all [T]
+    sd: Optional[np.ndarray] = None        # predicted-instrument px failing the LR check
+    oc: Optional[np.ndarray] = None        # predicted-instrument px that are occluded
+    dc: Optional[np.ndarray] = None        # mean disparity confidence over them
+    seq_index: Optional[np.ndarray] = None  # [T] frame index inside the sequence (diagnostics)
 
     def __len__(self) -> int:
         return int(self.q.shape[0])
@@ -114,12 +138,25 @@ class SequenceCache:
         return all(getattr(self, k) is not None
                    for k in ("ent", "margin", "bnd", "frag"))
 
+    @property
+    def has_stereo(self) -> bool:
+        return all(getattr(self, k) is not None for k in _STEREO_KEYS)
+
     def require(self, indicators: str) -> None:
-        if indicators != "paper4" and not self.has_extended:
+        names = set(indicator_names(indicators))
+        needs_ext = bool(names & {"H_entropy_conf", "M_margin",
+                                  "Bnd_compactness", "Frag_largest_cc",
+                                  "Drift_prev_cos"})
+        if needs_ext and not self.has_extended:
             raise ValueError(
                 f"cache {self.name!r} has only the four paper indicators. "
                 "Re-run tools/cache_features.py (it computes the extended set "
                 "by default), or train with --indicators paper4.")
+        if names & {"stereo_disagreement", "occluded_fraction",
+                    "disparity_confidence"} and not self.has_stereo:
+            raise ValueError(
+                f"cache {self.name!r} has no stereo indicators. Run "
+                "tools/add_stereo_indicators.py on it first.")
 
     def save(self, path: str) -> None:
         payload = dict(
@@ -131,10 +168,12 @@ class SequenceCache:
             instrument_ids=np.array(self.instrument_ids, dtype=np.int64))
         if self.gray is not None:
             payload["gray"] = self.gray.astype(np.uint8)
-        for k in ("ent", "margin", "bnd", "frag"):
+        for k in ("ent", "margin", "bnd", "frag") + _STEREO_KEYS:
             v = getattr(self, k)
             if v is not None:
                 payload[k] = v.astype(np.float32)
+        if self.seq_index is not None:
+            payload["seq_index"] = self.seq_index.astype(np.int32)
         np.savez_compressed(path, **payload)
 
     @staticmethod
@@ -149,7 +188,9 @@ class SequenceCache:
             ent=get("ent"), margin=get("margin"), bnd=get("bnd"),
             frag=get("frag"),
             num_classes=int(z["num_classes"]),
-            instrument_ids=tuple(int(v) for v in z["instrument_ids"]))
+            instrument_ids=tuple(int(v) for v in z["instrument_ids"]),
+            sd=get("sd"), oc=get("oc"), dc=get("dc"),
+            seq_index=(z["seq_index"].astype(np.int32) if "seq_index" in z.files else None))
 
 
 # --------------------------------------------------------------------------- #
