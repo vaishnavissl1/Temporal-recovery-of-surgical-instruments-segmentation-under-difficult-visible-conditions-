@@ -145,3 +145,11 @@ Plain reading: temporal correction rarely matters and, in the official metric, d
 ### Task 3 out-of-fold (15 training sequences, per-fold models; measurement, not tuned)
 Always-correct mode: instrument IoU 0.6597 -> 0.6627 (+0.0030, CI +0.0010..+0.0055); official IoU 0.6772 -> 0.6774 (+0.0003, CI +0.0001..+0.0004). 1.8% of routed frames improved past the margin, 0.7% worse, 97.5% unchanged (strict sign: 27.7% better, 7.3% worse, 65% exactly 0).
 Same picture as test: a real but very small gain; no harm on average. The out-of-fold job crashed in the panel writer at the end as predicted (error #14); numbers kept in results/task3_oof/measure_recovery_oof_log.txt, no JSON.
+Selective mode (OOF, routed 623/2235 = 27.9%): instrument IoU 0.5289 -> 0.5374 (+0.0084, CI +0.0028..+0.0161); official IoU 0.6227 -> 0.6234 (+0.0007, CI +0.0003..+0.0011); 5.1% improved / 1.9% worse past the margin.
+
+### Task 5 result: candidate actions + benefit selector (measurement, not tuned; margin 0.01 fixed in advance)
+Held-out training (OOF, 2235 frames, gate routes 49.7%): selector activates 26.9%, mean dIoU over all frames +0.0054, harmful 2.0% of corrected; oracle +0.0128; always-A3 (routed) +0.0098 harmful 1.1%; always-A2 +0.0024; always-A1 -0.0000; fuse +0.0024.
+Official test (997 frames, routed 30.4%): selector +0.0096, harmful 1.2%, activation 25.9%; oracle +0.0215; always-A3 +0.0189 harmful 1.0%; always-A2 +0.0031; always-A1 +0.0001; fuse +0.0022; fuse+refine on every frame +0.0261.
+STOP check: oracle has real headroom over always-A2 (+0.0105 OOF, +0.0184 test), so the selector was worth building.
+Plain reading: the selector does NOT beat the simplest baseline. Always applying the class-conditioned morphological refinement (A3, no stereo, no temporal) gets about twice the mean gain of the selector on both sets, with similar harm. Stereo evidence (A1) gives essentially nothing. Selector predictions are weak for A1/A3 (Pearson -0.03 / +0.14), moderate for A2/FUSE (+0.33 / +0.46). The selector's only edge is abstaining on frames where nothing helps.
+Compute: selector ~32 ms/frame CPU on test vs 300 ms for fuse+refine on every frame.
