@@ -1,0 +1,15 @@
+\begin{tabular}{lcc}
+\hline
+Setting (one change from the official protocol) & mIoU & Points \\
+\hline
+reference: official protocol & 0.6128 & +0.00 \\
+background included in the per-frame mean & 0.6452 & +3.23 \\
+class counted if in ground truth OR prediction & 0.5021 & -11.07 \\
+per-class mean over frames, then over classes (mcIoU) & 0.4956 & -11.72 \\
+sequence means averaged unweighted & 0.6128 & -0.01 \\
+evaluated at 512x640 (ground truth downsampled) & 0.6132 & +0.04 \\
+background included + ground-truth-or-prediction presence & 0.5447 & -6.81 \\
+background included, evaluated at 512x640 & 0.6455 & +3.27 \\
+per-class mean (mcIoU) + background included & 0.5218 & -9.11 \\
+\hline
+\end{tabular}

@@ -1,0 +1,16 @@
+\begin{tabular}{lcccccccc}
+\hline
+Detector & AURC & AUROC & AURC & AUROC & Passes & Models & ms \\
+\hline
+ & \multicolumn{2}{c}{Out of fold} & \multicolumn{2}{c}{Test} &  &  &  \\
+max-softmax & 0.269 & 0.786 & 0.285 & 0.792 & 1 & 1 & 80 \\
+mean entropy & 0.270 & 0.773 & 0.285 & 0.789 & 1 & 1 & 80 \\
+Soft Dice Confidence & 0.285 & 0.734 & 0.341 & 0.685 & 1 & 1 & 85 \\
+MC stochastic depth (10) & 0.288 & 0.741 & 0.325 & 0.792 & 10 & 1 & 782 \\
+TTA entropy (6) & 0.271 & 0.764 & 0.273 & 0.850 & 6 & 1 & 535 \\
+TTA pairwise Dice (6) & 0.282 & 0.757 & 0.320 & 0.808 & 6 & 1 & 557 \\
+4-model ensemble Dice$^{\dagger}$ & -- & -- & 0.312 & 0.840 & 4 & 4 & 312 \\
+Gate (9 indicators) & 0.303 & 0.740 & 0.308 & 0.771 & 1 & 1 & 109 \\
+Gate + cross-view$^{\ddagger}$ & 0.298 & 0.729 & 0.305 & 0.813 & 2 & 1 & 288 \\
+\hline
+\end{tabular}
