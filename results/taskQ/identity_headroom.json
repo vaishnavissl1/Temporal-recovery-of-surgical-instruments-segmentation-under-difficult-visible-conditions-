@@ -1,0 +1,265 @@
+{
+ "audit": {
+  "verifier_returns_input_mask": true,
+  "switches_hard_coded_zero": true,
+  "consequence": "M7 has exactly the masks of M6, so mIoU, mcIoU, per-class IoU and class sets are identical by construction"
+ },
+ "grid": "512x640 (ground truth nearest-neighbour downsampled)",
+ "n_frames": 997,
+ "M6": {
+  "mIoU": 0.6132223797298809,
+  "mcIoU": 0.49642221754443583,
+  "per_class": {
+   "instrument-shaft": 0.8594903611584578,
+   "instrument-clasper": 0.5673523008854303,
+   "instrument-wrist": 0.6298326140667097,
+   "kidney-parenchyma": 0.6450403534870133,
+   "covered-kidney": 0.4016327977213864,
+   "thread": 0.43224692862479985,
+   "clamps": 0.6562397673872393,
+   "suturing-needle": 0.0,
+   "suction-instrument": null,
+   "intestine": 0.4645848404253527,
+   "ultrasound-probe": 0.3078022116879684
+  }
+ },
+ "ceiling_all_instrument_classes": {
+  "mIoU": 0.6338952517325482,
+  "mcIoU": 0.550110853910261,
+  "per_class": {
+   "instrument-shaft": 0.8785878439257777,
+   "instrument-clasper": 0.574495266891124,
+   "instrument-wrist": 0.664801116728272,
+   "kidney-parenchyma": 0.6450403534870133,
+   "covered-kidney": 0.4016327977213864,
+   "thread": 0.4376152700390184,
+   "clamps": 0.6594793083587432,
+   "suturing-needle": 0.13418275912635022,
+   "suction-instrument": null,
+   "intestine": 0.4645848404253527,
+   "ultrasound-probe": 0.6406889823995735
+  },
+  "mIoU_points_over_M6": 2.067287200266732,
+  "mcIoU_points_over_M6": 5.368863636582521
+ },
+ "ceiling_clasper_wrist_only": {
+  "mIoU": 0.6179367516736595,
+  "mcIoU": 0.49946582478247975,
+  "per_class": {
+   "instrument-shaft": 0.8594903611584578,
+   "instrument-clasper": 0.5631982136023951,
+   "instrument-wrist": 0.6644227737301844,
+   "kidney-parenchyma": 0.6450403534870133,
+   "covered-kidney": 0.4016327977213864,
+   "thread": 0.43224692862479985,
+   "clamps": 0.6562397673872393,
+   "suturing-needle": 0.0,
+   "suction-instrument": null,
+   "intestine": 0.4645848404253527,
+   "ultrasound-probe": 0.3078022116879684
+  },
+  "mIoU_points_over_M6": 0.47143719437785503,
+  "mcIoU_points_over_M6": 0.30436072380439216
+ },
+ "ceiling_frames_with_any_relabelled_pixel_pct": 63.08926780341023,
+ "ceiling_relabelled_pixels_share_of_predicted_instrument_pixels": 0.07380523482070499,
+ "confusion_M6_instrument_pixels": {
+  "classes": [
+   "instrument-shaft",
+   "instrument-clasper",
+   "instrument-wrist",
+   "thread",
+   "clamps",
+   "suturing-needle",
+   "suction-instrument",
+   "ultrasound-probe"
+  ],
+  "rows_ground_truth_cols_predicted_other_included_as_last": 1,
+  "before": [
+   [
+    27410064,
+    88651,
+    427599,
+    1931,
+    143,
+    0,
+    4371,
+    206920,
+    388165
+   ],
+   [
+    32587,
+    5980114,
+    163618,
+    5060,
+    1248,
+    0,
+    11973,
+    2342,
+    179725
+   ],
+   [
+    138744,
+    1444930,
+    5429854,
+    4153,
+    122,
+    0,
+    1055,
+    549,
+    104331
+   ],
+   [
+    5432,
+    4873,
+    1945,
+    345197,
+    2697,
+    0,
+    0,
+    0,
+    109977
+   ],
+   [
+    620,
+    491,
+    614,
+    479,
+    78836,
+    0,
+    0,
+    0,
+    1139
+   ],
+   [
+    78,
+    10419,
+    225,
+    20067,
+    0,
+    0,
+    0,
+    0,
+    36044
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    544408,
+    730787,
+    137645,
+    0,
+    20885,
+    0,
+    286651,
+    1017625,
+    158572
+   ]
+  ],
+  "after_ceiling": [
+   [
+    27671103,
+    63056,
+    354225,
+    1518,
+    74,
+    0,
+    0,
+    49703,
+    388165
+   ],
+   [
+    34604,
+    5512925,
+    501596,
+    4204,
+    630,
+    337,
+    0,
+    142646,
+    179725
+   ],
+   [
+    70525,
+    758779,
+    6122711,
+    3331,
+    122,
+    89,
+    0,
+    63850,
+    104331
+   ],
+   [
+    4265,
+    3822,
+    3416,
+    344512,
+    2790,
+    1339,
+    0,
+    0,
+    109977
+   ],
+   [
+    12,
+    451,
+    24,
+    1085,
+    79468,
+    0,
+    0,
+    0,
+    1139
+   ],
+   [
+    62,
+    7481,
+    821,
+    9379,
+    0,
+    13046,
+    0,
+    0,
+    36044
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    190352,
+    263403,
+    21382,
+    0,
+    0,
+    0,
+    0,
+    2262864,
+    158572
+   ]
+  ]
+ },
+ "clasper_wrist": {
+  "gt_clasper_pixels_predicted_wrist": 0.02565885908735708,
+  "gt_wrist_pixels_predicted_clasper": 0.20283311935391224,
+  "gt_clasper_pixels_predicted_clasper": 0.9378118694295938,
+  "gt_wrist_pixels_predicted_wrist": 0.7622197784365455
+ }
+}
