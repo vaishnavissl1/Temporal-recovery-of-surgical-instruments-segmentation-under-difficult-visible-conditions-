@@ -94,6 +94,6 @@
   "sources": [
    "results/taskC/per_frame_scores.csv"
   ],
-  "caption": "Calibration. The gate's score against the instrument IoU actually achieved, in 10 equal-count bins of the 997 test frames; the gate is trained to regress this IoU and was not tuned on test. Mean score 0.648 against mean achieved 0.561: the gate over-predicts on the test sequences, most at its highest scores. The segmenter's pixel reliability before and after temperature scaling is not drawn here: results/paper/calibration_pixels.json does not exist yet (tools/calibration_pixels.py needs the GPU). Sources: results/taskC/per_frame_scores.csv."
+  "caption": "Calibration. The gate's score against the instrument IoU actually achieved, in 10 equal-count bins of the 997 test frames; the gate is trained to regress this IoU and was not tuned on test. Mean score 0.648 against mean achieved 0.561: the gate over-predicts on the test sequences in 9 of 10 bins (all but the lowest-scoring), so its ranking can be used but its absolute values cannot be read as IoU. The segmenter's pixel reliability before and after temperature scaling is not drawn here: results/paper/calibration_pixels.json does not exist yet (tools/calibration_pixels.py needs the GPU). Sources: results/taskC/per_frame_scores.csv."
  }
 }

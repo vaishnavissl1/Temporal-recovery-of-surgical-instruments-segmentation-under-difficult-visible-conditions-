@@ -122,7 +122,8 @@ def fig6():
     ax.set_title("(b) gate" if k else "", loc="left")
     ax.legend(loc="upper left")
     notes.append(f"{'(b) ' if k else ''}the gate's score against the instrument IoU actually achieved, in 10 equal-count bins of the {len(s)} test frames; the gate is trained to regress this IoU and was not tuned on test. "
-                 f"Mean score {s.mean():.3f} against mean achieved {y.mean():.3f}: the gate over-predicts on the test sequences, most at its highest scores")
+                 f"Mean score {s.mean():.3f} against mean achieved {y.mean():.3f}: the gate over-predicts on the test sequences in {sum(1 for a_, b_ in zip(mx, my) if a_ > b_)} of {len(mx)} bins (all but the lowest-scoring), "
+                 "so its ranking can be used but its absolute values cannot be read as IoU")
     cap = "Calibration. " + ". ".join(n[0].upper() + n[1:] for n in notes) + ". " + ("" if have_pix else "The segmenter's pixel reliability before and after temperature scaling is not drawn here: results/paper/calibration_pixels.json does not exist yet (tools/calibration_pixels.py needs the GPU). ") + f"Sources: {csvp}" + (f", {pix}." if have_pix else ".")
     save(fig, PF_OUT, "fig06_reliability", "Reliability: segmenter before and after temperature scaling, and the gate", cap, [csvp] + ([pix] if have_pix else []))
 

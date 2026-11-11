@@ -1,0 +1,53 @@
+{
+ "description": "\nOne finding, two symptoms: the production gate's ABSOLUTE scores are optimistic on the test sequences while its RANKING is usable.\n\n    python -m tools.gate_calibration_offset --out results/paper/gate_calibration_offset.json\n\nReads only stored outputs. Reports (a) mean gate score against mean achieved instrument IoU, out of fold (2235 training frames) and on test (997 frames); (b) the conformal budget (0.05) against the\nrisk met on test (results/web_extract/stage2_gate.json); (c) the gate's AUROC on the official-IoU risk and on its own instrument-IoU label (results/taskC/failure_detection.json).\nIt also states, in the output, what is and is not established: the two symptoms are consistent with a single cause (the gate was fitted on out-of-fold training sequences whose achieved IoU is higher than\nthe test sequences'), which has NOT been tested; a calibration shift of this kind does not affect the ranking much, and the ranking is what the threshold relies on only approximately.\n",
+ "groups": {
+  "oof": {
+   "n_frames": 2235,
+   "mean_gate_score": 0.6052062948553154,
+   "mean_achieved_instrument_iou": 0.6249001622200012,
+   "offset_score_minus_achieved": -0.019693867364685813
+  },
+  "test": {
+   "n_frames": 997,
+   "mean_gate_score": 0.648117353110747,
+   "mean_achieved_instrument_iou": 0.5606715083122253,
+   "offset_score_minus_achieved": 0.08744584479852169
+  }
+ },
+ "test_decile_offsets_score_minus_achieved": [
+  -0.07893560760000003,
+  0.173213089,
+  0.10874006060606062,
+  0.10723655099999985,
+  0.09084191919191886,
+  0.07354599999999989,
+  0.11048397999999993,
+  0.091316888888889,
+  0.10338767999999998,
+  0.09491424999999976
+ ],
+ "conformal": {
+  "budget_alpha": 0.05,
+  "risk_met_on_selection_out_of_fold": 0.04832214765100671,
+  "risk_on_test": 0.07723169508525576
+ },
+ "ranking": {
+  "oof": {
+   "auroc_official_risk": 0.7403754236551664,
+   "auroc_official_risk_ci95": [
+    0.6181768789009732,
+    0.8214026976193687
+   ],
+   "auroc_own_label": 0.7879724563732625
+  },
+  "test": {
+   "auroc_official_risk": 0.770947639368692,
+   "auroc_official_risk_ci95": [
+    0.4488638195004029,
+    0.928133517150245
+   ],
+   "auroc_own_label": 0.8437085137085137
+  }
+ },
+ "interpretation": "Ranking is moderate and absolute values are not trustworthy: on test the mean score exceeds the mean achieved instrument IoU, out of fold it does not, and the conformal budget met out of fold is missed on test. The two symptoms are CONSISTENT with one cause (the test sequences are harder than the out-of-fold training sequences the gate and the threshold were fitted on); that cause was not tested here."
+}
