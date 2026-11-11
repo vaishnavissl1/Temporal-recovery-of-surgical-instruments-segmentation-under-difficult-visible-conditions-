@@ -1,0 +1,690 @@
+{
+ "test_per_class": {
+  "instrument-shaft": {
+   "pooled_iou": 0.8589866873510685,
+   "n_frames": 843,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.8423975194881961,
+     "n_frames": 244
+    },
+    "test/seq_2": {
+     "iou": 0.9018075869827226,
+     "n_frames": 247
+    },
+    "test/seq_3": {
+     "iou": 0.915886948177953,
+     "n_frames": 243
+    },
+    "test/seq_4": {
+     "iou": 0.6722365164206957,
+     "n_frames": 109
+    }
+   }
+  },
+  "instrument-clasper": {
+   "pooled_iou": 0.5659546136424703,
+   "n_frames": 875,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.5986639363342898,
+     "n_frames": 250
+    },
+    "test/seq_2": {
+     "iou": 0.5015953203401383,
+     "n_frames": 248
+    },
+    "test/seq_3": {
+     "iou": 0.6553989233873235,
+     "n_frames": 246
+    },
+    "test/seq_4": {
+     "iou": 0.45740861264086446,
+     "n_frames": 131
+    }
+   }
+  },
+  "instrument-wrist": {
+   "pooled_iou": 0.6304527192946651,
+   "n_frames": 822,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.7247923792884232,
+     "n_frames": 247
+    },
+    "test/seq_2": {
+     "iou": 0.5033200489316834,
+     "n_frames": 223
+    },
+    "test/seq_3": {
+     "iou": 0.7437198196157445,
+     "n_frames": 232
+    },
+    "test/seq_4": {
+     "iou": 0.4535420709446336,
+     "n_frames": 120
+    }
+   }
+  },
+  "kidney-parenchyma": {
+   "pooled_iou": 0.644971706316153,
+   "n_frames": 949,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.8520475420264357,
+     "n_frames": 226
+    },
+    "test/seq_2": {
+     "iou": 0.6403313413543139,
+     "n_frames": 247
+    },
+    "test/seq_3": {
+     "iou": 0.9097890934176496,
+     "n_frames": 249
+    },
+    "test/seq_4": {
+     "iou": 0.15337479832838935,
+     "n_frames": 227
+    }
+   }
+  },
+  "covered-kidney": {
+   "pooled_iou": 0.4014660303652539,
+   "n_frames": 484,
+   "per_sequence": {
+    "test/seq_1": null,
+    "test/seq_2": {
+     "iou": 0.36090856345552974,
+     "n_frames": 248
+    },
+    "test/seq_3": null,
+    "test/seq_4": {
+     "iou": 0.4440857413551334,
+     "n_frames": 236
+    }
+   }
+  },
+  "thread": {
+   "pooled_iou": 0.43023771373574476,
+   "n_frames": 102,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.43023771373574476,
+     "n_frames": 102
+    },
+    "test/seq_2": null,
+    "test/seq_3": null,
+    "test/seq_4": null
+   }
+  },
+  "clamps": {
+   "pooled_iou": 0.6529880497393477,
+   "n_frames": 69,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.6529880497393477,
+     "n_frames": 69
+    },
+    "test/seq_2": null,
+    "test/seq_3": null,
+    "test/seq_4": null
+   }
+  },
+  "suturing-needle": {
+   "pooled_iou": 0.0,
+   "n_frames": 95,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "test/seq_2": null,
+    "test/seq_3": null,
+    "test/seq_4": null
+   }
+  },
+  "suction-instrument": {
+   "pooled_iou": null,
+   "n_frames": 0,
+   "per_sequence": {
+    "test/seq_1": null,
+    "test/seq_2": null,
+    "test/seq_3": null,
+    "test/seq_4": null
+   }
+  },
+  "intestine": {
+   "pooled_iou": 0.46350677645713423,
+   "n_frames": 225,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.26307107920164846,
+     "n_frames": 17
+    },
+    "test/seq_2": {
+     "iou": 0.1653486607198713,
+     "n_frames": 67
+    },
+    "test/seq_3": {
+     "iou": 0.6533152003171868,
+     "n_frames": 13
+    },
+    "test/seq_4": {
+     "iou": 0.6269168631568154,
+     "n_frames": 128
+    }
+   }
+  },
+  "ultrasound-probe": {
+   "pooled_iou": 0.30742019628428585,
+   "n_frames": 152,
+   "per_sequence": {
+    "test/seq_1": {
+     "iou": 0.446429606914406,
+     "n_frames": 57
+    },
+    "test/seq_2": null,
+    "test/seq_3": null,
+    "test/seq_4": {
+     "iou": 0.22401454990621378,
+     "n_frames": 95
+    }
+   }
+  }
+ },
+ "test_active_classes": [
+  "instrument-shaft",
+  "instrument-clasper",
+  "instrument-wrist",
+  "kidney-parenchyma",
+  "covered-kidney",
+  "thread",
+  "clamps",
+  "suturing-needle",
+  "intestine",
+  "ultrasound-probe"
+ ],
+ "test_classes_with_no_ground_truth_pixels": [
+  "suction-instrument"
+ ],
+ "test_per_sequence": {
+  "test/seq_1": {
+   "mIoU": 0.6680777300650582,
+   "n_frames": 250,
+   "mcIoU": 0.5345142029698323,
+   "n_classes_scored": 9
+  },
+  "test/seq_2": {
+   "mIoU": 0.5638007768622715,
+   "n_frames": 249,
+   "mcIoU": 0.5122185869640431,
+   "n_classes_scored": 6
+  },
+  "test/seq_3": {
+   "mIoU": 0.8059832063891263,
+   "n_frames": 249,
+   "mcIoU": 0.7756219969831715,
+   "n_classes_scored": 5
+  },
+  "test/seq_4": {
+   "mIoU": 0.4132069633404397,
+   "n_frames": 249,
+   "mcIoU": 0.4330827361075351,
+   "n_classes_scored": 7
+  }
+ },
+ "test_pooled": {
+  "mIoU": 0.6128226461561004,
+  "mcIoU": 0.4955984493186123,
+  "n_classes_scored": 10
+ },
+ "test_seq4_vs_others": [
+  {
+   "cls": "kidney-parenchyma",
+   "seq4_iou": 0.15337479832838935,
+   "seq4_frames": 227,
+   "others_iou": 0.7995319530103666,
+   "others_frames": 722,
+   "drop": 0.6461571546819773
+  },
+  {
+   "cls": "ultrasound-probe",
+   "seq4_iou": 0.22401454990621378,
+   "seq4_frames": 95,
+   "others_iou": 0.446429606914406,
+   "others_frames": 57,
+   "drop": 0.2224150570081922
+  },
+  {
+   "cls": "instrument-shaft",
+   "seq4_iou": 0.6722365164206957,
+   "seq4_frames": 109,
+   "others_iou": 0.8867193421622547,
+   "others_frames": 734,
+   "drop": 0.21448282574155897
+  },
+  {
+   "cls": "instrument-wrist",
+   "seq4_iou": 0.4535420709446336,
+   "seq4_frames": 120,
+   "others_iou": 0.6606938557647559,
+   "others_frames": 702,
+   "drop": 0.2071517848201223
+  },
+  {
+   "cls": "instrument-clasper",
+   "seq4_iou": 0.45740861264086446,
+   "seq4_frames": 131,
+   "others_iou": 0.5850668799478607,
+   "others_frames": 744,
+   "drop": 0.1276582673069962
+  },
+  {
+   "cls": "covered-kidney",
+   "seq4_iou": 0.4440857413551334,
+   "seq4_frames": 236,
+   "others_iou": 0.36090856345552974,
+   "others_frames": 248,
+   "drop": -0.08317717789960366
+  },
+  {
+   "cls": "intestine",
+   "seq4_iou": 0.6269168631568154,
+   "seq4_frames": 128,
+   "others_iou": 0.2478728476163179,
+   "others_frames": 97,
+   "drop": -0.3790440155404975
+  }
+ ],
+ "rigs": {
+  "tolerance": 0.05,
+  "max_within_group_parameter_difference": 0.009999999999990905,
+  "min_between_group_parameter_difference": 12.080000000000155,
+  "n_distinct_calibration_files": 7,
+  "calibration_file_md5_per_sequence": {
+   "train/seq_1": "78eddeef",
+   "train/seq_2": "78eddeef",
+   "train/seq_3": "78eddeef",
+   "train/seq_4": "78eddeef",
+   "train/seq_5": "b0ba60fb",
+   "train/seq_6": "78eddeef",
+   "train/seq_7": "78eddeef",
+   "train/seq_9": "59c45687",
+   "train/seq_10": "59c45687",
+   "train/seq_11": "59c45687",
+   "train/seq_12": "59c45687",
+   "train/seq_13": "75dbef27",
+   "train/seq_14": "db627c2e",
+   "train/seq_15": "75dbef27",
+   "train/seq_16": "75dbef27",
+   "test/seq_1": "3c59824a",
+   "test/seq_2": "3c59824a",
+   "test/seq_3": "3c59824a",
+   "test/seq_4": "52c654a2"
+  },
+  "n_rigs": 5,
+  "n_rigs_with_a_training_sequence": 5,
+  "groups": {
+   "A": [
+    "train/seq_1",
+    "train/seq_2",
+    "train/seq_3",
+    "train/seq_4",
+    "train/seq_6",
+    "train/seq_7"
+   ],
+   "B": [
+    "train/seq_5"
+   ],
+   "C": [
+    "test/seq_1",
+    "test/seq_2",
+    "test/seq_3",
+    "train/seq_10",
+    "train/seq_11",
+    "train/seq_12",
+    "train/seq_9"
+   ],
+   "D": [
+    "test/seq_4",
+    "train/seq_13",
+    "train/seq_15",
+    "train/seq_16"
+   ],
+   "E": [
+    "train/seq_14"
+   ]
+  },
+  "train_groups": {
+   "A": [
+    "train/seq_1",
+    "train/seq_2",
+    "train/seq_3",
+    "train/seq_4",
+    "train/seq_6",
+    "train/seq_7"
+   ],
+   "B": [
+    "train/seq_5"
+   ],
+   "C": [
+    "train/seq_10",
+    "train/seq_11",
+    "train/seq_12",
+    "train/seq_9"
+   ],
+   "D": [
+    "train/seq_13",
+    "train/seq_15",
+    "train/seq_16"
+   ],
+   "E": [
+    "train/seq_14"
+   ]
+  },
+  "test_sequence_rig": {
+   "test/seq_1": {
+    "rig": "C",
+    "training_sequences_on_the_same_rig": [
+     "train/seq_10",
+     "train/seq_11",
+     "train/seq_12",
+     "train/seq_9"
+    ]
+   },
+   "test/seq_2": {
+    "rig": "C",
+    "training_sequences_on_the_same_rig": [
+     "train/seq_10",
+     "train/seq_11",
+     "train/seq_12",
+     "train/seq_9"
+    ]
+   },
+   "test/seq_3": {
+    "rig": "C",
+    "training_sequences_on_the_same_rig": [
+     "train/seq_10",
+     "train/seq_11",
+     "train/seq_12",
+     "train/seq_9"
+    ]
+   },
+   "test/seq_4": {
+    "rig": "D",
+    "training_sequences_on_the_same_rig": [
+     "train/seq_13",
+     "train/seq_15",
+     "train/seq_16"
+    ]
+   }
+  },
+  "train_frames_per_class_per_sequence": {
+   "train/seq_1": {
+    "instrument-shaft": 144,
+    "instrument-clasper": 149,
+    "instrument-wrist": 97,
+    "kidney-parenchyma": 149,
+    "covered-kidney": 0,
+    "thread": 141,
+    "clamps": 142,
+    "suturing-needle": 1,
+    "suction-instrument": 28,
+    "intestine": 48,
+    "ultrasound-probe": 0
+   },
+   "train/seq_2": {
+    "instrument-shaft": 137,
+    "instrument-clasper": 135,
+    "instrument-wrist": 135,
+    "kidney-parenchyma": 149,
+    "covered-kidney": 0,
+    "thread": 147,
+    "clamps": 51,
+    "suturing-needle": 0,
+    "suction-instrument": 0,
+    "intestine": 46,
+    "ultrasound-probe": 0
+   },
+   "train/seq_3": {
+    "instrument-shaft": 147,
+    "instrument-clasper": 142,
+    "instrument-wrist": 92,
+    "kidney-parenchyma": 133,
+    "covered-kidney": 71,
+    "thread": 0,
+    "clamps": 0,
+    "suturing-needle": 0,
+    "suction-instrument": 13,
+    "intestine": 146,
+    "ultrasound-probe": 0
+   },
+   "train/seq_4": {
+    "instrument-shaft": 148,
+    "instrument-clasper": 149,
+    "instrument-wrist": 141,
+    "kidney-parenchyma": 149,
+    "covered-kidney": 0,
+    "thread": 122,
+    "clamps": 6,
+    "suturing-needle": 11,
+    "suction-instrument": 81,
+    "intestine": 13,
+    "ultrasound-probe": 0
+   },
+   "train/seq_5": {
+    "instrument-shaft": 137,
+    "instrument-clasper": 149,
+    "instrument-wrist": 136,
+    "kidney-parenchyma": 149,
+    "covered-kidney": 0,
+    "thread": 25,
+    "clamps": 25,
+    "suturing-needle": 0,
+    "suction-instrument": 85,
+    "intestine": 0,
+    "ultrasound-probe": 20
+   },
+   "train/seq_6": {
+    "instrument-shaft": 146,
+    "instrument-clasper": 149,
+    "instrument-wrist": 121,
+    "kidney-parenchyma": 0,
+    "covered-kidney": 129,
+    "thread": 0,
+    "clamps": 0,
+    "suturing-needle": 0,
+    "suction-instrument": 22,
+    "intestine": 146,
+    "ultrasound-probe": 0
+   },
+   "train/seq_7": {
+    "instrument-shaft": 95,
+    "instrument-clasper": 149,
+    "instrument-wrist": 120,
+    "kidney-parenchyma": 149,
+    "covered-kidney": 0,
+    "thread": 149,
+    "clamps": 146,
+    "suturing-needle": 0,
+    "suction-instrument": 37,
+    "intestine": 27,
+    "ultrasound-probe": 0
+   },
+   "train/seq_9": {
+    "instrument-shaft": 130,
+    "instrument-clasper": 139,
+    "instrument-wrist": 101,
+    "kidney-parenchyma": 0,
+    "covered-kidney": 149,
+    "thread": 0,
+    "clamps": 1,
+    "suturing-needle": 0,
+    "suction-instrument": 3,
+    "intestine": 0,
+    "ultrasound-probe": 0
+   },
+   "train/seq_10": {
+    "instrument-shaft": 140,
+    "instrument-clasper": 149,
+    "instrument-wrist": 118,
+    "kidney-parenchyma": 118,
+    "covered-kidney": 149,
+    "thread": 0,
+    "clamps": 0,
+    "suturing-needle": 0,
+    "suction-instrument": 0,
+    "intestine": 0,
+    "ultrasound-probe": 0
+   },
+   "train/seq_11": {
+    "instrument-shaft": 133,
+    "instrument-clasper": 141,
+    "instrument-wrist": 84,
+    "kidney-parenchyma": 81,
+    "covered-kidney": 149,
+    "thread": 0,
+    "clamps": 0,
+    "suturing-needle": 0,
+    "suction-instrument": 0,
+    "intestine": 57,
+    "ultrasound-probe": 0
+   },
+   "train/seq_12": {
+    "instrument-shaft": 135,
+    "instrument-clasper": 148,
+    "instrument-wrist": 94,
+    "kidney-parenchyma": 149,
+    "covered-kidney": 149,
+    "thread": 0,
+    "clamps": 1,
+    "suturing-needle": 0,
+    "suction-instrument": 0,
+    "intestine": 0,
+    "ultrasound-probe": 0
+   },
+   "train/seq_13": {
+    "instrument-shaft": 149,
+    "instrument-clasper": 149,
+    "instrument-wrist": 149,
+    "kidney-parenchyma": 0,
+    "covered-kidney": 149,
+    "thread": 0,
+    "clamps": 0,
+    "suturing-needle": 0,
+    "suction-instrument": 0,
+    "intestine": 149,
+    "ultrasound-probe": 0
+   },
+   "train/seq_14": {
+    "instrument-shaft": 146,
+    "instrument-clasper": 149,
+    "instrument-wrist": 148,
+    "kidney-parenchyma": 0,
+    "covered-kidney": 148,
+    "thread": 0,
+    "clamps": 0,
+    "suturing-needle": 0,
+    "suction-instrument": 0,
+    "intestine": 130,
+    "ultrasound-probe": 136
+   },
+   "train/seq_15": {
+    "instrument-shaft": 148,
+    "instrument-clasper": 149,
+    "instrument-wrist": 68,
+    "kidney-parenchyma": 21,
+    "covered-kidney": 149,
+    "thread": 42,
+    "clamps": 0,
+    "suturing-needle": 0,
+    "suction-instrument": 0,
+    "intestine": 144,
+    "ultrasound-probe": 0
+   },
+   "train/seq_16": {
+    "instrument-shaft": 142,
+    "instrument-clasper": 148,
+    "instrument-wrist": 41,
+    "kidney-parenchyma": 149,
+    "covered-kidney": 149,
+    "thread": 23,
+    "clamps": 0,
+    "suturing-needle": 0,
+    "suction-instrument": 0,
+    "intestine": 109,
+    "ultrasound-probe": 0
+   }
+  }
+ },
+ "leave_one_rig_out": {
+  "A": {
+   "held_out_sequences": [
+    "train/seq_1",
+    "train/seq_2",
+    "train/seq_3",
+    "train/seq_4",
+    "train/seq_6",
+    "train/seq_7"
+   ],
+   "training_sequences_left": 9,
+   "classes_with_zero_training_frames": [
+    "suturing-needle"
+   ],
+   "classes_in_held_out_rig_but_not_elsewhere": [
+    "suturing-needle"
+   ],
+   "classes_below_20_training_frames": []
+  },
+  "B": {
+   "held_out_sequences": [
+    "train/seq_5"
+   ],
+   "training_sequences_left": 14,
+   "classes_with_zero_training_frames": [],
+   "classes_in_held_out_rig_but_not_elsewhere": [],
+   "classes_below_20_training_frames": [
+    "suturing-needle"
+   ]
+  },
+  "C": {
+   "held_out_sequences": [
+    "train/seq_10",
+    "train/seq_11",
+    "train/seq_12",
+    "train/seq_9"
+   ],
+   "training_sequences_left": 11,
+   "classes_with_zero_training_frames": [],
+   "classes_in_held_out_rig_but_not_elsewhere": [],
+   "classes_below_20_training_frames": [
+    "suturing-needle"
+   ]
+  },
+  "D": {
+   "held_out_sequences": [
+    "train/seq_13",
+    "train/seq_15",
+    "train/seq_16"
+   ],
+   "training_sequences_left": 12,
+   "classes_with_zero_training_frames": [],
+   "classes_in_held_out_rig_but_not_elsewhere": [],
+   "classes_below_20_training_frames": [
+    "suturing-needle"
+   ]
+  },
+  "E": {
+   "held_out_sequences": [
+    "train/seq_14"
+   ],
+   "training_sequences_left": 14,
+   "classes_with_zero_training_frames": [],
+   "classes_in_held_out_rig_but_not_elsewhere": [],
+   "classes_below_20_training_frames": [
+    "suturing-needle"
+   ]
+  }
+ },
+ "leave_one_rig_out_feasible": false
+}
