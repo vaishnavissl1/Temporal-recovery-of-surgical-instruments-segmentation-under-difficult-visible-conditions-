@@ -36,6 +36,7 @@ TE, TF, TFS, TFC, TFA = "results/taskE/tta_ensemble.json", "results/taskF/mciou_
 TG, TH, TI, TJ, TK, TL, TQ = ("results/taskG/information_bound.json", "results/taskH/occlusion_localisation.json", "results/taskI/metric_ablation.json", "results/taskJ/per_class_and_rigs.json",
                               "results/taskK/consecutive_frame_iou.json", "results/taskL/label_noise_summary.json", "results/taskQ/identity_headroom.json")
 TP = "results/taskP/baselines.json"
+ZS, CALP, GCO = "results/taskP3/endovis17_zeroshot.json", "results/paper/calibration_pixels.json", "results/paper/gate_calibration_offset.json"
 GB, S2, T5 = "results/task4/gate_comparison_gbm.json", "results/web_extract/stage2_gate.json", "results/task5/selector_results.json"
 DET = lambda g, n, k: ["groups", g, "detectors", n, k]  # noqa: E731
 
@@ -147,6 +148,37 @@ SPEC = [
     ("QMiouPts", TQ, ["ceiling_all_instrument_classes", "mIoU_points_over_M6"], "{:+.2f}", 1), ("QMcPts", TQ, ["ceiling_all_instrument_classes", "mcIoU_points_over_M6"], "{:+.2f}", 1),
     ("QWristToClasp", TQ, ["clasper_wrist", "gt_wrist_pixels_predicted_clasper"], "{:.1f}", 100), ("QNeedleCeil", TQ, ["ceiling_all_instrument_classes", "per_class", "suturing-needle"], "{:.3f}", 1),
     ("QFrames", TQ, ["ceiling_frames_with_any_relabelled_pixel_pct"], "{:.0f}", 1),
+    # ---- Task P.1 baselines (index 0 = ours, 1 = SegFormer-B0, 2 = U-Net; DeepLabV3+ did not finish)
+    ("BlOursMiou", TP, ["models", 0, "mIoU"], "{:.3f}", 1), ("BlOursMc", TP, ["models", 0, "mcIoU"], "{:.3f}", 1), ("BlOursParams", TP, ["models", 0, "params_millions"], "{:.1f}", 1),
+    ("BlOursMs", TP, ["models", 0, "ms_per_frame"], "{:.0f}", 1), ("BlOursGflops", TP, ["models", 0, "gflops"], "{:.0f}", 1),
+    ("BlSegMiou", TP, ["models", 1, "mIoU"], "{:.3f}", 1), ("BlSegMc", TP, ["models", 1, "mcIoU"], "{:.3f}", 1), ("BlSegParams", TP, ["models", 1, "params_millions"], "{:.1f}", 1),
+    ("BlSegMs", TP, ["models", 1, "ms_per_frame"], "{:.0f}", 1), ("BlSegGflops", TP, ["models", 1, "gflops"], "{:.0f}", 1),
+    ("BlSegDiff", TP, ["models", 1, "difference_from_ours_mIoU_points"], "{:+.1f}", 1), ("BlSegLo", TP, ["models", 1, "difference_from_ours_ci95_points", 0], "{:+.1f}", 1),
+    ("BlSegHi", TP, ["models", 1, "difference_from_ours_ci95_points", 1], "{:+.1f}", 1),
+    ("BlUnetMiou", TP, ["models", 2, "mIoU"], "{:.3f}", 1), ("BlUnetMc", TP, ["models", 2, "mcIoU"], "{:.3f}", 1), ("BlUnetParams", TP, ["models", 2, "params_millions"], "{:.1f}", 1),
+    ("BlUnetMs", TP, ["models", 2, "ms_per_frame"], "{:.0f}", 1), ("BlUnetGflops", TP, ["models", 2, "gflops"], "{:.0f}", 1),
+    ("BlUnetDiff", TP, ["models", 2, "difference_from_ours_mIoU_points"], "{:+.1f}", 1), ("BlUnetLo", TP, ["models", 2, "difference_from_ours_ci95_points", 0], "{:+.1f}", 1),
+    ("BlUnetHi", TP, ["models", 2, "difference_from_ours_ci95_points", 1], "{:+.1f}", 1),
+    # ---- Task P.3 B: EndoVis 2017 zero-shot (binary instrument versus background) and its 2018-test reference under the same mapping
+    ("ZsFrames", ZS, ["endovis2017", "detectors", "_n_frames"], "{:d}", 1), ("ZsSeqs", ZS, ["endovis2017", "detectors", "_n_sequences"], "{:d}", 1),
+    ("ZsIou", ZS, ["endovis2017", "segmentation", "mean_binary_iou"], "{:.3f}", 1), ("ZsIouRef", ZS, ["endovis2018_reference", "segmentation", "mean_binary_iou"], "{:.3f}", 1),
+    ("ZsBelow", ZS, ["endovis2017", "segmentation", "frac_below_0_5"], "{:.1f}", 100), ("ZsBelowRef", ZS, ["endovis2018_reference", "segmentation", "frac_below_0_5"], "{:.1f}", 100),
+    ("ZsFlagged", ZS, ["endovis2017", "flagged_pct"], "{:.1f}", 1), ("ZsFlaggedRef", ZS, ["endovis2018_reference", "flagged_pct"], "{:.1f}", 1),
+    ("ZsEmptyRef", ZS, ["endovis2018_reference", "segmentation", "frames_with_no_gt_instrument_pct"], "{:.1f}", 1),
+    ("ZsGateAuroc", ZS, ["endovis2017", "detectors", "r", "auroc"], "{:.3f}", 1), ("ZsGateAurocLo", ZS, ["endovis2017", "detectors", "r", "auroc_ci95", 0], "{:.3f}", 1),
+    ("ZsGateAurocHi", ZS, ["endovis2017", "detectors", "r", "auroc_ci95", 1], "{:.3f}", 1), ("ZsGateAurc", ZS, ["endovis2017", "detectors", "r", "aurc"], "{:.4f}", 1),
+    ("ZsMsAuroc", ZS, ["endovis2017", "detectors", "q", "auroc"], "{:.3f}", 1), ("ZsMsAurc", ZS, ["endovis2017", "detectors", "q", "aurc"], "{:.4f}", 1),
+    ("ZsEntAuroc", ZS, ["endovis2017", "detectors", "ent", "auroc"], "{:.3f}", 1), ("ZsEntAurc", ZS, ["endovis2017", "detectors", "ent", "aurc"], "{:.4f}", 1),
+    ("ZsAurcFloor", ZS, ["endovis2017", "detectors", "_aurc_floor"], "{:.4f}", 1), ("ZsAurcRandom", ZS, ["endovis2017", "detectors", "_aurc_random"], "{:.4f}", 1),
+    ("ZsGateAurcLo", ZS, ["endovis2017", "detectors", "r", "aurc_ci95", 0], "{:.4f}", 1), ("ZsGateAurcHi", ZS, ["endovis2017", "detectors", "r", "aurc_ci95", 1], "{:.4f}", 1),
+    ("ZsMsAurcLo", ZS, ["endovis2017", "detectors", "q", "aurc_ci95", 0], "{:.4f}", 1), ("ZsMsAurcHi", ZS, ["endovis2017", "detectors", "q", "aurc_ci95", 1], "{:.4f}", 1),
+    ("ZsSeqLow", ZS, ["endovis2017", "segmentation", "per_sequence", "val1"], "{:.3f}", 1), ("ZsSeqHigh", ZS, ["endovis2017", "segmentation", "per_sequence", "val10"], "{:.3f}", 1),
+    # ---- calibration (figure 6) and the gate's optimism
+    ("CalEceBefore", CALP, ["before", "ece"], "{:.3f}", 1), ("CalEceAfter", CALP, ["after", "ece"], "{:.3f}", 1), ("CalTemp", CALP, ["temperature_stored"], "{:.2f}", 1),
+    ("CalConfAfter", CALP, ["after", "mean_confidence"], "{:.3f}", 1), ("CalAcc", CALP, ["after", "pixel_accuracy"], "{:.3f}", 1),
+    ("GateScoreTest", GCO, ["groups", "test", "mean_gate_score"], "{:.3f}", 1), ("GateAchTest", GCO, ["groups", "test", "mean_achieved_instrument_iou"], "{:.3f}", 1),
+    ("GateOffTest", GCO, ["groups", "test", "offset_score_minus_achieved"], "{:+.3f}", 1), ("GateOffOof", GCO, ["groups", "oof", "offset_score_minus_achieved"], "{:+.3f}", 1),
+    ("GateAurocOwnTest", GCO, ["ranking", "test", "auroc_own_label"], "{:.3f}", 1), ("GateAurocOwnOof", GCO, ["ranking", "oof", "auroc_own_label"], "{:.3f}", 1),
 ]
 
 

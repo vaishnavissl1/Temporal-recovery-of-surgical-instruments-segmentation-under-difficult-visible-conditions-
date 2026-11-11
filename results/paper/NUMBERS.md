@@ -83,17 +83,53 @@ Every number placed in a table by `tools/paper_tables.py`, with the file and key
 | policy | always-fuse (EVERY frame) official | +0.0010 | results/taskB/policy_table.json | `always-fuse (EVERY frame).official_all_frames` |
 | policy | always-fuse (EVERY frame) harmful | 1.1 | results/taskB/policy_table.json | `always-fuse (EVERY frame).harmful_pct_of_corrected` |
 | perclass | instrument-shaft ours | 0.859 | results/taskJ/per_class_and_rigs.json | `test_per_class.instrument-shaft.pooled_iou` |
+| perclass | instrument-shaft Ours: CAFormer-S18 + FPN | 0.859 | results/taskP/baselines.json | `per_class.instrument-shaft.iou` |
+| perclass | instrument-shaft SegFormer-B0 | 0.809 | results/taskP/baselines.json | `per_class.instrument-shaft.iou` |
+| perclass | instrument-shaft U-Net (classic, from scratch) | 0.739 | results/taskP/baselines.json | `per_class.instrument-shaft.iou` |
 | perclass | instrument-clasper ours | 0.566 | results/taskJ/per_class_and_rigs.json | `test_per_class.instrument-clasper.pooled_iou` |
+| perclass | instrument-clasper Ours: CAFormer-S18 + FPN | 0.566 | results/taskP/baselines.json | `per_class.instrument-clasper.iou` |
+| perclass | instrument-clasper SegFormer-B0 | 0.512 | results/taskP/baselines.json | `per_class.instrument-clasper.iou` |
+| perclass | instrument-clasper U-Net (classic, from scratch) | 0.386 | results/taskP/baselines.json | `per_class.instrument-clasper.iou` |
 | perclass | instrument-wrist ours | 0.630 | results/taskJ/per_class_and_rigs.json | `test_per_class.instrument-wrist.pooled_iou` |
+| perclass | instrument-wrist Ours: CAFormer-S18 + FPN | 0.630 | results/taskP/baselines.json | `per_class.instrument-wrist.iou` |
+| perclass | instrument-wrist SegFormer-B0 | 0.506 | results/taskP/baselines.json | `per_class.instrument-wrist.iou` |
+| perclass | instrument-wrist U-Net (classic, from scratch) | 0.404 | results/taskP/baselines.json | `per_class.instrument-wrist.iou` |
 | perclass | kidney-parenchyma ours | 0.645 | results/taskJ/per_class_and_rigs.json | `test_per_class.kidney-parenchyma.pooled_iou` |
+| perclass | kidney-parenchyma Ours: CAFormer-S18 + FPN | 0.645 | results/taskP/baselines.json | `per_class.kidney-parenchyma.iou` |
+| perclass | kidney-parenchyma SegFormer-B0 | 0.555 | results/taskP/baselines.json | `per_class.kidney-parenchyma.iou` |
+| perclass | kidney-parenchyma U-Net (classic, from scratch) | 0.384 | results/taskP/baselines.json | `per_class.kidney-parenchyma.iou` |
 | perclass | covered-kidney ours | 0.401 | results/taskJ/per_class_and_rigs.json | `test_per_class.covered-kidney.pooled_iou` |
+| perclass | covered-kidney Ours: CAFormer-S18 + FPN | 0.401 | results/taskP/baselines.json | `per_class.covered-kidney.iou` |
+| perclass | covered-kidney SegFormer-B0 | 0.068 | results/taskP/baselines.json | `per_class.covered-kidney.iou` |
+| perclass | covered-kidney U-Net (classic, from scratch) | 0.083 | results/taskP/baselines.json | `per_class.covered-kidney.iou` |
 | perclass | thread ours | 0.430 | results/taskJ/per_class_and_rigs.json | `test_per_class.thread.pooled_iou` |
+| perclass | thread Ours: CAFormer-S18 + FPN | 0.430 | results/taskP/baselines.json | `per_class.thread.iou` |
+| perclass | thread SegFormer-B0 | 0.099 | results/taskP/baselines.json | `per_class.thread.iou` |
+| perclass | thread U-Net (classic, from scratch) | 0.225 | results/taskP/baselines.json | `per_class.thread.iou` |
 | perclass | clamps ours | 0.653 | results/taskJ/per_class_and_rigs.json | `test_per_class.clamps.pooled_iou` |
+| perclass | clamps Ours: CAFormer-S18 + FPN | 0.653 | results/taskP/baselines.json | `per_class.clamps.iou` |
+| perclass | clamps SegFormer-B0 | 0.611 | results/taskP/baselines.json | `per_class.clamps.iou` |
+| perclass | clamps U-Net (classic, from scratch) | 0.621 | results/taskP/baselines.json | `per_class.clamps.iou` |
 | perclass | suturing-needle ours | 0.000 | results/taskJ/per_class_and_rigs.json | `test_per_class.suturing-needle.pooled_iou` |
+| perclass | suturing-needle Ours: CAFormer-S18 + FPN | 0.000 | results/taskP/baselines.json | `per_class.suturing-needle.iou` |
+| perclass | suturing-needle SegFormer-B0 | 0.000 | results/taskP/baselines.json | `per_class.suturing-needle.iou` |
+| perclass | suturing-needle U-Net (classic, from scratch) | 0.000 | results/taskP/baselines.json | `per_class.suturing-needle.iou` |
 | perclass | intestine ours | 0.464 | results/taskJ/per_class_and_rigs.json | `test_per_class.intestine.pooled_iou` |
+| perclass | intestine Ours: CAFormer-S18 + FPN | 0.463 | results/taskP/baselines.json | `per_class.intestine.iou` |
+| perclass | intestine SegFormer-B0 | 0.392 | results/taskP/baselines.json | `per_class.intestine.iou` |
+| perclass | intestine U-Net (classic, from scratch) | 0.439 | results/taskP/baselines.json | `per_class.intestine.iou` |
 | perclass | ultrasound-probe ours | 0.307 | results/taskJ/per_class_and_rigs.json | `test_per_class.ultrasound-probe.pooled_iou` |
+| perclass | ultrasound-probe Ours: CAFormer-S18 + FPN | 0.308 | results/taskP/baselines.json | `per_class.ultrasound-probe.iou` |
+| perclass | ultrasound-probe SegFormer-B0 | 0.049 | results/taskP/baselines.json | `per_class.ultrasound-probe.iou` |
+| perclass | ultrasound-probe U-Net (classic, from scratch) | 0.103 | results/taskP/baselines.json | `per_class.ultrasound-probe.iou` |
 | perclass | mIoU ours | 0.613 | results/taskJ/per_class_and_rigs.json | `test_pooled.mIoU` |
 | perclass | mcIoU ours | 0.496 | results/taskJ/per_class_and_rigs.json | `test_pooled.mcIoU` |
+| perclass | mIoU Ours: CAFormer-S18 + FPN | 0.613 | results/taskP/baselines.json | `mIoU` |
+| perclass | mcIoU Ours: CAFormer-S18 + FPN | 0.496 | results/taskP/baselines.json | `mcIoU` |
+| perclass | mIoU SegFormer-B0 | 0.492 | results/taskP/baselines.json | `mIoU` |
+| perclass | mcIoU SegFormer-B0 | 0.360 | results/taskP/baselines.json | `mcIoU` |
+| perclass | mIoU U-Net (classic, from scratch) | 0.412 | results/taskP/baselines.json | `mIoU` |
+| perclass | mcIoU U-Net (classic, from scratch) | 0.338 | results/taskP/baselines.json | `mcIoU` |
 | ablation | row 0 mIoU | 0.6128 | results/taskI/metric_ablation.json | `rows.0.mIoU` |
 | ablation | row 0 change | +0.00 | results/taskI/metric_ablation.json | `rows.0.delta_points_vs_reference` |
 | ablation | row 1 mIoU | 0.6452 | results/taskI/metric_ablation.json | `rows.1.mIoU` |
@@ -112,7 +148,27 @@ Every number placed in a table by `tools/paper_tables.py`, with the file and key
 | ablation | row 7 change | +3.27 | results/taskI/metric_ablation.json | `rows.7.delta_points_vs_reference` |
 | ablation | row 8 mIoU | 0.5218 | results/taskI/metric_ablation.json | `rows.8.mIoU` |
 | ablation | row 8 change | -9.11 | results/taskI/metric_ablation.json | `rows.8.delta_points_vs_reference` |
-
-## Not produced
-
-- baseline_comparison: results/taskP/baselines.json does not exist yet
+| baselines | Ours: CAFormer-S18 + FPN mIoU | 0.613 | results/taskP/baselines.json | `models.0.mIoU` |
+| baselines | Ours: CAFormer-S18 + FPN mcIoU | 0.496 | results/taskP/baselines.json | `models.0.mcIoU` |
+| baselines | Ours: CAFormer-S18 + FPN bF1 | 0.424 | results/taskP/baselines.json | `models.0.boundary_f1_instruments` |
+| baselines | Ours: CAFormer-S18 + FPN clDice shaft | 0.901 | results/taskP/baselines.json | `models.0.cldice.shaft` |
+| baselines | Ours: CAFormer-S18 + FPN clDice thread | 0.764 | results/taskP/baselines.json | `models.0.cldice.thread` |
+| baselines | Ours: CAFormer-S18 + FPN params | 25.9 | results/taskP/baselines.json | `models.0.params_millions` |
+| baselines | Ours: CAFormer-S18 + FPN GFLOPs | 153 | results/taskP/baselines.json | `models.0.gflops` |
+| baselines | Ours: CAFormer-S18 + FPN ms | 70 | results/taskP/baselines.json | `models.0.ms_per_frame` |
+| baselines | SegFormer-B0 mIoU | 0.492 | results/taskP/baselines.json | `models.1.mIoU` |
+| baselines | SegFormer-B0 mcIoU | 0.360 | results/taskP/baselines.json | `models.1.mcIoU` |
+| baselines | SegFormer-B0 bF1 | 0.413 | results/taskP/baselines.json | `models.1.boundary_f1_instruments` |
+| baselines | SegFormer-B0 clDice shaft | 0.851 | results/taskP/baselines.json | `models.1.cldice.shaft` |
+| baselines | SegFormer-B0 clDice thread | 0.197 | results/taskP/baselines.json | `models.1.cldice.thread` |
+| baselines | SegFormer-B0 params | 3.7 | results/taskP/baselines.json | `models.1.params_millions` |
+| baselines | SegFormer-B0 GFLOPs | 20 | results/taskP/baselines.json | `models.1.gflops` |
+| baselines | SegFormer-B0 ms | 18 | results/taskP/baselines.json | `models.1.ms_per_frame` |
+| baselines | U-Net (classic, from scratch) mIoU | 0.412 | results/taskP/baselines.json | `models.2.mIoU` |
+| baselines | U-Net (classic, from scratch) mcIoU | 0.338 | results/taskP/baselines.json | `models.2.mcIoU` |
+| baselines | U-Net (classic, from scratch) bF1 | 0.286 | results/taskP/baselines.json | `models.2.boundary_f1_instruments` |
+| baselines | U-Net (classic, from scratch) clDice shaft | 0.754 | results/taskP/baselines.json | `models.2.cldice.shaft` |
+| baselines | U-Net (classic, from scratch) clDice thread | 0.402 | results/taskP/baselines.json | `models.2.cldice.thread` |
+| baselines | U-Net (classic, from scratch) params | 7.8 | results/taskP/baselines.json | `models.2.params_millions` |
+| baselines | U-Net (classic, from scratch) GFLOPs | 121 | results/taskP/baselines.json | `models.2.gflops` |
+| baselines | U-Net (classic, from scratch) ms | 48 | results/taskP/baselines.json | `models.2.ms_per_frame` |

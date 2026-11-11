@@ -26,11 +26,29 @@ Source files: `results/taskC/failure_detection.json`, `work_v2/failure_detection
 
 Source files: `results/taskC/failure_detection.json`, `work_v2/failure_detection/scores`, `results/taskD/gate_scores_*.npz`
 
+## fig03_per_class_baselines
+
+**Per-class IoU, proposed model against baselines.** Per-class IoU on the 997 test frames of the 4 official test sequences under the official rule (a class is scored only on frames where the ground truth contains it), for the proposed model and the baselines trained here under one recipe (Ours (CAFormer-S18), SegFormer-B0, U-Net (scratch)). A class with no ground truth in the test set is not drawn. Thin and rare classes (thread, needle) separate the models least reliably; one training run per model, so differences of a few points are within run-to-run variation. Not shown (training did not finish; see results/taskP/baselines.json): DeepLabV3+ (ResNet-18). Source: results/taskP/baselines.json.
+
+Source files: `results/taskP/baselines.json`
+
+## fig04_per_sequence_baselines
+
+**Per-sequence mIoU by model.** mIoU of each model on each of the 4 official test sequences. The proposed model's per-sequence score ranges from 0.41 to 0.81; the gap between sequences is larger than the gap between models, which is why intervals in this study resample whole sequences. Not shown (training did not finish; see results/taskP/baselines.json): DeepLabV3+ (ResNet-18). Source: results/taskP/baselines.json.
+
+Source files: `results/taskP/baselines.json`
+
 ## fig05_consecutive_frame_iou
 
 **Consecutive-frame ground-truth IoU.** Overlap of the ground-truth instrument masks of consecutive frames in the 15 training sequences (2220 pairs, 1 Hz sampling). Left: distribution, pooled mean 0.323, median 0.272, 76% of pairs below 0.5, against random pairs from the same sequence. Right: per sequence (box = quartiles, whiskers = 1.5 IQR). Source: results/taskK/consecutive_frame_iou.json.
 
 Source files: `results/taskK/consecutive_frame_iou.json`, `results/taskK/pair_scores.npz`
+
+## fig06_reliability
+
+**Reliability: segmenter before and after temperature scaling, and the gate.** Calibration. (a) pixel-level reliability of the segmenter's softmax on 252 test frames (83 M pixels, 15 bins, bins with fewer than 1000 pixels omitted), before and after the stored temperature (T = 2.688, fitted earlier on training data, not on test); ECE 0.137 before and 0.064 after. (b) the gate's score against the instrument IoU actually achieved, in 10 equal-count bins of the 997 test frames; the gate is trained to regress this IoU and was not tuned on test. Mean score 0.648 against mean achieved 0.561: the gate over-predicts on the test sequences in 9 of 10 bins (all but the lowest-scoring), so its ranking can be used but its absolute values cannot be read as IoU. Sources: results/taskC/per_frame_scores.csv, results/paper/calibration_pixels.json.
+
+Source files: `results/taskC/per_frame_scores.csv`, `results/paper/calibration_pixels.json`
 
 ## fig07_action_change_distributions
 

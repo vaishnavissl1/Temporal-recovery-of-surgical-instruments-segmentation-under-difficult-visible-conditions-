@@ -1,0 +1,645 @@
+{
+ "n_frames": 997,
+ "n_sequences": 4,
+ "n_routed": 303,
+ "descriptions": {
+  "M1": "segmentation only",
+  "M2": "+ stereo evidence (A1, every frame)",
+  "M3": "+ temporal only (A2, every frame)",
+  "M4": "stereo-temporal fusion, EVERY frame (LACOSTE-style)",
+  "M5": "+ class-conditioned refinement, every frame",
+  "M6": "selective action choice + abstention (OURS)"
+ },
+ "harm_margin": 0.01,
+ "boundary_tol_px": 3,
+ "models": {
+  "M1": {
+   "mIoU": 0.6128226461561003,
+   "n_scored": 997,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8589866873510685,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5659546136424703,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6304527192946651,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.644971706316153,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4014660303652539,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.43023771373574476,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6529880497393477,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46350677645713423,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30742019628428585,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.4236978791596232,
+   "cldice": {
+    "shaft": 0.9014130967221661,
+    "thread": 0.764227711084227,
+    "needle": 0.0
+   },
+   "activation_pct": 0.0,
+   "n_corrected": 0,
+   "harmful_pct_of_corrected": 0.0,
+   "harmful_pct_of_all": 0.0,
+   "improved_pct_of_corrected": 0.0,
+   "mean_delta_vs_M1_all": 0.0,
+   "mean_delta_vs_M1_when_corrected": 0.0,
+   "aurc_gate": 0.3076040073513815,
+   "by_difficulty_quartile": [
+    {
+     "quartile": 1,
+     "n": 249,
+     "mIoU": 0.5971412571682424,
+     "harmful_pct_of_all": 0.0,
+     "activation_pct": 0.0
+    },
+    {
+     "quartile": 2,
+     "n": 249,
+     "mIoU": 0.6586769959583093,
+     "harmful_pct_of_all": 0.0,
+     "activation_pct": 0.0
+    },
+    {
+     "quartile": 3,
+     "n": 249,
+     "mIoU": 0.6052163453994177,
+     "harmful_pct_of_all": 0.0,
+     "activation_pct": 0.0
+    },
+    {
+     "quartile": 4,
+     "n": 250,
+     "mIoU": 0.5903462527386626,
+     "harmful_pct_of_all": 0.0,
+     "activation_pct": 0.0
+    }
+   ],
+   "per_sequence": {
+    "test/seq_1": 0.6680777300650582,
+    "test/seq_2": 0.5638007768622715,
+    "test/seq_3": 0.8059832063891263,
+    "test/seq_4": 0.4132069633404397
+   }
+  },
+  "M2": {
+   "mIoU": 0.6137499740034681,
+   "n_scored": 997,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8592676571923421,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5668522063984589,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6310269389487042,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6457346872372964,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4052129804979602,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.43042610673526965,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.653737284473995,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46162654083891996,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30803807625941976,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.42832895670154597,
+   "cldice": {
+    "shaft": 0.8971639235378743,
+    "thread": 0.7529683837629514,
+    "needle": 0.0
+   },
+   "activation_pct": 99.89969909729187,
+   "n_corrected": 996,
+   "harmful_pct_of_corrected": 0.9036144578313252,
+   "harmful_pct_of_all": 0.9027081243731194,
+   "improved_pct_of_corrected": 1.706827309236948,
+   "mean_delta_vs_M1_all": 0.0009273278473677146,
+   "mean_delta_vs_M1_when_corrected": 0.0009282588994233047,
+   "aurc_gate": 0.3068501491928616,
+   "by_difficulty_quartile": [
+    {
+     "quartile": 1,
+     "n": 249,
+     "mIoU": 0.5981028155642469,
+     "harmful_pct_of_all": 0.8032128514056224,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 2,
+     "n": 249,
+     "mIoU": 0.6592971763941374,
+     "harmful_pct_of_all": 0.8032128514056224,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 3,
+     "n": 249,
+     "mIoU": 0.6063164368113865,
+     "harmful_pct_of_all": 0.4016064257028112,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 4,
+     "n": 250,
+     "mIoU": 0.5913733332711391,
+     "harmful_pct_of_all": 1.6,
+     "activation_pct": 99.6
+    }
+   ],
+   "per_sequence": {
+    "test/seq_1": 0.6686282699128359,
+    "test/seq_2": 0.5645731422399732,
+    "test/seq_3": 0.8067568429963389,
+    "test/seq_4": 0.4148212461020361
+   }
+  },
+  "M3": {
+   "mIoU": 0.6128752716839847,
+   "n_scored": 997,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8588564330382313,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5666491246971437,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.630486700280226,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6448867416525396,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4014643530156124,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.4302858063569586,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6539112306030411,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46337760646131315,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30610419404078876,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.4244482277736962,
+   "cldice": {
+    "shaft": 0.9013153263643494,
+    "thread": 0.7628865016525779,
+    "needle": 0.0
+   },
+   "activation_pct": 20.46138415245737,
+   "n_corrected": 204,
+   "harmful_pct_of_corrected": 1.9607843137254901,
+   "harmful_pct_of_all": 0.4012036108324975,
+   "improved_pct_of_corrected": 0.9803921568627451,
+   "mean_delta_vs_M1_all": 5.2625527884409374e-05,
+   "mean_delta_vs_M1_when_corrected": 0.00025719436912135363,
+   "aurc_gate": 0.30758342027351754,
+   "by_difficulty_quartile": [
+    {
+     "quartile": 1,
+     "n": 249,
+     "mIoU": 0.5971950759740452,
+     "harmful_pct_of_all": 0.4016064257028112,
+     "activation_pct": 24.096385542168676
+    },
+    {
+     "quartile": 2,
+     "n": 249,
+     "mIoU": 0.6585001289461415,
+     "harmful_pct_of_all": 0.4016064257028112,
+     "activation_pct": 15.261044176706829
+    },
+    {
+     "quartile": 3,
+     "n": 249,
+     "mIoU": 0.6053196499870815,
+     "harmful_pct_of_all": 0.4016064257028112,
+     "activation_pct": 17.670682730923694
+    },
+    {
+     "quartile": 4,
+     "n": 250,
+     "mIoU": 0.5905757879880921,
+     "harmful_pct_of_all": 0.4,
+     "activation_pct": 24.8
+    }
+   ],
+   "per_sequence": {
+    "test/seq_1": 0.6682732735228833,
+    "test/seq_2": 0.5638022944099957,
+    "test/seq_3": 0.8060597249759824,
+    "test/seq_4": 0.4131433118919816
+   }
+  },
+  "M4": {
+   "mIoU": 0.6137970469100419,
+   "n_scored": 997,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8591414761525532,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5675075337201704,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6310529686189521,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6456576644612171,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.40520925166810307,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.4303937632800769,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6546584976199094,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46150516809046105,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.3067644718509745,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.4289598756570006,
+   "cldice": {
+    "shaft": 0.8970271647695809,
+    "thread": 0.7518001740732191,
+    "needle": 0.0
+   },
+   "activation_pct": 99.89969909729187,
+   "n_corrected": 996,
+   "harmful_pct_of_corrected": 1.2048192771084338,
+   "harmful_pct_of_all": 1.2036108324974923,
+   "improved_pct_of_corrected": 2.4096385542168677,
+   "mean_delta_vs_M1_all": 0.0009744007539415532,
+   "mean_delta_vs_M1_when_corrected": 0.0009753790679515348,
+   "aurc_gate": 0.306831012723285,
+   "by_difficulty_quartile": [
+    {
+     "quartile": 1,
+     "n": 249,
+     "mIoU": 0.5981472249970564,
+     "harmful_pct_of_all": 0.8032128514056224,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 2,
+     "n": 249,
+     "mIoU": 0.6591111148485232,
+     "harmful_pct_of_all": 1.2048192771084338,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 3,
+     "n": 249,
+     "mIoU": 0.606409852978262,
+     "harmful_pct_of_all": 0.8032128514056224,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 4,
+     "n": 250,
+     "mIoU": 0.5916091030247009,
+     "harmful_pct_of_all": 2.0,
+     "activation_pct": 99.6
+    }
+   ],
+   "per_sequence": {
+    "test/seq_1": 0.6688212372706831,
+    "test/seq_2": 0.5645747818779017,
+    "test/seq_3": 0.8068321747077885,
+    "test/seq_4": 0.41473901309961503
+   }
+  },
+  "M5": {
+   "mIoU": 0.6140711046730016,
+   "n_scored": 997,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8587251214958402,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.569541610838337,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6310399242749699,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6459260123974913,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4055005625419304,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.42771025521240474,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6475913639562358,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.4616101480456195,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30657733266991577,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.4273364237665756,
+   "cldice": {
+    "shaft": 0.9037087545889707,
+    "thread": 0.7591116283044833,
+    "needle": 0.0
+   },
+   "activation_pct": 100.0,
+   "n_corrected": 997,
+   "harmful_pct_of_corrected": 1.7051153460381143,
+   "harmful_pct_of_all": 1.7051153460381143,
+   "improved_pct_of_corrected": 3.8114343029087263,
+   "mean_delta_vs_M1_all": 0.0012484585169013586,
+   "mean_delta_vs_M1_when_corrected": 0.0012484585169013586,
+   "aurc_gate": 0.3063484943572759,
+   "by_difficulty_quartile": [
+    {
+     "quartile": 1,
+     "n": 249,
+     "mIoU": 0.598003477853437,
+     "harmful_pct_of_all": 1.6064257028112447,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 2,
+     "n": 249,
+     "mIoU": 0.6598195730158748,
+     "harmful_pct_of_all": 1.2048192771084338,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 3,
+     "n": 249,
+     "mIoU": 0.6065770825803701,
+     "harmful_pct_of_all": 1.6064257028112447,
+     "activation_pct": 100.0
+    },
+    {
+     "quartile": 4,
+     "n": 250,
+     "mIoU": 0.5919730325200478,
+     "harmful_pct_of_all": 2.4,
+     "activation_pct": 100.0
+    }
+   ],
+   "per_sequence": {
+    "test/seq_1": 0.6689931371832819,
+    "test/seq_2": 0.5645729950657614,
+    "test/seq_3": 0.8078819549746863,
+    "test/seq_4": 0.41461576105658926
+   }
+  },
+  "M6": {
+   "mIoU": 0.6127622679648238,
+   "n_scored": 997,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.858578198810158,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5664191304560411,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6305116332125457,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.644578055428234,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.40157264474779647,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.42957818066895764,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6540736130195012,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46372547099950145,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30724350048915217,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.4234202170427243,
+   "cldice": {
+    "shaft": 0.9018950818385484,
+    "thread": 0.7638945351902731,
+    "needle": 0.0
+   },
+   "activation_pct": 25.576730190571716,
+   "n_corrected": 255,
+   "harmful_pct_of_corrected": 2.7450980392156863,
+   "harmful_pct_of_all": 0.7021063189568706,
+   "improved_pct_of_corrected": 0.39215686274509803,
+   "mean_delta_vs_M1_all": -6.037819127666591e-05,
+   "mean_delta_vs_M1_when_corrected": -0.00023606688903072908,
+   "aurc_gate": 0.30759100249560956,
+   "by_difficulty_quartile": [
+    {
+     "quartile": 1,
+     "n": 249,
+     "mIoU": 0.5970460127689291,
+     "harmful_pct_of_all": 0.4016064257028112,
+     "activation_pct": 24.096385542168676
+    },
+    {
+     "quartile": 2,
+     "n": 249,
+     "mIoU": 0.6587691428605343,
+     "harmful_pct_of_all": 0.0,
+     "activation_pct": 14.056224899598394
+    },
+    {
+     "quartile": 3,
+     "n": 249,
+     "mIoU": 0.6048358466251454,
+     "harmful_pct_of_all": 1.6064257028112447,
+     "activation_pct": 24.899598393574294
+    },
+    {
+     "quartile": 4,
+     "n": 250,
+     "mIoU": 0.5904875263981266,
+     "harmful_pct_of_all": 0.8,
+     "activation_pct": 39.2
+    }
+   ],
+   "per_sequence": {
+    "test/seq_1": 0.6679783121304381,
+    "test/seq_2": 0.5638032404072917,
+    "test/seq_3": 0.8060432655078132,
+    "test/seq_4": 0.4130025026323638
+   }
+  }
+ },
+ "gate": {
+  "auroc_detect_bad_base_frames": 0.8431005898908894,
+  "bad_rate": 0.29689067201604813,
+  "aurc_oracle": 0.23300381156068398,
+  "aurc_random": 0.38717735384389956
+ },
+ "headline_M4_vs_M6": {
+  "harmful_pct_of_all": [
+   1.2036108324974923,
+   0.7021063189568706
+  ],
+  "harmful_pct_of_corrected": [
+   1.2048192771084338,
+   2.7450980392156863
+  ],
+  "activation_pct": [
+   99.89969909729187,
+   25.576730190571716
+  ],
+  "mIoU": [
+   0.6137970469100419,
+   0.6127622679648238
+  ],
+  "M6_beats_M4_on_harmful_rate": true
+ },
+ "latency_ms": {
+  "error": "RuntimeError: latency measurement skipped (--no-latency)"
+ }
+}

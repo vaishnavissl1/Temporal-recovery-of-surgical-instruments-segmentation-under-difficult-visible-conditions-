@@ -1,0 +1,175 @@
+{
+ "description": "\nFigure 6a input -- pixel-level reliability of the segmenter's softmax confidence, before and after temperature scaling. GPU, about 5 minutes; run when the GPU is free.\n\n    python -m tools.calibration_pixels --root <endovis2018_cvdataset> --out results/paper/calibration_pixels.json\n\nModel: work_v2/final (the proposed segmenter). Stored temperature: T = 2.687824 (work_v2/final/calibration.json, fitted earlier on a held-out split of the training sequences, NOT on test).\nData: every 4th labelled frame of the 4 official test sequences (about 250 frames), scored at the network resolution (512x640; ground truth by nearest neighbour). Nothing is tuned here: this is a report\nof the calibration that the stored temperature produces. For each of 15 equal-width confidence bins, over all pixels of all classes: mean confidence, accuracy, pixel count. ECE = sum over bins of\n(count/N) |accuracy - confidence|. Both curves come from the same logits (T = 1 and T = stored).\n",
+ "n_frames": 252,
+ "n_pixels": 82575360,
+ "bins": 15,
+ "temperature_stored": 2.687824,
+ "before": {
+  "temperature": 1.0,
+  "ece": 0.13686757341301023,
+  "nll_per_pixel": 1.525250365076557,
+  "mean_confidence": 0.9723138372863982,
+  "pixel_accuracy": 0.8354462638733879,
+  "bins": [
+   {
+    "conf": null,
+    "acc": null,
+    "count": 0
+   },
+   {
+    "conf": null,
+    "acc": null,
+    "count": 0
+   },
+   {
+    "conf": null,
+    "acc": null,
+    "count": 0
+   },
+   {
+    "conf": 0.25133235069612664,
+    "acc": 0.20833333333333334,
+    "count": 144
+   },
+   {
+    "conf": 0.31169007981396174,
+    "acc": 0.21342134213421343,
+    "count": 2727
+   },
+   {
+    "conf": 0.3751408030118792,
+    "acc": 0.2877429868467,
+    "count": 25773
+   },
+   {
+    "conf": 0.4382345890634534,
+    "acc": 0.3296785841361043,
+    "count": 75883
+   },
+   {
+    "conf": 0.5117654187453702,
+    "acc": 0.43076471849019143,
+    "count": 531882
+   },
+   {
+    "conf": 0.5668682222144266,
+    "acc": 0.46037286736692346,
+    "count": 877202
+   },
+   {
+    "conf": 0.6333992566960585,
+    "acc": 0.48482466403636804,
+    "count": 932467
+   },
+   {
+    "conf": 0.7005539775729607,
+    "acc": 0.5082336570665394,
+    "count": 1019049
+   },
+   {
+    "conf": 0.7676562219453994,
+    "acc": 0.5334885605403059,
+    "count": 1179776
+   },
+   {
+    "conf": 0.8349585393360784,
+    "acc": 0.5647205932790966,
+    "count": 1489889
+   },
+   {
+    "conf": 0.90316647673683,
+    "acc": 0.6034050733749861,
+    "count": 2278365
+   },
+   {
+    "conf": 0.9973271102717243,
+    "acc": 0.8697925545712282,
+    "count": 74162203
+   }
+  ]
+ },
+ "after": {
+  "temperature": 2.687824,
+  "ece": 0.06399901773365804,
+  "nll_per_pixel": 0.6764499966350813,
+  "mean_confidence": 0.8994452566684984,
+  "pixel_accuracy": 0.8354462638733879,
+  "bins": [
+   {
+    "conf": null,
+    "acc": null,
+    "count": 0
+   },
+   {
+    "conf": null,
+    "acc": null,
+    "count": 0
+   },
+   {
+    "conf": 0.18890152999625584,
+    "acc": 0.19243986254295534,
+    "count": 291
+   },
+   {
+    "conf": 0.24614960051818321,
+    "acc": 0.18424154501768067,
+    "count": 11029
+   },
+   {
+    "conf": 0.30942334314011444,
+    "acc": 0.27223339286383336,
+    "count": 80071
+   },
+   {
+    "conf": 0.372019802900785,
+    "acc": 0.3613755573845001,
+    "count": 325628
+   },
+   {
+    "conf": 0.4375870473262661,
+    "acc": 0.42833313395440986,
+    "count": 743977
+   },
+   {
+    "conf": 0.5035861161741731,
+    "acc": 0.48894650335813006,
+    "count": 2094767
+   },
+   {
+    "conf": 0.5667634303523821,
+    "acc": 0.5452285512260328,
+    "count": 2426852
+   },
+   {
+    "conf": 0.6337841299746195,
+    "acc": 0.6010984955868541,
+    "count": 2525636
+   },
+   {
+    "conf": 0.70045017436906,
+    "acc": 0.6448125263822702,
+    "count": 2797807
+   },
+   {
+    "conf": 0.7678020538435335,
+    "acc": 0.6785995663773213,
+    "count": 3161735
+   },
+   {
+    "conf": 0.8360974069395759,
+    "acc": 0.7249670106976942,
+    "count": 4443107
+   },
+   {
+    "conf": 0.9064947981796998,
+    "acc": 0.8168667529819025,
+    "count": 10107138
+   },
+   {
+    "conf": 0.9748437114635732,
+    "acc": 0.9141666568567965,
+    "count": 53857322
+   }
+  ]
+ }
+}

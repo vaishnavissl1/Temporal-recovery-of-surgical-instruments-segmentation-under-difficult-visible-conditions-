@@ -102,7 +102,7 @@ def fig6():
         ax.plot([0, 1], [0, 1], color=OI["grey"], lw=0.7, ls=":", label="perfect")
         for name, c, mk, lab in (("before", OI["vermillion"], "o", "T = 1"), ("after", OI["blue"], "s", f"T = {P['temperature_stored']:.2f}")):
             bs = [b for b in P[name]["bins"] if b["conf"] is not None and b["count"] >= 1000]
-            ax.plot([b["conf"] for b in bs], [b["acc"] for b in bs], marker=mk, ms=3, label=f"{lab} (ECE {P[name]['ece']:.3f})")
+            ax.plot([b["conf"] for b in bs], [b["acc"] for b in bs], marker=mk, ms=3, color=c, label=f"{lab} (ECE {P[name]['ece']:.3f})")
         ax.set_xlabel("pixel confidence (max softmax)")
         ax.set_ylabel("pixel accuracy")
         ax.set_title("(a) segmenter", loc="left")

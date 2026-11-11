@@ -1,0 +1,166 @@
+{
+ "definition": "\nTASK P.3 option B -- EndoVis 2017 as a ZERO-SHOT, EVALUATION-ONLY test of the segmenter and the reliability gate.\n\n    python -m tools.endovis17_zeroshot --data <endovis2017 folder> --release work_v2/release --out results/taskP3\n\nRules (hard, and fixed here before any result was seen):\n  * The models are never trained or fine-tuned on this data. No threshold is re-tuned: tau = 0.64, the memory threshold, the temperature 2.688 and the gate are exactly the released ones.\n  * It is scored ONCE. This file is run once for the reported numbers.\n  * Data: the CC BY 4.0 preprocessed copy of EndoVis 2017 on Zenodo (record 10527017): 512x512 RGB frames and instrument-TYPE label maps, left view only, no stereo and no part labels.\n    Test part used: val1-val8 (75 frames each) and val10 (300 frames) = 900 frames in 9 sequences. val9 is EXCLUDED: its archive holds 300 labels but only one image.\n    The training part (1800 frames) is not used, so nothing here overlaps anything the model saw (it never saw EndoVis 2017 at all).\n  * Class mapping. EndoVis 2017 labels instrument TYPES (1 bipolar forceps, 2 prograsp forceps, 3 large needle driver, 4 vessel sealer, 5 grasping retractor,\n    6 monopolar curved scissors, 7 other) and background; our 12 classes label instrument PARTS and anatomy. The only common ground is BINARY instrument versus background:\n      ground truth: label > 0 (all seven types) -> instrument; 0 -> background.\n      prediction  : our classes {1 shaft, 2 clasper, 3 wrist, 9 suction-instrument, 11 ultrasound-probe} -> instrument; everything else -> background.\n    EXCLUDED, with no 2017 equivalent and therefore mapped to background: thread (6), clamps (7), suturing-needle (8) (suture material and clips are not annotated as instruments in 2017),\n    and the anatomy classes background-tissue (0), kidney-parenchyma (4), covered-kidney (5), intestine (10) (2017 has no anatomy labels). The seven instrument TYPES have no counterpart in our\n    classes, so no per-type or per-part score exists. Frames of this copy are labelled only for some instruments (visible in the data), a limitation of the label set.\n  * Geometry. Frames are 512x512; they are resized to the segmenter's 512x640 input (bilinear), the predicted mask is resized back to 512x512 by nearest neighbour for scoring. Choice made in advance;\n    the aspect ratio of the preprocessed copy is not documented, and this is a stated source of mismatch.\n  * Temporal regime. Frames within a sequence are consecutive samples of a ~2 Hz release (2018: 1 Hz); the gate's temporal indicators run on them unchanged.\n  * Frame IoU = binary instrument IoU; both empty -> 1.0, one empty -> 0.0 (the repo's empty-frame convention). Bad frame: IoU < 0.5. Risk = 1 - IoU.\n  * Detectors compared on the SAME frames: the released gate r_t; max-softmax (the q indicator: mean top-class probability over predicted instrument pixels, at the stream temperature);\n    the entropy confidence and margin indicators. AUROC for bad frames and AURC, with 95% intervals that resample whole sequences (2000 draws, seed 0; 9 clusters).\n  * Reference: the SAME mapping, metric and detectors on the 997 EndoVis 2018 test frames (stored predictions and gate scores), so the drop is measured, not assumed. A large drop is the expected\n    result and is reported as such.\n",
+ "tau": 0.64,
+ "excluded_sequence": "val9 (300 labels, 1 image in the archive)",
+ "pred_instrument_classes": [
+  1,
+  2,
+  3,
+  9,
+  11
+ ],
+ "excluded_predicted_classes_mapped_to_background": {
+  "thread": 6,
+  "clamps": 7,
+  "suturing-needle": 8,
+  "background-tissue": 0,
+  "kidney-parenchyma": 4,
+  "covered-kidney": 5,
+  "intestine": 10
+ },
+ "endovis2017": {
+  "segmentation": {
+   "mean_binary_iou": 0.8498586328542203,
+   "median": 0.8943878745233202,
+   "frac_below_0_5": 0.06222222222222222,
+   "frames_with_no_gt_instrument_pct": 0.0,
+   "per_sequence": {
+    "val1": 0.5939135296295329,
+    "val10": 0.915744482459005,
+    "val2": 0.7237757553229857,
+    "val3": 0.8990551598318831,
+    "val4": 0.8842213595574003,
+    "val5": 0.7924659597664334,
+    "val6": 0.8696341144148353,
+    "val7": 0.8745447064909255,
+    "val8": 0.8977150794006273
+   }
+  },
+  "detectors": {
+   "r": {
+    "auroc": 0.9640952945159106,
+    "auroc_ci95": [
+     0.8379976045697439,
+     0.9869765218949758
+    ],
+    "aurc": 0.10664605966255372,
+    "aurc_ci95": [
+     0.09161385786213862,
+     0.1406635916093361
+    ]
+   },
+   "q": {
+    "auroc": 0.9654917061611374,
+    "auroc_ci95": [
+     0.9072625698324023,
+     0.9908518898513963
+    ],
+    "aurc": 0.0950874361185975,
+    "aurc_ci95": [
+     0.07759486479497375,
+     0.13409529790065994
+    ]
+   },
+   "ent": {
+    "auroc": 0.9816985443466486,
+    "auroc_ci95": [
+     0.9168702463624339,
+     0.9940634254502762
+    ],
+    "aurc": 0.0960413760109064,
+    "aurc_ci95": [
+     0.07783091427253798,
+     0.1332962109427705
+    ]
+   },
+   "margin": {
+    "auroc": 0.9397850372376438,
+    "auroc_ci95": [
+     0.8711064701284497,
+     0.985200490982855
+    ],
+    "aurc": 0.09611534744069841,
+    "aurc_ci95": [
+     0.0783090129775619,
+     0.13861548686313874
+    ]
+   },
+   "_aurc_floor": 0.07747421944099028,
+   "_aurc_random": 0.1501413671457797,
+   "_bad_rate": 0.06222222222222222,
+   "_n_frames": 900,
+   "_n_sequences": 9
+  },
+  "flagged_pct": 43.55555555555555
+ },
+ "endovis2018_reference": {
+  "segmentation": {
+   "mean_binary_iou": 0.7965441716988368,
+   "median": 0.8992055195484006,
+   "frac_below_0_5": 0.11334002006018054,
+   "frames_with_no_gt_instrument_pct": 12.13640922768305,
+   "per_sequence": {
+    "test/seq_1": 0.8869946505311088,
+    "test/seq_2": 0.8913424752736178,
+    "test/seq_3": 0.9036048035701546,
+    "test/seq_4": 0.5038715024853966
+   }
+  },
+  "detectors": {
+   "r": {
+    "auroc": 0.9584351099187122,
+    "auroc_ci95": [
+     0.49899396378269617,
+     0.9683929239484795
+    ],
+    "aurc": 0.10763683548824218,
+    "aurc_ci95": [
+     0.09054344217458403,
+     0.1905259850456294
+    ]
+   },
+   "q": {
+    "auroc": 0.9517879309654427,
+    "auroc_ci95": [
+     0.5392354124748491,
+     0.9619368286034953
+    ],
+    "aurc": 0.10427185188406131,
+    "aurc_ci95": [
+     0.08275235545039894,
+     0.20116974656790043
+    ]
+   },
+   "ent": {
+    "auroc": 0.9468325791855203,
+    "auroc_ci95": [
+     0.35412474849094566,
+     0.9574581796804019
+    ],
+    "aurc": 0.10761267546294519,
+    "aurc_ci95": [
+     0.08650019721607898,
+     0.20577785702264303
+    ]
+   },
+   "margin": {
+    "auroc": 0.9542806230729187,
+    "auroc_ci95": [
+     0.5975855130784709,
+     0.9642349420127198
+    ],
+    "aurc": 0.10281569583294346,
+    "aurc_ci95": [
+     0.08224117770996388,
+     0.19809460084092437
+    ]
+   },
+   "_aurc_floor": 0.07701995027461149,
+   "_aurc_random": 0.2034558283011632,
+   "_bad_rate": 0.11334002006018054,
+   "_n_frames": 997,
+   "_n_sequences": 4
+  },
+  "flagged_pct": 32.29689067201605
+ }
+}

@@ -1,0 +1,235 @@
+{
+ "protocol": "\nTASK P.1 -- evaluate the baselines and the proposed model under one identical protocol.\n\n    python -m tools.baseline_eval --work work_v2 --root <endovis2018_cvdataset> --out results/taskP\n\nModels: the proposed model (CAFormer-S18 + FPN + full-resolution branch, SurgeNetXL-initialised; work_v2/final), and the baselines trained by tools.train_stage1 with the IDENTICAL recipe\n(work_v2/baselines/<arch>: 15 training sequences, 512x640 input, 20 epochs, batch 1 x accumulation 8, AdamW lr 3e-4 with 0.1x on the pretrained encoder, weight decay 1e-4, warmup 3% then\ncosine to 1%, EMA 0.999, loss CE + Dice + 0.5 Tversky, inverse-sqrt class weights, same augmentations, same seed 42): a classic U-Net (from scratch), DeepLabV3+ with a ResNet-18 encoder\n(ImageNet-pretrained, the backbone of STswinCL), SegFormer-B0 (ImageNet-pretrained MiT-B0). Where a model has a pretrained encoder, its pretraining differs by architecture and that is the point of\neach baseline; the proposed encoder is SurgeNetXL (self-supervised on surgical video), the others ImageNet-1k or none. This difference is stated, not removed.\n\nEvaluation is identical for all: the model's argmax at 512x640, nearest-neighbour up to 1280x1024, the official rule (class 0 never scored, a class counted only if in the ground truth), on the 997\nofficial test frames. Reported: mIoU, mcIoU, per-class IoU, boundary F1 (3 px), clDice on shaft/thread/needle, parameters, GFLOPs (torch flop counter, 2 x multiply-adds, one 512x640 forward),\nand measured ms/frame (batch 1, image on the GPU, fp16 autocast, GPU synchronised, mean of 40 frames after warm-up). Differences from the proposed model are given per frame with a 95% interval from a\nbootstrap over the 4 test sequences (coarse; a warning, not a test). Published numbers are not placed here.\n",
+ "n_frames": 997,
+ "models": [
+  {
+   "label": "Ours: CAFormer-S18 + FPN",
+   "arch": "caformer_surgenet",
+   "checkpoint": "work_v2/final/best.pt",
+   "params_millions": 25.85838,
+   "gflops": 152.829952,
+   "ms_per_frame": 70.49242499051616,
+   "ms_p95": 71.7283449077513,
+   "epochs": 19,
+   "mIoU": 0.6128197774773941,
+   "mcIoU": 0.4955984334825512,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.859005947064633,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5660244756348112,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6304588611951178,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6449333355303681,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4013826564247894,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.43016987836796405,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6530113739382523,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.4634285433015503,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.3075692633680267,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.4238647501093022,
+   "cldice": {
+    "shaft": 0.9013404321520205,
+    "thread": 0.7640472889223164,
+    "needle": 0.0
+   },
+   "per_sequence": {
+    "test/seq_1": 0.6680651383440126,
+    "test/seq_2": 0.563831799469272,
+    "test/seq_3": 0.8059895259858048,
+    "test/seq_4": 0.41317077719134426
+   }
+  },
+  {
+   "label": "SegFormer-B0",
+   "arch": "segformer_b0",
+   "checkpoint": "work_v2/baselines/segformer_b0/best.pt",
+   "params_millions": 3.717228,
+   "gflops": 20.17263616,
+   "ms_per_frame": 17.905887504457496,
+   "ms_p95": 21.458975062705573,
+   "epochs": 19,
+   "mIoU": 0.4921018634440214,
+   "mcIoU": 0.35993689535497714,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8088219690280287,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5116457055938043,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.5055452585053481,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.5552594666781917,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.06761903582787791,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.09890484553876368,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6109549633955541,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.3920406272370977,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.04857708174510527,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.4129499506859114,
+   "cldice": {
+    "shaft": 0.8512918326355926,
+    "thread": 0.19671897871785074,
+    "needle": 0.0
+   },
+   "per_sequence": {
+    "test/seq_1": 0.569473857232599,
+    "test/seq_2": 0.4572100773645191,
+    "test/seq_3": 0.7248361749953554,
+    "test/seq_4": 0.21657661328486275
+   },
+   "difference_from_ours_mIoU_points": -12.071791403337281,
+   "difference_from_ours_ci95_points": [
+    -17.2019719875622,
+    -8.752044376902536
+   ]
+  },
+  {
+   "label": "U-Net (classic, from scratch)",
+   "arch": "unet_classic",
+   "checkpoint": "work_v2/baselines/unet_classic/best.pt",
+   "params_millions": 7.763404,
+   "gflops": 120.94275584,
+   "ms_per_frame": 48.10236500634346,
+   "ms_p95": 48.20694000227377,
+   "epochs": 19,
+   "mIoU": 0.4119368042362738,
+   "mcIoU": 0.3384475438648842,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.7394654134537364,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.3860756957145517,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.4039734457259482,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.3841076890462781,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.0829123617545482,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.22500962474266184,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.621453124604727,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 1.2587522618204706e-05,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.43870824207399056,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.10275725400978102,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.28571816650928705,
+   "cldice": {
+    "shaft": 0.7536659145632577,
+    "thread": 0.40239166996346376,
+    "needle": 0.0
+   },
+   "per_sequence": {
+    "test/seq_1": 0.4167845124538902,
+    "test/seq_2": 0.40592887227904423,
+    "test/seq_3": 0.6080875597227384,
+    "test/seq_4": 0.21692680378172105
+   },
+   "difference_from_ours_mIoU_points": -20.088297324112038,
+   "difference_from_ours_ci95_points": [
+    -23.756278157816606,
+    -16.79026869584374
+   ]
+  }
+ ],
+ "unavailable": [
+  {
+   "label": "DeepLabV3+ (ResNet-18)",
+   "reason": "work_v2/baselines/deeplabv3p_r18/best.pt does not exist (training did not finish)"
+  }
+ ]
+}

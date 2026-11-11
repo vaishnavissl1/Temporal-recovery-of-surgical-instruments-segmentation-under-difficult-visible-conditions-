@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\Chandaluri Vaishnavi\Downloads\sitr_endovis2018\sitr_endovis2018\tools\measure_recovery.py", line 336, in <module>
+    
+  File "C:\Users\Chandaluri Vaishnavi\Downloads\sitr_endovis2018\sitr_endovis2018\tools\measure_recovery.py", line 325, in main
+    
+  File "C:\Users\Chandaluri Vaishnavi\Downloads\sitr_endovis2018\sitr_endovis2018\tools\measure_recovery.py", line 177, in save_panels
+    cv2.putText(t, lab, (6, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2, cv2.LINE_AA)
+cv2.error: OpenCV(5.0.0) :-1: error: (-5:Bad argument) in function 'putText'
+> Overload resolution failed:
+>  - Layout of the output array img is incompatible with cv::Mat
+>  - Layout of the output array img is incompatible with cv::Mat
+>  - Expected Ptr<cv::UMat> for argument 'img'
+>  - Expected Ptr<cv::UMat> for argument 'img'
+
