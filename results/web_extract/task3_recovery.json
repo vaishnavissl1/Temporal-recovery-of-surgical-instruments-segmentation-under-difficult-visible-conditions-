@@ -1,0 +1,70 @@
+{
+ "source": [
+  "results/task3/measure_recovery_test_log.txt",
+  "results/task3_oof/measure_recovery_oof_log.txt"
+ ],
+ "test_always": {
+  "frames": 997,
+  "routed": 880,
+  "instrument_before": 0.6105,
+  "instrument_after": 0.614,
+  "ci": [
+   0.0002,
+   0.0081
+  ],
+  "official_before": 0.6397,
+  "official_after": 0.6397,
+  "official_ci": [
+   -0.0002,
+   0.0002
+  ]
+ },
+ "oof_always": {
+  "frames": 2235,
+  "routed": 1741,
+  "instrument_before": 0.6597,
+  "instrument_after": 0.6627,
+  "ci": [
+   0.001,
+   0.0055
+  ],
+  "official_before": 0.6772,
+  "official_after": 0.6774,
+  "official_ci": [
+   0.0001,
+   0.0004
+  ]
+ },
+ "oof_selective": {
+  "frames": 2235,
+  "routed": 623,
+  "instrument_before": 0.5289,
+  "instrument_after": 0.5374,
+  "ci": [
+   0.0028,
+   0.0161
+  ],
+  "official_before": 0.6227,
+  "official_after": 0.6234,
+  "official_ci": [
+   0.0003,
+   0.0011
+  ]
+ },
+ "test_selective": {
+  "frames": 997,
+  "routed": 207,
+  "instrument_before": 0.424,
+  "instrument_after": 0.4389,
+  "ci": [
+   0.0005,
+   0.034
+  ],
+  "official_before": 0.486,
+  "official_after": 0.4862,
+  "official_ci": [
+   -0.0007,
+   0.001
+  ]
+ }
+}

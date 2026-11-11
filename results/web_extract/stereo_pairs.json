@@ -1,0 +1,100 @@
+{
+ "source": "results/task2/STEREO_REPORT.md (per-pair table: first row of each sequence)",
+ "pairs": [
+  {
+   "seq": "train/seq_1",
+   "calib_only": 0.77,
+   "self_calibrated": 0.77
+  },
+  {
+   "seq": "train/seq_2",
+   "calib_only": 6.1,
+   "self_calibrated": 1.31
+  },
+  {
+   "seq": "train/seq_3",
+   "calib_only": 2.29,
+   "self_calibrated": 2.29
+  },
+  {
+   "seq": "train/seq_4",
+   "calib_only": 6.31,
+   "self_calibrated": 1.12
+  },
+  {
+   "seq": "train/seq_5",
+   "calib_only": 12.62,
+   "self_calibrated": 5.16
+  },
+  {
+   "seq": "train/seq_6",
+   "calib_only": 0.67,
+   "self_calibrated": 0.67
+  },
+  {
+   "seq": "train/seq_7",
+   "calib_only": 6.97,
+   "self_calibrated": 1.18
+  },
+  {
+   "seq": "train/seq_9",
+   "calib_only": 0.87,
+   "self_calibrated": 0.87
+  },
+  {
+   "seq": "train/seq_10",
+   "calib_only": 0.71,
+   "self_calibrated": 0.71
+  },
+  {
+   "seq": "train/seq_11",
+   "calib_only": 1.6,
+   "self_calibrated": 1.85
+  },
+  {
+   "seq": "train/seq_12",
+   "calib_only": 1.03,
+   "self_calibrated": 0.89
+  },
+  {
+   "seq": "train/seq_13",
+   "calib_only": 2.94,
+   "self_calibrated": 0.79
+  },
+  {
+   "seq": "train/seq_14",
+   "calib_only": 0.69,
+   "self_calibrated": 0.69
+  },
+  {
+   "seq": "train/seq_15",
+   "calib_only": 2.77,
+   "self_calibrated": 1.32
+  },
+  {
+   "seq": "train/seq_16",
+   "calib_only": 2.48,
+   "self_calibrated": 0.65
+  },
+  {
+   "seq": "test/seq_1",
+   "calib_only": 0.66,
+   "self_calibrated": 0.66
+  },
+  {
+   "seq": "test/seq_2",
+   "calib_only": 0.93,
+   "self_calibrated": 0.93
+  },
+  {
+   "seq": "test/seq_3",
+   "calib_only": 0.66,
+   "self_calibrated": 0.62
+  },
+  {
+   "seq": "test/seq_4",
+   "calib_only": 0.93,
+   "self_calibrated": 0.93
+  }
+ ]
+}

@@ -1,0 +1,6 @@
+{
+ "source": "work_v2/stage2/stage2_report.json",
+ "alpha": 0.05,
+ "risk_bad_accepted_test": 0.07723169508525576,
+ "empirical_risk_threshold_selection": 0.04832214765100671
+}
