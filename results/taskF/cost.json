@@ -1,0 +1,14 @@
+{
+ "basis": "composed from measured components (Task 6 latency JSON and per-action seconds in the action data)",
+ "flagged_share_test": 0.3039117352056169,
+ "M1_segmentation_plus_gate_ms": 76.44362557436077,
+ "M6_with_A1_ms": 792.1692954791641,
+ "M4_fusion_every_frame_ms": 2201.0485357910843,
+ "M5_fusion_refine_every_frame_ms": 2310.6054897529166,
+ "M6_without_A1_ms": 152.98886950537397,
+ "correct_every_frame_A2_then_A3_ms": 359.6067014984168,
+ "speedup_old_tile_M4_over_M6": 2.7785077613488203,
+ "speedup_M4_over_M6_without_A1": 14.386984771554046,
+ "speedup_correct_every_frame_A2_A3_over_M6_without_A1": 2.350541596006663,
+ "note": "A4 (hallucination repair) is not included: it has not been run yet; its cost is a connected-component and set comparison on masks already in memory, expected to be negligible."
+}

@@ -44,6 +44,7 @@ from sitr.selector import (CANDIDATES, MARGIN, BenefitSelector, oracle_choice,  
                            policy_value)
 
 KEYS = ("A1", "A2", "A3", "FUSE", "FUSE_REFINE")
+RETIRE_A1 = False
 
 
 def load_group(d, group):
@@ -131,13 +132,16 @@ def evaluate(D, sel_choice, routed, margin_eval, diff):
     dm = {a: D[f"d_{a}"] for a in KEYS}
     choices = {
         "A0 (keep)": A0,
-        "oracle (routed)": np.where(routed, oracle_choice(dm), "A0").astype(object),
+        "oracle (routed)": np.where(routed, oracle_choice(dm, CANDIDATES), "A0").astype(object),
         "selector": np.where(routed, sel_choice, "A0").astype(object),
         "always-A1 (routed)": on("A1"), "always-A2 (routed)": on("A2"), "always-A3 (routed)": on("A3"),
         "always-fuse (routed)": on("FUSE"),
         "always-fuse (EVERY frame)": np.array(["FUSE"] * n, dtype=object),
         "always-fuse+refine (EVERY)": np.array(["FUSE_REFINE"] * n, dtype=object),
     }
+    if RETIRE_A1:
+        for k in ("always-A1 (routed)", "always-fuse (routed)", "always-fuse (EVERY frame)", "always-fuse+refine (EVERY)"):
+            choices.pop(k)
     edges = DifficultyIndex.quartile_edges(diff)
     return policy_table(D, routed, choices, diff, margin_eval, edges)
 
@@ -153,7 +157,14 @@ def main():
     ap.add_argument("--margin-eval", type=float, default=0.01,
                     help="IoU change smaller than this is not counted as improved/harmful")
     ap.add_argument("--out", default="results/task5")
+    ap.add_argument("--retire-a1", action="store_true",
+                    help="Task F.3: retire action A1 (stereo label transfer) and with it the stereo-temporal fusion that contains it. The candidate set becomes {A2, A3}; "
+                         "the always-A1 / fusion policies are not reported. The code and the earlier measurement of A1 stay in the record (results/task5, results/FINDINGS.md).")
     a = ap.parse_args()
+    global CANDIDATES, RETIRE_A1
+    RETIRE_A1 = bool(a.retire_a1)
+    if RETIRE_A1:
+        CANDIDATES = ("A2", "A3")
     os.makedirs(a.out, exist_ok=True)
     tau = a.tau
     if tau is None and a.release:
@@ -184,12 +195,12 @@ def main():
     for fold in folds:
         te = np.isin(D["seq"], fold)
         tr = ~te
-        sel = BenefitSelector(margin=a.margin).fit(F[tr], {x: G[x][tr] for x in CANDIDATES},
+        sel = BenefitSelector(margin=a.margin, candidates=CANDIDATES).fit(F[tr], {x: G[x][tr] for x in CANDIDATES},
                                                     {x: delta[x][tr] for x in CANDIDATES})
         p = sel.predict(F[te], {x: G[x][te] for x in CANDIDATES})
         for x in CANDIDATES:
             pred[x][te] = p[x]
-    sel_oof = BenefitSelector(margin=a.margin)
+    sel_oof = BenefitSelector(margin=a.margin, candidates=CANDIDATES)
     choice_oof = sel_oof.choose(pred)
     R["oof"] = evaluate(D, choice_oof, routed, a.margin_eval, diff)
     print_table("HELD-OUT TRAINING SEQUENCES (cross-fitted selector)", R["oof"])
@@ -210,7 +221,7 @@ def main():
     R["margin_sweep_oof"] = []
     print("\nabstention-margin sweep on OOF (information only; the margin is a stated choice):")
     for m in (0.0, 0.005, 0.01, 0.02, 0.05, 0.1):
-        s2 = BenefitSelector(margin=m)
+        s2 = BenefitSelector(margin=m, candidates=CANDIDATES)
         ch = np.where(routed, s2.choose(pred), "A0").astype(object)
         v = policy_value(ch, {x: D[f"d_{x}"] for x in KEYS})
         c = ch != "A0"
@@ -226,7 +237,7 @@ def main():
         diff_te = idx.score(cues_te)
         routed_te = (T["r"] < tau) & ~T["degenerate"].astype(bool)
         Ft, Gt = features(T, diff_te)
-        sel = BenefitSelector(margin=a.margin).fit(F, G, delta)
+        sel = BenefitSelector(margin=a.margin, candidates=CANDIDATES).fit(F, G, delta)
         choice_te = sel.choose(sel.predict(Ft, Gt))
         R["n_test"], R["n_test_routed"] = int(len(T["t"])), int(routed_te.sum())
         print(f"\nOFFICIAL TEST: {len(T['t'])} frames, routed {int(routed_te.sum())} ({100*routed_te.mean():.1f}%)")

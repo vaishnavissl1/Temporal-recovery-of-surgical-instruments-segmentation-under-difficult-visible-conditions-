@@ -1,0 +1,1749 @@
+{
+ "mcIoU": {
+  "M1": {
+   "mIoU": 0.6128226461561003,
+   "mcIoU": 0.4955984493186123,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8589866873510685,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5659546136424703,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6304527192946651,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.644971706316153,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4014660303652539,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.43023771373574476,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6529880497393477,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46350677645713423,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30742019628428585,
+     "n_frames": 152
+    }
+   }
+  },
+  "M2": {
+   "mIoU": 0.6137499740034681,
+   "mcIoU": 0.4961922478582367,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8592676571923421,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5668522063984589,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6310269389487042,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6457346872372964,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4052129804979602,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.43042610673526965,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.653737284473995,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46162654083891996,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30803807625941976,
+     "n_frames": 152
+    }
+   }
+  },
+  "M3": {
+   "mIoU": 0.6128752716839847,
+   "mcIoU": 0.49560221901458557,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8588564330382313,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5666491246971437,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.630486700280226,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6448867416525396,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4014643530156124,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.4302858063569586,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6539112306030411,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46337760646131315,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30610419404078876,
+     "n_frames": 152
+    }
+   }
+  },
+  "M4": {
+   "mIoU": 0.6137970469100419,
+   "mcIoU": 0.4961890795462417,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8591414761525532,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5675075337201704,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6310529686189521,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6456576644612171,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.40520925166810307,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.4303937632800769,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6546584976199094,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46150516809046105,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.3067644718509745,
+     "n_frames": 152
+    }
+   }
+  },
+  "M5": {
+   "mIoU": 0.6140711046730016,
+   "mcIoU": 0.4954222331432744,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8587251214958402,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.569541610838337,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6310399242749699,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6459260123974913,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.4055005625419304,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.42771025521240474,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6475913639562358,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.4616101480456195,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30657733266991577,
+     "n_frames": 152
+    }
+   }
+  },
+  "M6": {
+   "mIoU": 0.612823024203259,
+   "mcIoU": 0.49563931750383095,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8585726242119855,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5664497497767953,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6305140292171751,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6446717505151843,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.40164370628496204,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.4295827895256186,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6540869365691677,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46362808844826797,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30724350048915217,
+     "n_frames": 152
+    }
+   }
+  },
+  "M6_noA1": {
+   "mIoU": 0.6127622679648238,
+   "mcIoU": 0.4956280427831888,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.858578198810158,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5664191304560411,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6305116332125457,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.644578055428234,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.40157264474779647,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.42957818066895764,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6540736130195012,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.46372547099950145,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30724350048915217,
+     "n_frames": 152
+    }
+   },
+   "changed_frames_pct": 25.576730190571716
+  }
+ },
+ "hallucination": {
+  "M1": {
+   "main_0.05pct": {
+    "frames": 997,
+    "events": 776,
+    "frames_with_event_pct": 58.37512537612839,
+    "events_per_frame": 0.7783350050150452,
+    "pooled_share_of_predicted": 0.15194830624632857,
+    "predicted_class_instances": 5107,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 57,
+      "false_presence_rate": 0.37012987012987014
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 64,
+      "false_presence_rate": 0.5245901639344263
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 14,
+      "false_presence_rate": 0.08
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 26,
+      "false_presence_rate": 0.5416666666666666
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 335,
+      "false_presence_rate": 0.6530214424951267
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 16,
+      "false_presence_rate": 0.017877094972067038
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 22,
+      "false_presence_rate": 0.023706896551724137
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 78,
+      "false_presence_rate": 0.07823470411233702
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 162,
+      "false_presence_rate": 0.20984455958549222
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 2,
+      "false_presence_rate": 0.002366863905325444
+     }
+    }
+   },
+   "any_pixel": {
+    "frames": 997,
+    "events": 1040,
+    "frames_with_event_pct": 64.69408224674022,
+    "events_per_frame": 1.0431293881644934,
+    "pooled_share_of_predicted": 0.19269964795256625,
+    "predicted_class_instances": 5397,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 91,
+      "false_presence_rate": 0.5909090909090909
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 98,
+      "false_presence_rate": 0.8032786885245902
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 24,
+      "false_presence_rate": 0.13714285714285715
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 35,
+      "false_presence_rate": 0.7291666666666666
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 382,
+      "false_presence_rate": 0.7446393762183235
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 79,
+      "false_presence_rate": 0.08826815642458101
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 44,
+      "false_presence_rate": 0.04741379310344827
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 88,
+      "false_presence_rate": 0.08826479438314945
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 195,
+      "false_presence_rate": 0.25259067357512954
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 4,
+      "false_presence_rate": 0.004733727810650888
+     }
+    }
+   },
+   "0.5pct": {
+    "frames": 997,
+    "events": 503,
+    "frames_with_event_pct": 44.132397191574725,
+    "events_per_frame": 0.5045135406218656,
+    "pooled_share_of_predicted": 0.1072494669509595,
+    "predicted_class_instances": 4690,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 38,
+      "false_presence_rate": 0.24675324675324675
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 23,
+      "false_presence_rate": 0.1885245901639344
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 6,
+      "false_presence_rate": 0.03428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 19,
+      "false_presence_rate": 0.3958333333333333
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 232,
+      "false_presence_rate": 0.4522417153996101
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.003232758620689655
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 46,
+      "false_presence_rate": 0.04613841524573721
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 136,
+      "false_presence_rate": 0.17616580310880828
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     }
+    }
+   }
+  },
+  "M2": {
+   "main_0.05pct": {
+    "frames": 997,
+    "events": 775,
+    "frames_with_event_pct": 58.27482447342026,
+    "events_per_frame": 0.7773319959879639,
+    "pooled_share_of_predicted": 0.15181194906953965,
+    "predicted_class_instances": 5105,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 57,
+      "false_presence_rate": 0.37012987012987014
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 65,
+      "false_presence_rate": 0.5327868852459017
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 14,
+      "false_presence_rate": 0.08
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 28,
+      "false_presence_rate": 0.5833333333333334
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 334,
+      "false_presence_rate": 0.6510721247563352
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 16,
+      "false_presence_rate": 0.017877094972067038
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 21,
+      "false_presence_rate": 0.022629310344827586
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 78,
+      "false_presence_rate": 0.07823470411233702
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 160,
+      "false_presence_rate": 0.20725388601036268
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 2,
+      "false_presence_rate": 0.002366863905325444
+     }
+    }
+   },
+   "any_pixel": {
+    "frames": 997,
+    "events": 1047,
+    "frames_with_event_pct": 64.89468405215646,
+    "events_per_frame": 1.0501504513540623,
+    "pooled_share_of_predicted": 0.19363787682633624,
+    "predicted_class_instances": 5407,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 91,
+      "false_presence_rate": 0.5909090909090909
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 100,
+      "false_presence_rate": 0.819672131147541
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 24,
+      "false_presence_rate": 0.13714285714285715
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 35,
+      "false_presence_rate": 0.7291666666666666
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 383,
+      "false_presence_rate": 0.746588693957115
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 82,
+      "false_presence_rate": 0.09162011173184358
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 44,
+      "false_presence_rate": 0.04741379310344827
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 90,
+      "false_presence_rate": 0.09027081243731194
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 194,
+      "false_presence_rate": 0.25129533678756477
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 4,
+      "false_presence_rate": 0.004733727810650888
+     }
+    }
+   },
+   "0.5pct": {
+    "frames": 997,
+    "events": 497,
+    "frames_with_event_pct": 43.73119358074223,
+    "events_per_frame": 0.49849548645937813,
+    "pooled_share_of_predicted": 0.10610589239965841,
+    "predicted_class_instances": 4684,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 38,
+      "false_presence_rate": 0.24675324675324675
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 23,
+      "false_presence_rate": 0.1885245901639344
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 6,
+      "false_presence_rate": 0.03428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 19,
+      "false_presence_rate": 0.3958333333333333
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 231,
+      "false_presence_rate": 0.4502923976608187
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.003232758620689655
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 45,
+      "false_presence_rate": 0.04513540621865597
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 132,
+      "false_presence_rate": 0.17098445595854922
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     }
+    }
+   }
+  },
+  "M3": {
+   "main_0.05pct": {
+    "frames": 997,
+    "events": 770,
+    "frames_with_event_pct": 58.17452357071214,
+    "events_per_frame": 0.7723169508525577,
+    "pooled_share_of_predicted": 0.15098039215686274,
+    "predicted_class_instances": 5100,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 57,
+      "false_presence_rate": 0.37012987012987014
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 59,
+      "false_presence_rate": 0.48360655737704916
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 13,
+      "false_presence_rate": 0.07428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 26,
+      "false_presence_rate": 0.5416666666666666
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 335,
+      "false_presence_rate": 0.6530214424951267
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 16,
+      "false_presence_rate": 0.017877094972067038
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 22,
+      "false_presence_rate": 0.023706896551724137
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 78,
+      "false_presence_rate": 0.07823470411233702
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 162,
+      "false_presence_rate": 0.20984455958549222
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 2,
+      "false_presence_rate": 0.002366863905325444
+     }
+    }
+   },
+   "any_pixel": {
+    "frames": 997,
+    "events": 1035,
+    "frames_with_event_pct": 64.5937813440321,
+    "events_per_frame": 1.0381143430290873,
+    "pooled_share_of_predicted": 0.19195103857566764,
+    "predicted_class_instances": 5392,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 90,
+      "false_presence_rate": 0.5844155844155844
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 95,
+      "false_presence_rate": 0.7786885245901639
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 23,
+      "false_presence_rate": 0.13142857142857142
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 35,
+      "false_presence_rate": 0.7291666666666666
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 382,
+      "false_presence_rate": 0.7446393762183235
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 79,
+      "false_presence_rate": 0.08826815642458101
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 44,
+      "false_presence_rate": 0.04741379310344827
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 88,
+      "false_presence_rate": 0.08826479438314945
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 195,
+      "false_presence_rate": 0.25259067357512954
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 4,
+      "false_presence_rate": 0.004733727810650888
+     }
+    }
+   },
+   "0.5pct": {
+    "frames": 997,
+    "events": 502,
+    "frames_with_event_pct": 44.0320962888666,
+    "events_per_frame": 0.5035105315947843,
+    "pooled_share_of_predicted": 0.10708191126279863,
+    "predicted_class_instances": 4688,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 38,
+      "false_presence_rate": 0.24675324675324675
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 22,
+      "false_presence_rate": 0.18032786885245902
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 6,
+      "false_presence_rate": 0.03428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 19,
+      "false_presence_rate": 0.3958333333333333
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 232,
+      "false_presence_rate": 0.4522417153996101
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.003232758620689655
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 46,
+      "false_presence_rate": 0.04613841524573721
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 136,
+      "false_presence_rate": 0.17616580310880828
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     }
+    }
+   }
+  },
+  "M4": {
+   "main_0.05pct": {
+    "frames": 997,
+    "events": 771,
+    "frames_with_event_pct": 58.07422266800401,
+    "events_per_frame": 0.7733199598796389,
+    "pooled_share_of_predicted": 0.1511764705882353,
+    "predicted_class_instances": 5100,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 57,
+      "false_presence_rate": 0.37012987012987014
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 62,
+      "false_presence_rate": 0.5081967213114754
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 13,
+      "false_presence_rate": 0.07428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 28,
+      "false_presence_rate": 0.5833333333333334
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 334,
+      "false_presence_rate": 0.6510721247563352
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 16,
+      "false_presence_rate": 0.017877094972067038
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 21,
+      "false_presence_rate": 0.022629310344827586
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 78,
+      "false_presence_rate": 0.07823470411233702
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 160,
+      "false_presence_rate": 0.20725388601036268
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 2,
+      "false_presence_rate": 0.002366863905325444
+     }
+    }
+   },
+   "any_pixel": {
+    "frames": 997,
+    "events": 1043,
+    "frames_with_event_pct": 64.89468405215646,
+    "events_per_frame": 1.0461384152457371,
+    "pooled_share_of_predicted": 0.19304090320192485,
+    "predicted_class_instances": 5403,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 90,
+      "false_presence_rate": 0.5844155844155844
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 98,
+      "false_presence_rate": 0.8032786885245902
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 23,
+      "false_presence_rate": 0.13142857142857142
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 35,
+      "false_presence_rate": 0.7291666666666666
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 383,
+      "false_presence_rate": 0.746588693957115
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 82,
+      "false_presence_rate": 0.09162011173184358
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 44,
+      "false_presence_rate": 0.04741379310344827
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 90,
+      "false_presence_rate": 0.09027081243731194
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 194,
+      "false_presence_rate": 0.25129533678756477
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 4,
+      "false_presence_rate": 0.004733727810650888
+     }
+    }
+   },
+   "0.5pct": {
+    "frames": 997,
+    "events": 496,
+    "frames_with_event_pct": 43.6308926780341,
+    "events_per_frame": 0.4974924774322969,
+    "pooled_share_of_predicted": 0.10593763348996156,
+    "predicted_class_instances": 4682,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 38,
+      "false_presence_rate": 0.24675324675324675
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 22,
+      "false_presence_rate": 0.18032786885245902
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 6,
+      "false_presence_rate": 0.03428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 19,
+      "false_presence_rate": 0.3958333333333333
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 231,
+      "false_presence_rate": 0.4502923976608187
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.003232758620689655
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 45,
+      "false_presence_rate": 0.04513540621865597
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 132,
+      "false_presence_rate": 0.17098445595854922
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     }
+    }
+   }
+  },
+  "M5": {
+   "main_0.05pct": {
+    "frames": 997,
+    "events": 748,
+    "frames_with_event_pct": 56.97091273821464,
+    "events_per_frame": 0.7502507522567703,
+    "pooled_share_of_predicted": 0.14768015794669298,
+    "predicted_class_instances": 5065,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 58,
+      "false_presence_rate": 0.37662337662337664
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 58,
+      "false_presence_rate": 0.47540983606557374
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 12,
+      "false_presence_rate": 0.06857142857142857
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 25,
+      "false_presence_rate": 0.5208333333333334
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 325,
+      "false_presence_rate": 0.6335282651072125
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 15,
+      "false_presence_rate": 0.01675977653631285
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 21,
+      "false_presence_rate": 0.022629310344827586
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 76,
+      "false_presence_rate": 0.07622868605817452
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 157,
+      "false_presence_rate": 0.2033678756476684
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 1,
+      "false_presence_rate": 0.001183431952662722
+     }
+    }
+   },
+   "any_pixel": {
+    "frames": 997,
+    "events": 845,
+    "frames_with_event_pct": 59.779338014042125,
+    "events_per_frame": 0.847542627883651,
+    "pooled_share_of_predicted": 0.16347455987618495,
+    "predicted_class_instances": 5169,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 69,
+      "false_presence_rate": 0.44805194805194803
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 65,
+      "false_presence_rate": 0.5327868852459017
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 13,
+      "false_presence_rate": 0.07428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 25,
+      "false_presence_rate": 0.5208333333333334
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 337,
+      "false_presence_rate": 0.6569200779727096
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 75,
+      "false_presence_rate": 0.08379888268156424
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 24,
+      "false_presence_rate": 0.02586206896551724
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 79,
+      "false_presence_rate": 0.07923771313941826
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 157,
+      "false_presence_rate": 0.2033678756476684
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 1,
+      "false_presence_rate": 0.001183431952662722
+     }
+    }
+   },
+   "0.5pct": {
+    "frames": 997,
+    "events": 491,
+    "frames_with_event_pct": 43.229689067201605,
+    "events_per_frame": 0.49247743229689067,
+    "pooled_share_of_predicted": 0.10509417808219178,
+    "predicted_class_instances": 4672,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 39,
+      "false_presence_rate": 0.2532467532467532
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 22,
+      "false_presence_rate": 0.18032786885245902
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 6,
+      "false_presence_rate": 0.03428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 19,
+      "false_presence_rate": 0.3958333333333333
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 226,
+      "false_presence_rate": 0.4405458089668616
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.003232758620689655
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 45,
+      "false_presence_rate": 0.04513540621865597
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 131,
+      "false_presence_rate": 0.16968911917098445
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     }
+    }
+   }
+  },
+  "M6": {
+   "main_0.05pct": {
+    "frames": 997,
+    "events": 767,
+    "frames_with_event_pct": 58.07422266800401,
+    "events_per_frame": 0.769307923771314,
+    "pooled_share_of_predicted": 0.1506580239638578,
+    "predicted_class_instances": 5091,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 57,
+      "false_presence_rate": 0.37012987012987014
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 58,
+      "false_presence_rate": 0.47540983606557374
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 12,
+      "false_presence_rate": 0.06857142857142857
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 26,
+      "false_presence_rate": 0.5416666666666666
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 335,
+      "false_presence_rate": 0.6530214424951267
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 16,
+      "false_presence_rate": 0.017877094972067038
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 22,
+      "false_presence_rate": 0.023706896551724137
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 77,
+      "false_presence_rate": 0.07723169508525576
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 162,
+      "false_presence_rate": 0.20984455958549222
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 2,
+      "false_presence_rate": 0.002366863905325444
+     }
+    }
+   },
+   "any_pixel": {
+    "frames": 997,
+    "events": 969,
+    "frames_with_event_pct": 63.590772316950854,
+    "events_per_frame": 0.9719157472417251,
+    "pooled_share_of_predicted": 0.18255463451394122,
+    "predicted_class_instances": 5308,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 79,
+      "false_presence_rate": 0.512987012987013
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 74,
+      "false_presence_rate": 0.6065573770491803
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 15,
+      "false_presence_rate": 0.08571428571428572
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 29,
+      "false_presence_rate": 0.6041666666666666
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 378,
+      "false_presence_rate": 0.7368421052631579
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 78,
+      "false_presence_rate": 0.08715083798882682
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 41,
+      "false_presence_rate": 0.04418103448275862
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 87,
+      "false_presence_rate": 0.08726178535606821
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 185,
+      "false_presence_rate": 0.23963730569948186
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.0035502958579881655
+     }
+    }
+   },
+   "0.5pct": {
+    "frames": 997,
+    "events": 501,
+    "frames_with_event_pct": 44.0320962888666,
+    "events_per_frame": 0.5025075225677031,
+    "pooled_share_of_predicted": 0.10691421254801536,
+    "predicted_class_instances": 4686,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 39,
+      "false_presence_rate": 0.2532467532467532
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 21,
+      "false_presence_rate": 0.1721311475409836
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 6,
+      "false_presence_rate": 0.03428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 19,
+      "false_presence_rate": 0.3958333333333333
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 232,
+      "false_presence_rate": 0.4522417153996101
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.003232758620689655
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 45,
+      "false_presence_rate": 0.04513540621865597
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 136,
+      "false_presence_rate": 0.17616580310880828
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     }
+    }
+   }
+  },
+  "M6_noA1": {
+   "main_0.05pct": {
+    "frames": 997,
+    "events": 766,
+    "frames_with_event_pct": 58.07422266800401,
+    "events_per_frame": 0.7683049147442327,
+    "pooled_share_of_predicted": 0.15052073098840638,
+    "predicted_class_instances": 5089,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 57,
+      "false_presence_rate": 0.37012987012987014
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 58,
+      "false_presence_rate": 0.47540983606557374
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 12,
+      "false_presence_rate": 0.06857142857142857
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 25,
+      "false_presence_rate": 0.5208333333333334
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 335,
+      "false_presence_rate": 0.6530214424951267
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 16,
+      "false_presence_rate": 0.017877094972067038
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 22,
+      "false_presence_rate": 0.023706896551724137
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 77,
+      "false_presence_rate": 0.07723169508525576
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 162,
+      "false_presence_rate": 0.20984455958549222
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 2,
+      "false_presence_rate": 0.002366863905325444
+     }
+    }
+   },
+   "any_pixel": {
+    "frames": 997,
+    "events": 950,
+    "frames_with_event_pct": 63.49047141424273,
+    "events_per_frame": 0.9528585757271816,
+    "pooled_share_of_predicted": 0.17965204236006052,
+    "predicted_class_instances": 5288,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 71,
+      "false_presence_rate": 0.461038961038961
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 67,
+      "false_presence_rate": 0.5491803278688525
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 14,
+      "false_presence_rate": 0.08
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 28,
+      "false_presence_rate": 0.5833333333333334
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 378,
+      "false_presence_rate": 0.7368421052631579
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 77,
+      "false_presence_rate": 0.08603351955307263
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 41,
+      "false_presence_rate": 0.04418103448275862
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 87,
+      "false_presence_rate": 0.08726178535606821
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 184,
+      "false_presence_rate": 0.23834196891191708
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.0035502958579881655
+     }
+    }
+   },
+   "0.5pct": {
+    "frames": 997,
+    "events": 501,
+    "frames_with_event_pct": 44.0320962888666,
+    "events_per_frame": 0.5025075225677031,
+    "pooled_share_of_predicted": 0.10691421254801536,
+    "predicted_class_instances": 4686,
+    "per_class": {
+     "instrument-shaft": {
+      "frames_absent_from_ground_truth": 154,
+      "frames_predicted_while_absent": 39,
+      "false_presence_rate": 0.2532467532467532
+     },
+     "instrument-clasper": {
+      "frames_absent_from_ground_truth": 122,
+      "frames_predicted_while_absent": 21,
+      "false_presence_rate": 0.1721311475409836
+     },
+     "instrument-wrist": {
+      "frames_absent_from_ground_truth": 175,
+      "frames_predicted_while_absent": 6,
+      "false_presence_rate": 0.03428571428571429
+     },
+     "kidney-parenchyma": {
+      "frames_absent_from_ground_truth": 48,
+      "frames_predicted_while_absent": 19,
+      "false_presence_rate": 0.3958333333333333
+     },
+     "covered-kidney": {
+      "frames_absent_from_ground_truth": 513,
+      "frames_predicted_while_absent": 232,
+      "false_presence_rate": 0.4522417153996101
+     },
+     "thread": {
+      "frames_absent_from_ground_truth": 895,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "clamps": {
+      "frames_absent_from_ground_truth": 928,
+      "frames_predicted_while_absent": 3,
+      "false_presence_rate": 0.003232758620689655
+     },
+     "suturing-needle": {
+      "frames_absent_from_ground_truth": 902,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     },
+     "suction-instrument": {
+      "frames_absent_from_ground_truth": 997,
+      "frames_predicted_while_absent": 45,
+      "false_presence_rate": 0.04513540621865597
+     },
+     "intestine": {
+      "frames_absent_from_ground_truth": 772,
+      "frames_predicted_while_absent": 136,
+      "false_presence_rate": 0.17616580310880828
+     },
+     "ultrasound-probe": {
+      "frames_absent_from_ground_truth": 845,
+      "frames_predicted_while_absent": 0,
+      "false_presence_rate": 0.0
+     }
+    }
+   }
+  }
+ },
+ "definitions": "\nTASK F.1 and F.2 -- mcIoU beside mIoU for every model, and the hallucination rate. CPU only, from files that already exist.\n\n    python -m tools.mciou_hallucination --actions work_v2/actions --root <endovis2018_cvdataset> --out results/taskF\n\nF.1 mcIoU = per class over the frames where the class is in the ground truth, then the mean over classes (results/task6/final_results.json already holds the per-class IoU of M1..M6). Under the\nofficial rule class 0 is never scored and suction-instrument has no test pixels, so 10 of the 11 foreground classes are scored (11 of 12 only if background were counted).\n\nF.2 Hallucination. The official metric counts a class only if it is in the ground truth (utils.py:143), so a class the model INVENTS costs nothing. A HALLUCINATION EVENT is a (frame, class)\npair with the class absent from the ground truth and predicted with area >= FLOOR pixels at 1280x1024. FLOOR = 0.05% of the frame (655 px, about a 26x26 patch), a stated choice; the\nrates at 0 (any pixel) and 0.5% of the frame are stored as a sensitivity check and never substituted. Reported per model on the 997 test frames:\n  frames_with_event_pct   share of frames with at least one invented class\n  events_per_frame        mean number of invented classes per frame\n  pooled_share_of_predicted   events / all predicted (frame, class) pairs with area >= FLOOR   (what fraction of what the model says is present is invented)\n  per_class_false_presence    for each class, the share of the frames where it is ABSENT from the ground truth in which it is nevertheless predicted with area >= FLOOR\nM1..M6 are scored from the masks saved by tools/make_action_data.py (A0, A1, A2, A3, FUSE, FUSE+refine; M6 uses the selector's choice per frame from results/task5/choices_test.npz).\nOnly the test frames have saved masks, so this is a test-set measurement.\n",
+ "floor_px_at_full_resolution": {
+  "main_0.05pct": 655,
+  "any_pixel": 0,
+  "0.5pct": 6553
+ }
+}
