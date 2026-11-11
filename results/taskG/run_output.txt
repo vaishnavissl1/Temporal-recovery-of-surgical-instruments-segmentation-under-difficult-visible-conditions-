@@ -1,0 +1,28 @@
+  train/seq_1  30 frames used   1.3 min
+  train/seq_2  30 frames used   2.7 min
+  train/seq_3  30 frames used   3.9 min
+  train/seq_4  30 frames used   5.3 min
+  train/seq_5  30 frames used   6.6 min
+  train/seq_6  30 frames used   7.9 min
+  train/seq_7  30 frames used   9.3 min
+  train/seq_9  28 frames used   10.6 min
+  train/seq_10 30 frames used   11.8 min
+  train/seq_11 27 frames used   13.1 min
+  train/seq_12 30 frames used   14.5 min
+  train/seq_13 30 frames used   15.8 min
+  train/seq_14 30 frames used   17.1 min
+  train/seq_15 30 frames used   18.5 min
+  train/seq_16 30 frames used   19.8 min
+  instr_pixels_valid_two_map                 mean 0.563 [0.528, 0.601]  median 0.568
+  instr_pixels_valid_same_map                mean 0.763 [0.738, 0.788]  median 0.772
+  valid_fraction_all_pixels                  mean 0.588 [0.563, 0.613]  median 0.603
+  stereo_two_map                             mean 0.941 [0.927, 0.954]  median 0.967
+  stereo_same_map_on_two_map_set             mean 0.931 [0.914, 0.946]  median 0.950
+  stereo_same_map_own_set                    mean 0.991 [0.988, 0.993]  median 0.994
+  temporal_identity_on_stereo_set            mean 0.310 [0.265, 0.353]  median 0.248
+  temporal_identity_all_pixels               mean 0.323 [0.284, 0.360]  median 0.284
+  temporal_farneback_on_stereo_set           mean 0.426 [0.378, 0.476]  median 0.423
+  temporal_farneback_all_pixels              mean 0.422 [0.379, 0.467]  median 0.419
+  temporal_region_on_stereo_set              mean 0.310 [0.265, 0.353]  median 0.248
+  temporal_region_all_pixels                 mean 0.323 [0.284, 0.360]  median 0.284
+stereo(two-map) minus best temporal: {'best_temporal_aligner': 'farneback', 'mean': 0.5159026955285761, 'ci95': [0.46678136165647244, 0.5655156380008876], 'frac_frames_stereo_higher': 0.9865168539325843}
