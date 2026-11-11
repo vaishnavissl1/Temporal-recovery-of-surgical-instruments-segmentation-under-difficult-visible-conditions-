@@ -1,0 +1,379 @@
+{
+ "definition": "\nTASK H -- does per-PIXEL stereo evidence say WHERE the segmentation is wrong?\n\n    python -m tools.occlusion_localisation --work work_v2 --root <endovis2018_cvdataset> --out results/taskH\n\nThe frame-level versions of this signal failed (difficulty index Spearman about 0; occluded_fraction AUC 0.506). A frame-level failure does not\nimply the pixel-level one fails, and localisation is a different claim: it would say which part of a mask to distrust. Nothing here is fitted, so\nthere is no threshold or model to tune; the out-of-fold block is the reported result and the test block is computed once, after, for completeness.\n\nUniverse: pixels PREDICTED as an instrument class (8 ids) that lie inside the stereo field of view (in_view). Label: the pixel is WRONG if the ground-\ntruth class there differs from the predicted class (ground truth is used only to make this label). Everything is on the 256x320 cache grid: the cached\npredicted mask (out-of-fold honest: each training sequence is predicted by the fold model that excluded it), the ground truth nearest-neighbour\ndownsampled, and the 512x640 stereo evidence nearest-neighbour downsampled, exactly as tools/add_stereo_indicators.py does.\n\nPixel scores, higher = more suspect:\n  occluded       the pixel is hidden from the right camera (binary)\n  lr_fail        the pixel fails the left-right disparity consistency check (binary)\n  low_conf       255 - disparity confidence (0..255)\nReference localiser (not stereo): boundary_prox = 31 - (distance in pixels to the nearest class boundary of the predicted mask, clipped to 31). Errors concentrate\nat mask boundaries, so any stereo signal has to be read against it.\n\nReported, each as a pixel-level AUROC with a 95% interval from a bootstrap that resamples whole SEQUENCES (2000 draws, seed 0):\n  overall               all universe pixels, pooled\n  interior              pixels at least 4 grid pixels from a boundary (4 is a stated choice)\n  near_boundary         the rest\n  boundary_stratified   probability that a random wrong pixel outranks a random correct pixel AT THE SAME boundary distance (a pair is compared only within a\n                        distance level, levels combined by the number of wrong/correct pairs they contribute). This removes the boundary confound.\nThe AUROCs come from per-sequence histograms over (boundary distance, score level, label), so the intervals are exact functions of the data, not approximations.\n",
+ "interior_min_boundary_distance_px": 4,
+ "grid": "256x320",
+ "groups": {
+  "oof": {
+   "n_sequences": 15,
+   "n_pixels": 34689803,
+   "wrong_rate": 0.20722988827581407,
+   "scores": {
+    "occluded": {
+     "overall": {
+      "auroc": 0.5009522735029374,
+      "ci95": [
+       0.497309666944318,
+       0.5042726616410173
+      ]
+     },
+     "interior": {
+      "auroc": 0.49871094030005325,
+      "ci95": [
+       0.49359442387938396,
+       0.5030479286237548
+      ]
+     },
+     "near_boundary": {
+      "auroc": 0.5050512796150352,
+      "ci95": [
+       0.502596378724393,
+       0.5069708701853338
+      ]
+     },
+     "boundary_stratified": {
+      "auroc": 0.5035973934756408,
+      "ci95": [
+       0.5007794724949376,
+       0.5057565663246489
+      ]
+     }
+    },
+    "lr_fail": {
+     "overall": {
+      "auroc": 0.5219112177776499,
+      "ci95": [
+       0.5061393728509452,
+       0.5437493080952892
+      ]
+     },
+     "interior": {
+      "auroc": 0.5443948992513594,
+      "ci95": [
+       0.5246736715526484,
+       0.5829215275290109
+      ]
+     },
+     "near_boundary": {
+      "auroc": 0.5394154268178335,
+      "ci95": [
+       0.5242087754477485,
+       0.555714054043188
+      ]
+     },
+     "boundary_stratified": {
+      "auroc": 0.544076001283206,
+      "ci95": [
+       0.5283744614636495,
+       0.5636171733180483
+      ]
+     }
+    },
+    "low_conf": {
+     "overall": {
+      "auroc": 0.5290339517213718,
+      "ci95": [
+       0.5105211940886755,
+       0.55470859754045
+      ]
+     },
+     "interior": {
+      "auroc": 0.5536615782513589,
+      "ci95": [
+       0.5299442757626077,
+       0.5936058562831295
+      ]
+     },
+     "near_boundary": {
+      "auroc": 0.5357781571461645,
+      "ci95": [
+       0.5177271612277825,
+       0.5561642355351797
+      ]
+     },
+     "boundary_stratified": {
+      "auroc": 0.5407663513060867,
+      "ci95": [
+       0.5215121056948889,
+       0.5642883251170865
+      ]
+     }
+    },
+    "boundary_prox": {
+     "overall": {
+      "auroc": 0.7409515697801082,
+      "ci95": [
+       0.6791245024396098,
+       0.8080388297124541
+      ]
+     },
+     "interior": {
+      "auroc": 0.5902847547353853,
+      "ci95": [
+       0.5385793745072804,
+       0.6434695637720957
+      ]
+     },
+     "near_boundary": {
+      "auroc": 0.6806766578143854,
+      "ci95": [
+       0.6603783735632247,
+       0.708913083373874
+      ]
+     },
+     "boundary_stratified": {
+      "auroc": 0.5,
+      "ci95": [
+       0.5,
+       0.5
+      ]
+     }
+    }
+   },
+   "per_sequence_overall_auroc": {
+    "train/seq_1": {
+     "occluded": 0.4992419110752449,
+     "lr_fail": 0.4977648213679782,
+     "low_conf": 0.5256081440182683,
+     "boundary_prox": 0.7728879247742492
+    },
+    "train/seq_10": {
+     "occluded": 0.4951940889600994,
+     "lr_fail": 0.563188592410228,
+     "low_conf": 0.5821254260892995,
+     "boundary_prox": 0.829282317339918
+    },
+    "train/seq_11": {
+     "occluded": 0.49430816877369366,
+     "lr_fail": 0.5205648937890377,
+     "low_conf": 0.5229476307936416,
+     "boundary_prox": 0.8650956026354916
+    },
+    "train/seq_12": {
+     "occluded": 0.49153618908777796,
+     "lr_fail": 0.49094150973470074,
+     "low_conf": 0.49325564813094935,
+     "boundary_prox": 0.7669385772221238
+    },
+    "train/seq_13": {
+     "occluded": 0.5068071865590297,
+     "lr_fail": 0.6242590843938164,
+     "low_conf": 0.6455756733181509,
+     "boundary_prox": 0.7047453019058074
+    },
+    "train/seq_14": {
+     "occluded": 0.510940428564497,
+     "lr_fail": 0.5570603034070287,
+     "low_conf": 0.5531090606995889,
+     "boundary_prox": 0.5425170812404214
+    },
+    "train/seq_15": {
+     "occluded": 0.4943396088743373,
+     "lr_fail": 0.5528459903820171,
+     "low_conf": 0.5800533838746612,
+     "boundary_prox": 0.8904016655772428
+    },
+    "train/seq_16": {
+     "occluded": 0.4857322588584544,
+     "lr_fail": 0.53783154619586,
+     "low_conf": 0.5459944111517249,
+     "boundary_prox": 0.875711854888136
+    },
+    "train/seq_2": {
+     "occluded": 0.5081293815938289,
+     "lr_fail": 0.5168878970726626,
+     "low_conf": 0.5356476060702142,
+     "boundary_prox": 0.7006481897879774
+    },
+    "train/seq_3": {
+     "occluded": 0.4950694760196358,
+     "lr_fail": 0.46235473624194035,
+     "low_conf": 0.47208099957886984,
+     "boundary_prox": 0.8287750990794209
+    },
+    "train/seq_4": {
+     "occluded": 0.510155659558194,
+     "lr_fail": 0.5184551052048129,
+     "low_conf": 0.5142400388561834,
+     "boundary_prox": 0.8004911617799156
+    },
+    "train/seq_5": {
+     "occluded": 0.4989968413417315,
+     "lr_fail": 0.5237516662205758,
+     "low_conf": 0.5149585590726523,
+     "boundary_prox": 0.8211224969663381
+    },
+    "train/seq_6": {
+     "occluded": 0.5057202823234039,
+     "lr_fail": 0.5555660868885071,
+     "low_conf": 0.5669743807557068,
+     "boundary_prox": 0.7623187584054281
+    },
+    "train/seq_7": {
+     "occluded": 0.5061911214964634,
+     "lr_fail": 0.5668796594962834,
+     "low_conf": 0.5747129104785735,
+     "boundary_prox": 0.6039942361608645
+    },
+    "train/seq_9": {
+     "occluded": 0.4996715510266975,
+     "lr_fail": 0.5405410317407909,
+     "low_conf": 0.5399036302817467,
+     "boundary_prox": 0.8165036182952417
+    }
+   }
+  },
+  "test": {
+   "n_sequences": 4,
+   "n_pixels": 12460904,
+   "wrong_rate": 0.19248555321507974,
+   "scores": {
+    "occluded": {
+     "overall": {
+      "auroc": 0.49743583024358345,
+      "ci95": [
+       0.496111196963171,
+       0.4997540074837669
+      ]
+     },
+     "interior": {
+      "auroc": 0.49415461152794665,
+      "ci95": [
+       0.4902676546044754,
+       0.5002491676642894
+      ]
+     },
+     "near_boundary": {
+      "auroc": 0.5013842963476631,
+      "ci95": [
+       0.4996825091343814,
+       0.5030179401863327
+      ]
+     },
+     "boundary_stratified": {
+      "auroc": 0.49976511118001965,
+      "ci95": [
+       0.49801636395129734,
+       0.5009761787027726
+      ]
+     }
+    },
+    "lr_fail": {
+     "overall": {
+      "auroc": 0.5048125917633026,
+      "ci95": [
+       0.4864397030451055,
+       0.5168157761752028
+      ]
+     },
+     "interior": {
+      "auroc": 0.5090072310994813,
+      "ci95": [
+       0.4817487186338002,
+       0.5435592373802769
+      ]
+     },
+     "near_boundary": {
+      "auroc": 0.5255226587059795,
+      "ci95": [
+       0.5050693476135103,
+       0.5407257782483356
+      ]
+     },
+     "boundary_stratified": {
+      "auroc": 0.5218380064453243,
+      "ci95": [
+       0.5034045961372344,
+       0.5360258346031129
+      ]
+     }
+    },
+    "low_conf": {
+     "overall": {
+      "auroc": 0.515609609830048,
+      "ci95": [
+       0.4776006648664392,
+       0.5489540587033562
+      ]
+     },
+     "interior": {
+      "auroc": 0.514559463917862,
+      "ci95": [
+       0.47415414192328637,
+       0.5780903249032205
+      ]
+     },
+     "near_boundary": {
+      "auroc": 0.5171123229432314,
+      "ci95": [
+       0.4872418444530007,
+       0.550503532025522
+      ]
+     },
+     "boundary_stratified": {
+      "auroc": 0.5110891079932957,
+      "ci95": [
+       0.47988659007735895,
+       0.5408602968284132
+      ]
+     }
+    },
+    "boundary_prox": {
+     "overall": {
+      "auroc": 0.7774150594876503,
+      "ci95": [
+       0.738856547523603,
+       0.8180984441915626
+      ]
+     },
+     "interior": {
+      "auroc": 0.6522574509688626,
+      "ci95": [
+       0.6074740068642697,
+       0.6836648342318488
+      ]
+     },
+     "near_boundary": {
+      "auroc": 0.6837348211394545,
+      "ci95": [
+       0.6511346306737674,
+       0.721272616801081
+      ]
+     },
+     "boundary_stratified": {
+      "auroc": 0.5,
+      "ci95": [
+       0.5,
+       0.5
+      ]
+     }
+    }
+   },
+   "per_sequence_overall_auroc": {
+    "test/seq_1": {
+     "occluded": 0.49597234967341286,
+     "lr_fail": 0.5048995895141306,
+     "low_conf": 0.5230709778782404,
+     "boundary_prox": 0.7518641746127211
+    },
+    "test/seq_2": {
+     "occluded": 0.497031657873867,
+     "lr_fail": 0.5061335256361637,
+     "low_conf": 0.5293702427885025,
+     "boundary_prox": 0.7992367547542512
+    },
+    "test/seq_3": {
+     "occluded": 0.4962120199749199,
+     "lr_fail": 0.5182981393037216,
+     "low_conf": 0.5672237002198647,
+     "boundary_prox": 0.8593930620477607
+    },
+    "test/seq_4": {
+     "occluded": 0.4986997211662836,
+     "lr_fail": 0.4636795091802584,
+     "low_conf": 0.4455456924145618,
+     "boundary_prox": 0.6912909659255345
+    }
+   }
+  }
+ }
+}

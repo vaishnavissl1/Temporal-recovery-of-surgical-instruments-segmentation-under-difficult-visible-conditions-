@@ -1,0 +1,33 @@
+  train/seq_1  2674994 universe pixels, 20.7% wrong
+  train/seq_10 1766735 universe pixels, 7.1% wrong
+  train/seq_11 1985431 universe pixels, 9.7% wrong
+  train/seq_12 2493695 universe pixels, 13.0% wrong
+  train/seq_13 1968002 universe pixels, 16.8% wrong
+  train/seq_14 2562713 universe pixels, 49.1% wrong
+  train/seq_15 1949432 universe pixels, 8.8% wrong
+  train/seq_16 1731276 universe pixels, 11.7% wrong
+  train/seq_2  2547983 universe pixels, 23.0% wrong
+  train/seq_3  1873559 universe pixels, 15.3% wrong
+  train/seq_4  3407104 universe pixels, 20.2% wrong
+  train/seq_5  2520661 universe pixels, 17.1% wrong
+  train/seq_6  1990931 universe pixels, 15.8% wrong
+  train/seq_7  3055176 universe pixels, 49.8% wrong
+  train/seq_9  2162111 universe pixels, 9.3% wrong
+
+OUT OF FOLD (15 training sequences)
+  occluded       overall 0.501 [0.497,0.504]  interior 0.499 [0.494,0.503]  near_boundary 0.505 [0.503,0.507]  boundary_stratified 0.504 [0.501,0.506]
+  lr_fail        overall 0.522 [0.506,0.544]  interior 0.544 [0.525,0.583]  near_boundary 0.539 [0.524,0.556]  boundary_stratified 0.544 [0.528,0.564]
+  low_conf       overall 0.529 [0.511,0.555]  interior 0.554 [0.530,0.594]  near_boundary 0.536 [0.518,0.556]  boundary_stratified 0.541 [0.522,0.564]
+  boundary_prox  overall 0.741 [0.679,0.808]  interior 0.590 [0.539,0.643]  near_boundary 0.681 [0.660,0.709]  boundary_stratified 0.500 [0.500,0.500]
+  ! seq_3 [test]: dropping 1 unlabelled frame(s): ['frame249.png']
+  ! seq_4 [test]: dropping 1 unlabelled frame(s): ['frame249.png']
+  test/seq_1   3819119 universe pixels, 18.2% wrong
+  test/seq_2   3644110 universe pixels, 17.2% wrong
+  test/seq_3   3339964 universe pixels, 10.9% wrong
+  test/seq_4   1657711 universe pixels, 42.9% wrong
+
+TEST (4 sequences, computed once)
+  occluded       overall 0.497 [0.496,0.500]  interior 0.494 [0.490,0.500]  near_boundary 0.501 [0.500,0.503]  boundary_stratified 0.500 [0.498,0.501]
+  lr_fail        overall 0.505 [0.486,0.517]  interior 0.509 [0.482,0.544]  near_boundary 0.526 [0.505,0.541]  boundary_stratified 0.522 [0.503,0.536]
+  low_conf       overall 0.516 [0.478,0.549]  interior 0.515 [0.474,0.578]  near_boundary 0.517 [0.487,0.551]  boundary_stratified 0.511 [0.480,0.541]
+  boundary_prox  overall 0.777 [0.739,0.818]  interior 0.652 [0.607,0.684]  near_boundary 0.684 [0.651,0.721]  boundary_stratified 0.500 [0.500,0.500]
