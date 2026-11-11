@@ -1,0 +1,116 @@
+{
+ "reference_mIoU": 0.6128226461561004,
+ "frames": 997,
+ "per_sequence_reference": {
+  "test/seq_1": 0.6680777300650582,
+  "test/seq_2": 0.5638007768622715,
+  "test/seq_3": 0.8059832063891263,
+  "test/seq_4": 0.4132069633404397
+ },
+ "rows": [
+  {
+   "name": "reference: official protocol",
+   "mIoU": 0.6128226461561004,
+   "delta_points_vs_reference": 0.0,
+   "frames_scored": 997,
+   "classes_scored": null,
+   "settings": "official defaults",
+   "resolution": "1280x1024"
+  },
+  {
+   "name": "background included in the per-frame mean",
+   "mIoU": 0.6451532297791384,
+   "delta_points_vs_reference": 3.233058362303798,
+   "frames_scored": 997,
+   "classes_scored": null,
+   "settings": {
+    "include_bg": true
+   },
+   "resolution": "1280x1024"
+  },
+  {
+   "name": "class counted if in ground truth OR prediction",
+   "mIoU": 0.5021390985466314,
+   "delta_points_vs_reference": -11.068354760946896,
+   "frames_scored": 997,
+   "classes_scored": null,
+   "settings": {
+    "presence": "union"
+   },
+   "resolution": "1280x1024"
+  },
+  {
+   "name": "per-class mean over frames, then over classes (mcIoU)",
+   "mIoU": 0.4955984493186123,
+   "delta_points_vs_reference": -11.722419683748807,
+   "frames_scored": 997,
+   "classes_scored": 10,
+   "settings": {
+    "per_class": true
+   },
+   "resolution": "1280x1024"
+  },
+  {
+   "name": "sequence means averaged unweighted",
+   "mIoU": 0.6127671691642239,
+   "delta_points_vs_reference": -0.0055476991876468595,
+   "frames_scored": 997,
+   "classes_scored": null,
+   "settings": {
+    "weighted": false
+   },
+   "resolution": "1280x1024"
+  },
+  {
+   "name": "evaluated at 512x640 (ground truth downsampled)",
+   "mIoU": 0.6132249445484964,
+   "delta_points_vs_reference": 0.04022983923960277,
+   "frames_scored": 997,
+   "classes_scored": null,
+   "settings": "official defaults",
+   "resolution": "512x640"
+  },
+  {
+   "name": "background included + ground-truth-or-prediction presence",
+   "mIoU": 0.5447198487961831,
+   "delta_points_vs_reference": -6.810279735991731,
+   "frames_scored": 997,
+   "classes_scored": null,
+   "settings": {
+    "include_bg": true,
+    "presence": "union"
+   },
+   "resolution": "1280x1024",
+   "combined": true
+  },
+  {
+   "name": "background included, evaluated at 512x640",
+   "mIoU": 0.6455383648620401,
+   "delta_points_vs_reference": 3.27157187059397,
+   "frames_scored": 997,
+   "classes_scored": null,
+   "settings": {
+    "include_bg": true
+   },
+   "resolution": "512x640",
+   "combined": true
+  },
+  {
+   "name": "per-class mean (mcIoU) + background included",
+   "mIoU": 0.5217529474581623,
+   "delta_points_vs_reference": -9.106969869793813,
+   "frames_scored": 997,
+   "classes_scored": 11,
+   "settings": {
+    "include_bg": true,
+    "per_class": true
+   },
+   "resolution": "1280x1024",
+   "combined": true
+  }
+ ],
+ "predictions": "M1 test masks (work_v2/actions/test_masks, A0), 997 frames, 4 sequences",
+ "unit": "delta_points_vs_reference is in mIoU points (0.01 = 1 point on a 0-100 scale is +1.0)",
+ "crosscheck_task6_M1_mIoU": 0.6128226461561003,
+ "crosscheck_abs_difference": 1.1102230246251565e-16
+}
