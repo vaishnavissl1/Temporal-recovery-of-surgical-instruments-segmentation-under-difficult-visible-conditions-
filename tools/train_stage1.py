@@ -354,7 +354,15 @@ def main() -> int:
                     "a setting that fits your GPU.")
 
             n = images.size(0)
-            meter.update(float(loss.detach()), n)
+            _lv = float(loss.detach())
+            if _lv != _lv or _lv in (float("inf"), float("-inf")):
+                _bad = globals().get("_BAD_STEPS", 0) + 1
+                globals()["_BAD_STEPS"] = _bad
+                if _bad >= 3:       # the weights are no longer usable: stop at once instead of wasting hours of GPU time
+                    raise SystemExit(f"\nNON-FINITE LOSS for {_bad} consecutive steps at epoch {epoch}: training diverged; aborting (exit 3).")
+            else:
+                globals()["_BAD_STEPS"] = 0
+            meter.update(_lv, n)
             ce_m.update(parts["ce"], n)
             dc_m.update(parts["dice"], n)
             tv_m.update(parts.get("tversky", 0.0), n)
@@ -384,12 +392,25 @@ def main() -> int:
                "ce": ce_m.avg, "dice_loss": dc_m.avg, "tversky": tv_m.avg,
                "secs": round(time.time() - t0, 1), **stats}
         history.append(row)
-        print(f"[{epoch+1:3d}/{args.epochs}] loss={meter.avg:.4f} "
-              f"(ce={ce_m.avg:.4f} dice={dc_m.avg:.4f})  "
-              f"val mIoU={stats['mIoU']:.4f}  "
-              f"chIoU={stats['challenge_IoU_union']:.4f}  "
-              f"instIoU={stats['instrument_IoU_per_frame']:.4f}  {row['secs']}s"
+        _prev = history[-2]["loss"] if len(history) > 1 else None
+        _trend = "" if _prev is None else f" ({'UP' if meter.avg > _prev else 'down'} {meter.avg - _prev:+.4f})"
+        if val_loader is not None:
+            _val = (f"val mIoU={stats['mIoU']:.4f}  chIoU={stats['challenge_IoU_union']:.4f}  "
+                    f"instIoU={stats['instrument_IoU_per_frame']:.4f}")
+        else:
+            _val = "val: none (no validation split; watch the training loss)"
+        print(f"[{epoch+1:3d}/{args.epochs}] loss={meter.avg:.4f}{_trend} "
+              f"(ce={ce_m.avg:.4f} dice={dc_m.avg:.4f})  {_val}  {row['secs']}s"
               f"  (ETA {row['secs'] * (args.epochs - epoch - 1) / 3600:.1f} h)")
+        # divergence guard on the TRAINING loss: a non-finite epoch loss, or a loss that has risen for three epochs in a row, ends the run now
+        # (exit 3) so that a diverging run cannot use its whole schedule; the driver script records it and relaunches at a lower learning rate.
+        _ls = [h["loss"] for h in history]
+        if not np.isfinite(_ls[-1]):
+            write_json(os.path.join(args.out, "stage1_history.json"), {"history": history, "best_mIoU": best, "args": vars(args), "aborted": "non-finite epoch loss"})
+            raise SystemExit(f"\nDIVERGENCE GUARD: non-finite epoch loss at epoch {epoch+1}; aborting (exit 3).")
+        if len(_ls) >= 4 and _ls[-1] > _ls[-2] > _ls[-3] > _ls[-4]:
+            write_json(os.path.join(args.out, "stage1_history.json"), {"history": history, "best_mIoU": best, "args": vars(args), "aborted": "loss rose 3 epochs in a row"})
+            raise SystemExit(f"\nDIVERGENCE GUARD: training loss rose for three consecutive epochs ({_ls[-4]:.4f} -> {_ls[-1]:.4f}) at epoch {epoch+1}; aborting (exit 3).")
 
         meta = {"args": vars(args), "epoch": epoch, "stats": stats,
                 "num_classes": num_classes, "target_names": names,

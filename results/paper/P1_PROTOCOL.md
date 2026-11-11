@@ -24,6 +24,28 @@ inverse-square-root class weights clipped at 12, the same augmentation pipeline,
 proposed model uses stochastic depth 0.1 inside its encoder (a property of that architecture); the baselines have none (SegFormer uses its own configured value).
 The command lines are in `work_v2/run_baselines.sh` and `work_v2/baselines/*.log`.
 
+## Training safeguards and what happened (added 12 November)
+
+The proposed model and all baselines train on all 15 sequences, so there is no validation split and the "val mIoU" printed by the training script was `nan` on every epoch of every run. A metric that
+is always `nan` hides failure: the first DeepLabV3+ run was allowed to reach epoch 11 while its training loss had been rising since epoch 6. Two changes were made to `tools/train_stage1.py`:
+
+1. **Divergence guard on the training loss.** The run stops at once (exit code 3) if an epoch loss is not finite, or if the epoch loss has risen for three consecutive epochs (four values, each larger than
+   the last), or if three consecutive optimiser steps give a non-finite loss (added earlier). The driver script `work_v2/run_baselines3.sh` then moves the failed run to `work_v2/baselines/_failed_<model>` and relaunches it once at one third of the
+   learning rate (1e-4). A relaunched run that fails again stays failed and is reported as absent.
+2. **No always-`nan` metric.** With no validation split the log prints the training loss, its change from the previous epoch ("UP" or "down") and the words "val: none", instead of three `nan` metrics.
+   No validation split was held out: doing so for the baselines only would have changed their training data from the proposed model's, and the baselines must stay protocol-matched.
+
+Applied to every baseline. SegFormer-B0 had already started when the epoch-level guard was added (it carries the step-level guard only, and its loss was falling: 2.657 then 1.718 in epochs 1 and 2); its finished
+`stage1_history.json` is checked after the run with the identical rule and the result recorded here. U-Net and DeepLabV3+ start after the change and carry both guards. Divergences so far, all before the guard:
+
+| Run | What happened | Action |
+|---|---|---|
+| DeepLabV3+, run 1 | loss 0.56 at epoch 6 rising to 1.90 at epoch 11; pretrained BatchNorm uses batch statistics at batch size 1 | stopped by hand; BatchNorm statistics frozen (kept in `work_v2/baselines/_diverged_run1`) |
+| DeepLabV3+, run 2 | loss 0.67 at epoch 4, 0.94 at epoch 5, non-finite at epoch 6; the image-pooling branch had no normalisation | GroupNorm added to that branch, step-level guard added (kept in `_diverged_run2`) |
+
+Run 3 changes the order (SegFormer-B0 and U-Net first, DeepLabV3+ last). The frozen BatchNorm statistics and the extra GroupNorm are properties of this DeepLabV3+ implementation at batch size 1, not changes of the shared recipe.
+Any learning-rate retry is a deviation from the 3e-4 shared with the other models and is listed in the results table.
+
 ## Identical evaluation
 
 The model's argmax at 512x640, nearest-neighbour upsampled to 1280x1024, scored with the official rule (class 0 never scored, a class counted only if it is in the ground truth, mean over classes
