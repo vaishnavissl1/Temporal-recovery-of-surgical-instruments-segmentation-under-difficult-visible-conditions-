@@ -1,0 +1,179 @@
+{
+ "n_training_frames": 2235,
+ "loss_definition": "mean per-pixel cross-entropy, raw softmax, out-of-fold model, 512x640",
+ "top_n": 20,
+ "top20_by_sequence": {
+  "train/seq_16": 14,
+  "train/seq_5": 6
+ },
+ "top20_loss_range": [
+  6.00826,
+  7.39309
+ ],
+ "median_loss_all_frames": 0.77586,
+ "gate_failures_oof": {
+  "official_iou_below_0_5": 310,
+  "instrument_iou_below_0_5": 619
+ },
+ "top20_that_are_gate_failures": {
+  "official_iou_below_0_5": 1,
+  "instrument_iou_below_0_5": 1
+ },
+ "top20_official_iou_range": [
+  0.474633,
+  0.747082
+ ],
+ "inspection": {
+  "method": "each of the 20 frames viewed as photograph | ground truth overlay | model prediction overlay (local images, not published); judged by one reviewer (the assistant), not a domain expert; the judgement is a visual impression, not a validated annotation audit",
+  "looks_like_label_error": 0,
+  "looks_like_model_error_on_tissue_classes": 20,
+  "what_was_seen": "In every frame the ground truth is a plausible, smooth and frame-to-frame consistent labelling (the whole visible kidney surface as kidney-parenchyma, covered kidney and intestine at the edges, instruments outlined correctly). The model's mask for the same frames hedges between kidney-parenchyma, covered-kidney and untinted background tissue in large patches, while the instruments are segmented well. 14 of the 20 are from train/seq_16 and 6 from train/seq_5.",
+  "frames": [
+   {
+    "rank": 1,
+    "sequence": "train/seq_16",
+    "file": "frame130.png",
+    "loss": 7.39309,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 2,
+    "sequence": "train/seq_5",
+    "file": "frame083.png",
+    "loss": 7.06341,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 3,
+    "sequence": "train/seq_16",
+    "file": "frame122.png",
+    "loss": 6.93816,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 4,
+    "sequence": "train/seq_16",
+    "file": "frame129.png",
+    "loss": 6.81046,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 5,
+    "sequence": "train/seq_16",
+    "file": "frame056.png",
+    "loss": 6.62931,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 6,
+    "sequence": "train/seq_16",
+    "file": "frame118.png",
+    "loss": 6.57732,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 7,
+    "sequence": "train/seq_16",
+    "file": "frame123.png",
+    "loss": 6.48103,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 8,
+    "sequence": "train/seq_16",
+    "file": "frame131.png",
+    "loss": 6.44278,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 9,
+    "sequence": "train/seq_16",
+    "file": "frame111.png",
+    "loss": 6.41653,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 10,
+    "sequence": "train/seq_16",
+    "file": "frame112.png",
+    "loss": 6.38792,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 11,
+    "sequence": "train/seq_16",
+    "file": "frame051.png",
+    "loss": 6.38013,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 12,
+    "sequence": "train/seq_5",
+    "file": "frame102.png",
+    "loss": 6.37197,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 13,
+    "sequence": "train/seq_16",
+    "file": "frame074.png",
+    "loss": 6.37194,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 14,
+    "sequence": "train/seq_5",
+    "file": "frame085.png",
+    "loss": 6.36042,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 15,
+    "sequence": "train/seq_16",
+    "file": "frame132.png",
+    "loss": 6.30756,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 16,
+    "sequence": "train/seq_5",
+    "file": "frame087.png",
+    "loss": 6.23668,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 17,
+    "sequence": "train/seq_16",
+    "file": "frame113.png",
+    "loss": 6.14107,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 18,
+    "sequence": "train/seq_5",
+    "file": "frame095.png",
+    "loss": 6.13889,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 19,
+    "sequence": "train/seq_16",
+    "file": "frame063.png",
+    "loss": 6.02637,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   },
+   {
+    "rank": 20,
+    "sequence": "train/seq_5",
+    "file": "frame103.png",
+    "loss": 6.00826,
+    "verdict": "model error on tissue classes; ground truth plausible"
+   }
+  ]
+ },
+ "upper_bound": {
+  "statement": "0 of 20 inspected top-loss frames look like label error. An exact one-sided 95% upper bound on the share of label errors among frames like these is 13.9% (1 - 0.05^(1/20)).",
+  "value": 0.13910834066826516
+ },
+ "answer": "The out-of-fold loss ranking surfaces model failures on tissue classes, not label errors. Only 1 of the top 20 is a gate failure at all (official IoU below 0.5), out of 310 such frames among the 2235 training frames (13.9%). So label error of the kind this probe can find accounts for none of the gate failures seen and, among top-loss frames, for at most about 14%. The probe does not look at instrument-label errors specifically and cannot rule out a few wrong instrument labels outside the top 20."
+}

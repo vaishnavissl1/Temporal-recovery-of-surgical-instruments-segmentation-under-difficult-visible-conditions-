@@ -1,0 +1,36 @@
+  GPU memory hard cap: 3.30 GB of 4.00 GB
+  fold 0 train/seq_1: 149 frames
+  fold 0 train/seq_10: 149 frames
+  fold 0 train/seq_15: 149 frames
+  fold 0 train/seq_3: 149 frames
+  fold 0 train/seq_6: 149 frames
+  fold 1 train/seq_11: 149 frames
+  fold 1 train/seq_13: 149 frames
+  fold 1 train/seq_14: 149 frames
+  fold 1 train/seq_4: 149 frames
+  fold 1 train/seq_7: 149 frames
+  fold 2 train/seq_12: 149 frames
+  fold 2 train/seq_16: 149 frames
+  fold 2 train/seq_2: 149 frames
+  fold 2 train/seq_5: 149 frames
+  fold 2 train/seq_9: 149 frames
+train/seq_16 frame130.png   loss 7.393  official IoU 0.564  instrument IoU 0.887
+train/seq_5  frame083.png   loss 7.063  official IoU 0.713  instrument IoU 0.808
+train/seq_16 frame122.png   loss 6.938  official IoU 0.621  instrument IoU 0.890
+train/seq_16 frame129.png   loss 6.810  official IoU 0.612  instrument IoU 0.904
+train/seq_16 frame056.png   loss 6.629  official IoU 0.555  instrument IoU 0.863
+train/seq_16 frame118.png   loss 6.577  official IoU 0.596  instrument IoU 0.861
+train/seq_16 frame123.png   loss 6.481  official IoU 0.627  instrument IoU 0.895
+train/seq_16 frame131.png   loss 6.443  official IoU 0.599  instrument IoU 0.897
+train/seq_16 frame111.png   loss 6.417  official IoU 0.588  instrument IoU 0.517
+train/seq_16 frame112.png   loss 6.388  official IoU 0.607  instrument IoU 0.852
+train/seq_16 frame051.png   loss 6.380  official IoU 0.558  instrument IoU 0.863
+train/seq_5  frame102.png   loss 6.372  official IoU 0.475  instrument IoU 0.480
+train/seq_16 frame074.png   loss 6.372  official IoU 0.622  instrument IoU 0.867
+train/seq_5  frame085.png   loss 6.360  official IoU 0.698  instrument IoU 0.779
+train/seq_16 frame132.png   loss 6.308  official IoU 0.608  instrument IoU 0.867
+train/seq_5  frame087.png   loss 6.237  official IoU 0.707  instrument IoU 0.787
+train/seq_16 frame113.png   loss 6.141  official IoU 0.599  instrument IoU 0.874
+train/seq_5  frame095.png   loss 6.139  official IoU 0.747  instrument IoU 0.839
+train/seq_16 frame063.png   loss 6.026  official IoU 0.563  instrument IoU 0.876
+train/seq_5  frame103.png   loss 6.008  official IoU 0.693  instrument IoU 0.768
