@@ -1,0 +1,47 @@
+OOF frames 2235, routed by the gate (r < 0.640): 1110 (49.7%)
+
+HELD-OUT TRAINING SEQUENCES (cross-fitted selector)
+policy           activation% mean dIoU(all) mean dIoU(corrected)  HARMFUL % of corrected improved %  CPU ms
+A0 (keep)                0.0        +0.0000              +0.0000                     0.0        0.0     0.0
+oracle (routed)         44.3        +0.0110              +0.0249                     0.0       19.4   992.3
+selector                24.2        +0.0049              +0.0202                     2.0       16.3   191.2
+always-A1 (routed)        49.7        -0.0000              -0.0000                     1.4        1.1     3.8
+always-A2 (routed)        27.9        +0.0003              +0.0012                     2.2        3.7  1815.5
+always-A3 (routed)        49.7        +0.0098              +0.0196                     1.1       14.8   111.0
+always-fuse (routed)        49.7        +0.0003              +0.0006                     2.7        3.7  1814.9
+always-fuse (EVERY frame)       100.0        +0.0004              +0.0004                     1.5        2.2  3205.4
+always-fuse+refine (EVERY)       100.0        +0.0191              +0.0191                     2.0       13.4  3428.4
+
+prediction quality on routed OOF frames (predicted vs measured IoU change):
+  A1: n=1110  Pearson -0.027  MAE 0.0026  (true mean -0.0000, predicted mean +0.0002)
+  A2: n=623  Pearson -0.069  MAE 0.0074  (true mean +0.0012, predicted mean +0.0020)
+  A3: n=1110  Pearson +0.136  MAE 0.0332  (true mean +0.0196, predicted mean +0.0127)
+  FUSE: n=1110  Pearson +0.024  MAE 0.0062  (true mean +0.0006, predicted mean +0.0013)
+
+abstention-margin sweep on OOF (information only; the margin is a stated choice):
+  margin 0.000: activation  47.2%  mean dIoU +0.0066  harmful   1.7% of corrected
+  margin 0.005: activation  32.4%  mean dIoU +0.0056  harmful   2.2% of corrected
+  margin 0.010: activation  24.2%  mean dIoU +0.0049  harmful   2.0% of corrected
+  margin 0.020: activation  13.4%  mean dIoU +0.0040  harmful   1.0% of corrected
+  margin 0.050: activation   3.5%  mean dIoU +0.0023  harmful   0.0% of corrected
+  margin 0.100: activation   0.9%  mean dIoU +0.0007  harmful   0.0% of corrected
+
+OFFICIAL TEST: 997 frames, routed 303 (30.4%)
+
+OFFICIAL TEST SEQUENCES (selector fit on all training frames)
+policy           activation% mean dIoU(all) mean dIoU(corrected)  HARMFUL % of corrected improved %  CPU ms
+A0 (keep)                0.0        +0.0000              +0.0000                     0.0        0.0     0.0
+oracle (routed)         20.7        +0.0195              +0.0943                     0.0       18.9   646.3
+selector                24.7        +0.0186              +0.0755                     1.6       11.4   145.9
+always-A1 (routed)        30.4        +0.0001              +0.0004                     0.7        0.7     2.4
+always-A2 (routed)        20.5        +0.0002              +0.0008                     1.5        1.5  1000.6
+always-A3 (routed)        30.4        +0.0189              +0.0621                     1.0       10.2    63.5
+always-fuse (routed)        30.4        +0.0003              +0.0009                     1.7        2.6   997.4
+always-fuse (EVERY frame)       100.0        -0.0010              -0.0010                     1.1        0.9  2855.9
+always-fuse+refine (EVERY)       100.0        +0.0252              +0.0252                     1.2        8.0  3068.7
+
+STOP CHECK [oof]: oracle gain +0.0110 vs always-A2 +0.0003 (difference +0.0107) -> oracle has real headroom over always-A2
+
+STOP CHECK [test]: oracle gain +0.0195 vs always-A2 +0.0002 (difference +0.0193) -> oracle has real headroom over always-A2
+
+wrote results/taskA/region/selector_results.json

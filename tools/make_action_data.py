@@ -57,7 +57,8 @@ def run_group(bundle, seqs, orig, a, group_name, save_masks):
     inst, nc = bundle.instrument_ids, bundle.num_classes
     names = bundle.target_names
     params = ActionParams()
-    rec = TemporalRecovery(aligner=build_align("identity"), tau=bundle.tau, gamma=a.gamma,
+    kw = {"instrument_ids": inst} if a.aligner == "region" else {}
+    rec = TemporalRecovery(aligner=build_align(a.aligner, **kw), tau=bundle.tau, gamma=a.gamma,
                            num_classes=nc, instrument_ids=inst)
     for seq in seqs:
         out_path = os.path.join(a.out, f"{group_name}__{seq.split}_{seq.name}.npz")
@@ -155,10 +156,15 @@ def main():
     ap.add_argument("--out", required=True)
     ap.add_argument("--groups", nargs="+", default=["oof", "test"], choices=["oof", "test"])
     ap.add_argument("--gamma", type=float, default=0.95)
+    ap.add_argument("--aligner", default="identity", choices=["identity", "farneback", "region"],
+                    help="temporal alignment operator used by action A2 (same choices as tools/measure_recovery.py). "
+                         "The action data of Tasks 5-6 was built with 'identity' by a hardcoded default; "
+                         "use a separate --out directory per aligner")
     ap.add_argument("--limit-seqs", type=int, default=0)
     a = ap.parse_args()
     keep_awake()
     os.makedirs(a.out, exist_ok=True)
+    json.dump({"aligner": a.aligner, "gamma": a.gamma}, open(os.path.join(a.out, "aligner.json"), "w"))
     orig = {s.key: s for s in discover_sequences(a.root, require_labels=True, apply_repairs=True,
                                                  splits=("train", "test"))}
     if "oof" in a.groups:

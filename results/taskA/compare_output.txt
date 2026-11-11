@@ -1,0 +1,38 @@
+
+=== OOF  (15 sequences) -- policy: apply on FLAGGED frames, keep the rest
+aligner   action    flagged  dIoU flagged  dIoU all  improved%  worse%  unchanged%  exact0%
+identity  A2           1110       +0.0047   +0.0024        2.9     1.1        96.0     45.0
+identity  FUSE         1110       +0.0047   +0.0024        4.3     2.4        93.2      2.9
+identity  oracle       1110       +0.0258   +0.0128       18.0     0.0        82.0     10.4
+farneback A2           1110       +0.0030   +0.0015        2.8     1.2        96.0     45.2
+farneback FUSE         1110       +0.0030   +0.0015        4.4     2.4        93.2      3.1
+farneback oracle       1110       +0.0240   +0.0119       18.0     0.0        82.0     10.8
+region    A2           1110       +0.0007   +0.0003        2.1     1.3        96.7     45.5
+region    FUSE         1110       +0.0006   +0.0003        3.7     2.7        93.6      3.2
+region    oracle       1110       +0.0222   +0.0110       17.3     0.0        82.7     10.9
+  farneback - identity [A2] on flagged: -0.0017  95% (sequence-clustered) [-0.0072, +0.0002]
+  farneback - identity [FUSE] on flagged: -0.0017  95% (sequence-clustered) [-0.0072, +0.0002]
+  farneback - identity [oracle] on flagged: -0.0018  95% (sequence-clustered) [-0.0072, +0.0001]
+  region - identity [A2] on flagged: -0.0041  95% (sequence-clustered) [-0.0115, -0.0002]
+  region - identity [FUSE] on flagged: -0.0041  95% (sequence-clustered) [-0.0116, -0.0002]
+  region - identity [oracle] on flagged: -0.0036  95% (sequence-clustered) [-0.0109, +0.0001]
+
+=== TEST  (4 sequences) -- policy: apply on FLAGGED frames, keep the rest
+aligner   action    flagged  dIoU flagged  dIoU all  improved%  worse%  unchanged%  exact0%
+identity  A2            303       +0.0102   +0.0031        2.0     1.0        97.0     35.3
+identity  FUSE          303       +0.0072   +0.0022        3.3     1.7        95.0     32.7
+identity  oracle        303       +0.0707   +0.0215       13.5     0.0        86.5     32.0
+farneback A2            303       +0.0067   +0.0020        1.0     1.7        97.4     35.6
+farneback FUSE          303       +0.0038   +0.0012        2.6     2.3        95.0     33.0
+farneback oracle        303       +0.0706   +0.0215       13.2     0.0        86.8     32.0
+region    A2            303       +0.0005   +0.0002        1.0     1.0        98.0     36.3
+region    FUSE          303       +0.0009   +0.0003        2.6     1.7        95.7     33.3
+region    oracle        303       +0.0641   +0.0195       12.9     0.0        87.1     32.0
+  farneback - identity [A2] on flagged: -0.0034  95% (sequence-clustered) [-0.0048, -0.0003]
+  farneback - identity [FUSE] on flagged: -0.0034  95% (sequence-clustered) [-0.0048, -0.0003]
+  farneback - identity [oracle] on flagged: -0.0001  95% (sequence-clustered) [-0.0003, +0.0000]
+  region - identity [A2] on flagged: -0.0096  95% (sequence-clustered) [-0.0141, +0.0003]
+  region - identity [FUSE] on flagged: -0.0063  95% (sequence-clustered) [-0.0093, +0.0003]
+  region - identity [oracle] on flagged: -0.0066  95% (sequence-clustered) [-0.0096, +0.0007]
+
+Decision (out of fold): {"interval_contains_zero": {"farneback": {"A2": true, "oracle": true}, "region": {"A2": false, "oracle": true}}, "identity_was_not_the_cause": false}

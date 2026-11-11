@@ -1,0 +1,24 @@
+  ! seq_3 [test]: dropping 1 unlabelled frame(s): ['frame249.png']
+  ! seq_4 [test]: dropping 1 unlabelled frame(s): ['frame249.png']
+997 test frames, 4 sequences; full-resolution metrics with 10 workers
+  metrics done in 587s
+
+model     mIoU    bF1   clDice thin (sh/th/ne)   act% harm% corr harm% all    AURC
+M1      0.6128  0.424   0.901/0.764/0.000    0.0        0.0       0.0  0.3076   segmentation only
+M2      0.6137  0.428   0.897/0.753/0.000   99.9        0.9       0.9  0.3069   + stereo evidence (A1, every frame)
+M3      0.6129  0.424   0.901/0.763/0.000   20.3        2.0       0.4  0.3076   + temporal only (A2, every frame)
+M4      0.6139  0.429   0.897/0.752/0.000   99.9        1.2       1.2  0.3068   stereo-temporal fusion, EVERY frame (LACOSTE-style)
+M5      0.6142  0.427   0.904/0.759/0.000  100.0        1.8       1.8  0.3063   + class-conditioned refinement, every frame
+M6      0.6128  0.423   0.902/0.764/0.000   24.7        2.4       0.6  0.3076   selective action choice + abstention (OURS)
+
+HEADLINE M4 (blind) vs M6 (chosen): {'harmful_pct_of_all': (1.2036108324974923, 0.6018054162487462), 'harmful_pct_of_corrected': (1.2048192771084338, 2.4390243902439024), 'activation_pct': (99.89969909729187, 24.674022066198596), 'mIoU': (0.6138777480304497, 0.6128050901377582), 'M6_beats_M4_on_harmful_rate': True}
+
+latency per frame, composed from measured components on NVIDIA GeForce RTX 3050 Ti Laptop GPU
+  M1: mean 86 ms  P95 78 ms
+  M2: mean 2194 ms  P95 2427 ms
+  M3: mean 2939 ms  P95 7429 ms
+  M4: mean 5042 ms  P95 9353 ms
+  M5: mean 5255 ms  P95 9741 ms
+  M6: mean 2789 ms  P95 15576 ms
+
+wrote results/taskA/region/final/final_results.json and figures
