@@ -1,0 +1,168 @@
+{
+ "test": {
+  "oracle (routed)": {
+   "activation_pct_of_all": 20.661985957873622,
+   "mean_on_flagged": 0.07071102535145811,
+   "mean_on_corrected": 0.1040069935994748,
+   "mean_all_frames": 0.021489910412729997,
+   "official_all_frames": 0.0005048110707707299,
+   "harmful_pct_of_corrected": 0.0,
+   "n_corrected": 206
+  },
+  "selector": {
+   "activation_pct_of_all": 25.877632898696092,
+   "mean_on_flagged": 0.031497431793347665,
+   "mean_on_corrected": 0.03699116989683854,
+   "mean_all_frames": 0.009572439150836857,
+   "official_all_frames": -2.564818615432107e-06,
+   "harmful_pct_of_corrected": 1.1627906976744187,
+   "n_corrected": 258
+  },
+  "always-A1 (routed)": {
+   "activation_pct_of_all": 30.391173520561686,
+   "mean_on_flagged": 0.00035829459382545186,
+   "mean_on_corrected": 0.00035829459382545186,
+   "mean_all_frames": 0.00010888993172428477,
+   "official_all_frames": 0.0004104585497413482,
+   "harmful_pct_of_corrected": 0.6600660066006601,
+   "n_corrected": 303
+  },
+  "always-A2 (routed)": {
+   "activation_pct_of_all": 20.46138415245737,
+   "mean_on_flagged": 0.010165190968887662,
+   "mean_on_corrected": 0.015098298350847852,
+   "mean_all_frames": 0.0030893208260511147,
+   "official_all_frames": 5.3124534350020694e-05,
+   "harmful_pct_of_corrected": 1.4705882352941175,
+   "n_corrected": 204
+  },
+  "always-A3 (routed)": {
+   "activation_pct_of_all": 30.391173520561686,
+   "mean_on_flagged": 0.06208001286558032,
+   "mean_on_corrected": 0.06208001286558032,
+   "mean_all_frames": 0.018866844431565534,
+   "official_all_frames": -8.355081975950692e-05,
+   "harmful_pct_of_corrected": 0.9900990099009901,
+   "n_corrected": 303
+  },
+  "always-fuse (routed)": {
+   "activation_pct_of_all": 30.391173520561686,
+   "mean_on_flagged": 0.007194145763687475,
+   "mean_on_corrected": 0.007194145763687475,
+   "mean_all_frames": 0.002186385322364398,
+   "official_all_frames": 0.0004582742919364505,
+   "harmful_pct_of_corrected": 1.65016501650165,
+   "n_corrected": 303
+  },
+  "always-fuse (EVERY frame)": {
+   "activation_pct_of_all": 100.0,
+   "mean_on_flagged": 0.007194145763687475,
+   "mean_on_corrected": 0.0008814931449734498,
+   "mean_all_frames": 0.0008814931449734498,
+   "official_all_frames": 0.0009705641511000616,
+   "harmful_pct_of_corrected": 1.103309929789368,
+   "n_corrected": 997
+  },
+  "always-fuse+refine (EVERY)": {
+   "activation_pct_of_all": 100.0,
+   "mean_on_flagged": 0.0698535094083793,
+   "mean_on_corrected": 0.026112259258318195,
+   "mean_all_frames": 0.026112259258318195,
+   "official_all_frames": 0.0012566117496504892,
+   "harmful_pct_of_corrected": 1.4042126379137412,
+   "n_corrected": 997
+  },
+  "_headroom_on_flagged": {
+   "oracle": 0.07071102535145811,
+   "always_A3": 0.06208001286558032,
+   "selector": 0.031497431793347665,
+   "oracle_minus_A3": 0.00863101248587779,
+   "A3_minus_selector": 0.030582581072232655,
+   "selector_share_of_oracle": 0.4454387648431712,
+   "A3_share_of_oracle": 0.8779396502457899
+  }
+ },
+ "oof": {
+  "oracle (routed)": {
+   "activation_pct_of_all": 44.51901565995526,
+   "mean_on_flagged": 0.025799048582301868,
+   "mean_on_corrected": 0.028780848167191026,
+   "mean_all_frames": 0.012812950302619721,
+   "official_all_frames": 0.0009976434604174191,
+   "harmful_pct_of_corrected": 0.0,
+   "n_corrected": 995
+  },
+  "selector": {
+   "activation_pct_of_all": 26.890380313199103,
+   "mean_on_flagged": 0.010896718854099936,
+   "mean_on_corrected": 0.020125387567472428,
+   "mean_all_frames": 0.005411793256398626,
+   "official_all_frames": 0.00014275933142530016,
+   "harmful_pct_of_corrected": 1.9966722129783694,
+   "n_corrected": 601
+  },
+  "always-A1 (routed)": {
+   "activation_pct_of_all": 49.664429530201346,
+   "mean_on_flagged": -2.8702624603350443e-05,
+   "mean_on_corrected": -2.8702624603350443e-05,
+   "mean_all_frames": -1.4254994769449237e-05,
+   "official_all_frames": 0.00027209776177097546,
+   "harmful_pct_of_corrected": 1.3513513513513513,
+   "n_corrected": 1110
+  },
+  "always-A2 (routed)": {
+   "activation_pct_of_all": 27.874720357941836,
+   "mean_on_flagged": 0.004740353960491713,
+   "mean_on_corrected": 0.008445895499431465,
+   "mean_all_frames": 0.002354269752190515,
+   "official_all_frames": 0.00019691494704798001,
+   "harmful_pct_of_corrected": 1.9261637239165328,
+   "n_corrected": 623
+  },
+  "always-A3 (routed)": {
+   "activation_pct_of_all": 49.664429530201346,
+   "mean_on_flagged": 0.019643689047945077,
+   "mean_on_corrected": 0.019643689047945077,
+   "mean_all_frames": 0.009755926104348563,
+   "official_all_frames": 8.261026519439398e-05,
+   "harmful_pct_of_corrected": 1.0810810810810811,
+   "n_corrected": 1110
+  },
+  "always-fuse (routed)": {
+   "activation_pct_of_all": 49.664429530201346,
+   "mean_on_flagged": 0.004738873818548359,
+   "mean_on_corrected": 0.004738873818548359,
+   "mean_all_frames": 0.0023535346481381105,
+   "official_all_frames": 0.0004720379235426615,
+   "harmful_pct_of_corrected": 2.4324324324324325,
+   "n_corrected": 1110
+  },
+  "always-fuse (EVERY frame)": {
+   "activation_pct_of_all": 100.0,
+   "mean_on_flagged": 0.004738873818548359,
+   "mean_on_corrected": 0.0024021957903908146,
+   "mean_all_frames": 0.0024021957903908146,
+   "official_all_frames": 0.0007192455756292736,
+   "harmful_pct_of_corrected": 1.342281879194631,
+   "n_corrected": 2235
+  },
+  "always-fuse+refine (EVERY)": {
+   "activation_pct_of_all": 100.0,
+   "mean_on_flagged": 0.026806322953784215,
+   "mean_on_corrected": 0.021321933677067223,
+   "mean_all_frames": 0.021321933677067223,
+   "official_all_frames": 0.000761966118721209,
+   "harmful_pct_of_corrected": 1.7897091722595078,
+   "n_corrected": 2235
+  },
+  "_headroom_on_flagged": {
+   "oracle": 0.025799048582301868,
+   "always_A3": 0.019643689047945077,
+   "selector": 0.010896718854099936,
+   "oracle_minus_A3": 0.006155359534356791,
+   "A3_minus_selector": 0.008746970193845141,
+   "selector_share_of_oracle": 0.42236901951396294,
+   "A3_share_of_oracle": 0.7614113747365333
+  }
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "action": "FUSE",
+ "n_total_test_frames": 997,
+ "n_flagged": 303,
+ "instrument_iou_union_change": 0.0071927669975871454,
+ "instrument_iou_gt_only_change": 0.0007779565655222055,
+ "official_frame_iou_change": 0.0015029946414168974,
+ "flagged_frames_with_hallucinated_instrument_class_before": 191,
+ "flagged_frames_with_hallucinated_instrument_class_after": 189,
+ "hallucinated_instrument_classes_removed": 4,
+ "hallucinated_instrument_classes_added": 2,
+ "instrument_class_ids": [
+  1,
+  2,
+  3,
+  6,
+  7,
+  8,
+  9,
+  11
+ ]
+}

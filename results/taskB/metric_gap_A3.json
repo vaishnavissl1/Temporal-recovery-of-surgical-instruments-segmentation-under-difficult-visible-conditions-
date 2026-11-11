@@ -1,0 +1,22 @@
+{
+ "action": "A3",
+ "n_total_test_frames": 997,
+ "n_flagged": 303,
+ "instrument_iou_union_change": 0.062088471675525246,
+ "instrument_iou_gt_only_change": 0.0001343869171650406,
+ "official_frame_iou_change": -0.0002653573413111746,
+ "flagged_frames_with_hallucinated_instrument_class_before": 191,
+ "flagged_frames_with_hallucinated_instrument_class_after": 168,
+ "hallucinated_instrument_classes_removed": 74,
+ "hallucinated_instrument_classes_added": 0,
+ "instrument_class_ids": [
+  1,
+  2,
+  3,
+  6,
+  7,
+  8,
+  9,
+  11
+ ]
+}
