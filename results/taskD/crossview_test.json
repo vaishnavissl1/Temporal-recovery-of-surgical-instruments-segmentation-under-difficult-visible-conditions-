@@ -1,0 +1,101 @@
+{
+ "guard_full_px": 186.0,
+ "empty_both_constants": {
+  "xv_class_jaccard": 1.0,
+  "xv_area_ratio_max": 0.0,
+  "xv_ncomp_diff": 0.0,
+  "xv_rowprofile_l1": 0.0,
+  "xv_rowspan_iou": 1.0,
+  "xv_runcount_corr": 1.0
+ },
+ "indicator_names": [
+  "xv_class_jaccard",
+  "xv_area_ratio_max",
+  "xv_ncomp_diff",
+  "xv_rowprofile_l1",
+  "xv_rowspan_iou",
+  "xv_runcount_corr"
+ ],
+ "sequences": {
+  "test/seq_1": {
+   "frames": 250,
+   "grid": [
+    256,
+    320
+   ],
+   "guard_px": 47,
+   "surviving_fraction_left": 0.78790283203125,
+   "surviving_fraction_right": 0.789501953125,
+   "frames_empty_in_both_views": 0,
+   "vertical_correction_applied": false,
+   "mean": {
+    "xv_class_jaccard": 0.9720571041107178,
+    "xv_area_ratio_max": 0.29696333408355713,
+    "xv_ncomp_diff": 0.1283673644065857,
+    "xv_rowprofile_l1": 0.15260562300682068,
+    "xv_rowspan_iou": 0.8782269358634949,
+    "xv_runcount_corr": 0.8891823887825012
+   }
+  },
+  "test/seq_2": {
+   "frames": 249,
+   "grid": [
+    256,
+    320
+   ],
+   "guard_px": 47,
+   "surviving_fraction_left": 0.78790283203125,
+   "surviving_fraction_right": 0.7895019531249999,
+   "frames_empty_in_both_views": 0,
+   "vertical_correction_applied": false,
+   "mean": {
+    "xv_class_jaccard": 0.9541499614715576,
+    "xv_area_ratio_max": 0.3775782585144043,
+    "xv_ncomp_diff": 0.1274951696395874,
+    "xv_rowprofile_l1": 0.2087656408548355,
+    "xv_rowspan_iou": 0.8625602722167969,
+    "xv_runcount_corr": 0.9112136960029602
+   }
+  },
+  "test/seq_3": {
+   "frames": 249,
+   "grid": [
+    256,
+    320
+   ],
+   "guard_px": 47,
+   "surviving_fraction_left": 0.78790283203125,
+   "surviving_fraction_right": 0.7895019531249999,
+   "frames_empty_in_both_views": 2,
+   "vertical_correction_applied": true,
+   "mean": {
+    "xv_class_jaccard": 0.9388888478279114,
+    "xv_area_ratio_max": 0.3536930978298187,
+    "xv_ncomp_diff": 0.15911054611206055,
+    "xv_rowprofile_l1": 0.18288029730319977,
+    "xv_rowspan_iou": 0.8452292084693909,
+    "xv_runcount_corr": 0.916171669960022
+   }
+  },
+  "test/seq_4": {
+   "frames": 249,
+   "grid": [
+    256,
+    320
+   ],
+   "guard_px": 47,
+   "surviving_fraction_left": 0.78521728515625,
+   "surviving_fraction_right": 0.7849975585937498,
+   "frames_empty_in_both_views": 17,
+   "vertical_correction_applied": false,
+   "mean": {
+    "xv_class_jaccard": 0.8343373537063599,
+    "xv_area_ratio_max": 0.5717828869819641,
+    "xv_ncomp_diff": 0.30208620429039,
+    "xv_rowprofile_l1": 0.39275452494621277,
+    "xv_rowspan_iou": 0.6328028440475464,
+    "xv_runcount_corr": 0.7793750762939453
+   }
+  }
+ }
+}

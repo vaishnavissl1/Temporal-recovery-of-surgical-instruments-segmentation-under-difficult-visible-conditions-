@@ -1,0 +1,129 @@
+{
+ "stage": "test",
+ "seconds": 1187.7605867385864,
+ "n_test_frames": 997,
+ "oof_decision": {
+  "rule": "paper4_crossview6 beats paper4 by >= 0.02 AUROC with a sequence-clustered 95% interval excluding zero",
+  "auroc_gain_full_sample": 0.04879766550968512,
+  "bootstrap_mean": 0.05498838763122475,
+  "ci95": [
+   -0.03962026113402937,
+   0.1601425751275962
+  ],
+  "passed": false,
+  "outcome": "FAIL: stop; write up the negative result; do not search for a variant"
+ },
+ "test": {
+  "paper4": {
+   "auroc": 0.8464117364117364,
+   "aurc": 0.3263579590645325,
+   "aurc_oracle": 0.24085594143292618,
+   "aurc_random": 0.43932855129241943,
+   "pearson": 0.6373129499571191,
+   "mse": 0.056943897157907486,
+   "bad_rate": 0.2978936810431294,
+   "n": 997
+  },
+  "paper4_stereo3": {
+   "auroc": 0.830055315055315,
+   "aurc": 0.33664806183909585,
+   "aurc_oracle": 0.24085594143292618,
+   "aurc_random": 0.43932855129241943,
+   "pearson": 0.5965390166789453,
+   "mse": 0.0577012337744236,
+   "bad_rate": 0.2978936810431294,
+   "n": 997
+  },
+  "paper4_crossview6": {
+   "auroc": 0.8987542087542087,
+   "aurc": 0.30562193969576407,
+   "aurc_oracle": 0.24085594143292618,
+   "aurc_random": 0.43932855129241943,
+   "pearson": 0.7254382579853005,
+   "mse": 0.047130804508924484,
+   "bad_rate": 0.2978936810431294,
+   "n": 997
+  },
+  "crossview6": {
+   "auroc": 0.8286964886964887,
+   "aurc": 0.3106998131230855,
+   "aurc_oracle": 0.24085594143292618,
+   "aurc_random": 0.43932855129241943,
+   "pearson": 0.6492817043491054,
+   "mse": 0.05026189982891083,
+   "bad_rate": 0.2978936810431294,
+   "n": 997
+  }
+ },
+ "test_paired": {
+  "paper4_crossview6 vs paper4": {
+   "auc": {
+    "mean": 0.0726020884776596,
+    "ci95": [
+     0.02599007715804158,
+     0.2166207335170659
+    ]
+   },
+   "aurc": {
+    "mean": -0.021499853052326618,
+    "ci95": [
+     -0.04183822102404955,
+     -0.00943870570740657
+    ]
+   },
+   "auroc_full_sample_diff": 0.05234247234247236
+  },
+  "paper4_stereo3 vs paper4": {
+   "auc": {
+    "mean": -0.01771040497068023,
+    "ci95": [
+     -0.028821018938383625,
+     -0.010371895120225072
+    ]
+   },
+   "aurc": {
+    "mean": 0.008849586596198371,
+    "ci95": [
+     -0.0026925984397120906,
+     0.016238372734044326
+    ]
+   },
+   "auroc_full_sample_diff": -0.016356421356421347
+  },
+  "crossview6 vs paper4": {
+   "auc": {
+    "mean": 0.0119763361505544,
+    "ci95": [
+     -0.05660176046945853,
+     0.18028407886368447
+    ]
+   },
+   "aurc": {
+    "mean": -0.01792633119935391,
+    "ci95": [
+     -0.044158576312856745,
+     0.011709492752308481
+    ]
+   },
+   "auroc_full_sample_diff": -0.017715247715247684
+  },
+  "paper4_crossview6 vs paper4_stereo3": {
+   "auc": {
+    "mean": 0.09031249344833983,
+    "ci95": [
+     0.04973609979891125,
+     0.2441806232775069
+    ]
+   },
+   "aurc": {
+    "mean": -0.03034943964852499,
+    "ci95": [
+     -0.04887365062454785,
+     -0.01457996652089244
+    ]
+   },
+   "auroc_full_sample_diff": 0.0686988936988937
+  }
+ },
+ "note": "only 4 test sequences: the sequence bootstrap interval is coarse; read it as a warning, not a test"
+}

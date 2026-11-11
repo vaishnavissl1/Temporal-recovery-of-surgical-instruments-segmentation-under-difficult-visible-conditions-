@@ -1,0 +1,6 @@
+TEST: 4 sequences; the out-of-fold decision was: FAIL: stop; write up the negative result; do not search for a variant
+  paper4               AUROC 0.8464  AURC 0.3264
+  paper4_stereo3       AUROC 0.8301  AURC 0.3366
+  paper4_crossview6    AUROC 0.8988  AURC 0.3056
+  crossview6           AUROC 0.8287  AURC 0.3107
+wrote results/taskD/gate_comparison_test.json

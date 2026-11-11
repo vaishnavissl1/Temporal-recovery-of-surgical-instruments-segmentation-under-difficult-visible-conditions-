@@ -61,6 +61,7 @@ from typing import Dict, List, Optional, Sequence, Tuple
 import numpy as np
 
 from .align import IdentityAlign
+from .crossview import NAMES as XV_NAMES
 from .metrics import instrument_iou
 
 EPS = 1e-6
@@ -88,6 +89,12 @@ INDICATOR_SETS: Dict[str, Tuple[str, ...]] = {
                            "Bnd_compactness", "Frag_largest_cc",
                            "stereo_disagreement", "occluded_fraction",
                            "disparity_confidence"),
+    # ---- cross-view (Task D): the six indicators of sitr/crossview.py, which compare the LEFT and RIGHT predicted
+    # label maps directly (no disparity). The four sets below are the fixed comparison of the Task D decision rule.
+    "crossview6": tuple(XV_NAMES),
+    "paper4_stereo3": ("q_confidence", "T_temporal", "A_area_stability", "F_feature_cos",
+                       "stereo_disagreement", "occluded_fraction", "disparity_confidence"),
+    "paper4_crossview6": ("q_confidence", "T_temporal", "A_area_stability", "F_feature_cos") + tuple(XV_NAMES),
 }
 
 #: indicators that come straight from the cached per-frame scalars
@@ -97,6 +104,8 @@ _STATIC = {"q_confidence": "q", "H_entropy_conf": "ent",
            "stereo_disagreement": "sd", "occluded_fraction": "oc",
            "disparity_confidence": "dc"}
 _STEREO_KEYS = ("sd", "oc", "dc")
+#: cross-view indicators live in one [T, 6] array `xv`, column order = sitr.crossview.NAMES
+_XV_INDEX = {n: j for j, n in enumerate(XV_NAMES)}
 
 
 def indicator_names(name: str) -> Tuple[str, ...]:
@@ -129,6 +138,8 @@ class SequenceCache:
     oc: Optional[np.ndarray] = None        # predicted-instrument px that are occluded
     dc: Optional[np.ndarray] = None        # mean disparity confidence over them
     seq_index: Optional[np.ndarray] = None  # [T] frame index inside the sequence (diagnostics)
+    # cross-view indicators (tools/add_crossview_indicators.py), [T, 6] in sitr.crossview.NAMES order
+    xv: Optional[np.ndarray] = None
 
     def __len__(self) -> int:
         return int(self.q.shape[0])
@@ -141,6 +152,10 @@ class SequenceCache:
     @property
     def has_stereo(self) -> bool:
         return all(getattr(self, k) is not None for k in _STEREO_KEYS)
+
+    @property
+    def has_crossview(self) -> bool:
+        return self.xv is not None
 
     def require(self, indicators: str) -> None:
         names = set(indicator_names(indicators))
@@ -157,6 +172,10 @@ class SequenceCache:
             raise ValueError(
                 f"cache {self.name!r} has no stereo indicators. Run "
                 "tools/add_stereo_indicators.py on it first.")
+        if names & set(XV_NAMES) and not self.has_crossview:
+            raise ValueError(
+                f"cache {self.name!r} has no cross-view indicators. Run "
+                "tools/add_crossview_indicators.py on it first.")
 
     def save(self, path: str) -> None:
         payload = dict(
@@ -174,6 +193,8 @@ class SequenceCache:
                 payload[k] = v.astype(np.float32)
         if self.seq_index is not None:
             payload["seq_index"] = self.seq_index.astype(np.int32)
+        if self.xv is not None:
+            payload["xv"] = self.xv.astype(np.float32)
         np.savez_compressed(path, **payload)
 
     @staticmethod
@@ -190,7 +211,8 @@ class SequenceCache:
             num_classes=int(z["num_classes"]),
             instrument_ids=tuple(int(v) for v in z["instrument_ids"]),
             sd=get("sd"), oc=get("oc"), dc=get("dc"),
-            seq_index=(z["seq_index"].astype(np.int32) if "seq_index" in z.files else None))
+            seq_index=(z["seq_index"].astype(np.int32) if "seq_index" in z.files else None),
+            xv=(z["xv"].astype(np.float32) if "xv" in z.files else None))
 
 
 # --------------------------------------------------------------------------- #
@@ -268,6 +290,10 @@ def run_sequence(cache: SequenceCache,
                 if n in vals:
                     arr = getattr(cache, key)
                     vals[n] = float(arr[t]) if arr is not None else 0.0
+
+            for n, j in _XV_INDEX.items():
+                if n in vals:
+                    vals[n] = float(cache.xv[t, j]) if cache.xv is not None else 0.0
 
             if "Drift_prev_cos" in vals and t > 0:
                 vals["Drift_prev_cos"] = cosine(cache.emb[t], cache.emb[t - 1])
