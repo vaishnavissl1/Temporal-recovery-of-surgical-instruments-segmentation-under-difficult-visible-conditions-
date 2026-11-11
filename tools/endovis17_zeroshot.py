@@ -140,8 +140,7 @@ def main():
                 m = np.load(os.path.join(a.actions, "test_masks", f"{s.split}_{s.name}", stem + ".npz"))["A0"]
                 gt = read_mask(lp)
                 gt = cv2.resize(gt, (m.shape[1], m.shape[0]), interpolation=cv2.INTER_NEAREST)
-                gi = np.isin(gt, [1, 2, 3, 6, 7, 8, 9, 11])          # 2018 ground truth instrument classes (same convention as the rest of this study)
-                gi = np.isin(gt, PRED_INSTR)                           # restricted to the classes that map to the 2017 notion of instrument
+                gi = np.isin(gt, PRED_INSTR)                           # 2018 ground truth collapsed with the SAME mapping as the prediction (thread, clamps, needle and tissue -> background)
                 R18["seq"].append(s.key); R18["iou"].append(binary_iou(np.isin(m, PRED_INSTR), gi)); R18["gt_area"].append(int(gi.sum()))
                 ind = z["ind9"][t]
                 R18["r"].append(float(z["r"][t])); R18["q"].append(float(ind[ix["q_confidence"]])); R18["ent"].append(float(ind[ix["H_entropy_conf"]])); R18["margin"].append(float(ind[ix["M_margin"]]))

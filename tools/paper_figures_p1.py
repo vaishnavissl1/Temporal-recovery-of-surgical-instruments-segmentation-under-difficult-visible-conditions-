@@ -22,7 +22,7 @@ import traceback
 
 import numpy as np
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # repo root; the IDE's checker (Python 3.14, never runs this line) reports "unresolved import" below, the script resolves it at run time
 
 import tools.paper_figures as PF  # noqa: E402  (style, palette, save(), registry)
 from tools.paper_figures import OI, W1, W2, J, plt, save  # noqa: E402
