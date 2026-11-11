@@ -116,6 +116,7 @@ def main():
     ap.add_argument("--workers", type=int, default=10)
     ap.add_argument("--crosscheck", action="store_true", help="also run the OFFICIAL run.py arithmetic on M1")
     ap.add_argument("--latency-frames", type=int, default=60)
+    ap.add_argument("--no-latency", action="store_true", help="skip the GPU latency measurement (used when the GPU is busy; latency is then composed elsewhere)")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
     from sitr.dataset import discover_sequences
@@ -198,6 +199,8 @@ def main():
         R["crosscheck_official_run_py"] = official_crosscheck(a, seqs, keys, ts, meta, R["models"]["M1"]["mIoU"])
     # ----------------------------------------------------------------- latency
     try:
+        if a.no_latency:
+            raise RuntimeError("latency measurement skipped (--no-latency)")
         R["latency_ms"] = latency(a, R, routed, jobs, seqs, keys, ts)
     except Exception as e:  # noqa: BLE001 -- reported, never hidden
         R["latency_ms"] = {"error": f"{type(e).__name__}: {e}"}

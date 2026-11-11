@@ -42,7 +42,7 @@ def load(p):
 def extract_per_frame(results, actions, out):
     import numpy as np
 
-    choices_path = os.path.join(results, "task5", "choices_test.npz")
+    choices_path = os.path.join(results, "taskF", "no_a1", "choices_test.npz")     # selector over {A2, A3}; A1 and the fusion are retired (Task F)
     c = np.load(choices_path, allow_pickle=True)
     frames = {}
     for seq in sorted(set(c["seq"].tolist())):
@@ -53,7 +53,7 @@ def extract_per_frame(results, actions, out):
         choice = c["choice"][m].tolist()
         gains = {k: np.nan_to_num(a[f"d_{k}"][: len(t)]) for k in ("A1", "A2", "A3", "FUSE")}
         chosen = [float(gains[ch][i]) if ch in gains else 0.0 for i, ch in enumerate(choice)]
-        pred = {k: np.nan_to_num(c[f"pred_{k}"][m]) for k in ("A1", "A2", "A3", "FUSE")}
+        pred = {k: np.nan_to_num(c[f"pred_{k}"][m]) for k in ("A2", "A3")}
         pred_chosen = [float(pred[ch][i]) if ch in pred else 0.0 for i, ch in enumerate(choice)]
         r4 = lambda v: [round(float(x), 4) for x in v]
         frames[seq] = {
@@ -61,8 +61,8 @@ def extract_per_frame(results, actions, out):
             "choice": choice, "before": r4(c["instr_before"][m]), "gain": r4(chosen), "pred_gain": r4(pred_chosen),
             "difficulty": r4(c["difficulty"][m]), "gain_by": {k: r4(v) for k, v in gains.items()},
         }
-    json.dump({"source": "results/task5/choices_test.npz + work_v2/actions/test__*.npz (identity aligner; "
-                         "the system of record). Values rounded to 4 decimals.", "frames": frames},
+    json.dump({"source": "results/taskF/no_a1/choices_test.npz + work_v2/actions/test__*.npz (identity aligner; selector over A2 and A3 after A1 was retired). "
+                         "Values rounded to 4 decimals.", "frames": frames},
               open(out, "w", encoding="utf-8"))
 
 
@@ -150,14 +150,22 @@ def build(R, out_path):
     cmp_ = load(os.path.join(R, "taskA", "aligner_comparison.json"))
     ptab = load(os.path.join(R, "taskB", "policy_table.json"))
     gaps = {a: load(os.path.join(R, "taskB", f"metric_gap_{a}.json")) for a in ("A3", "A2", "FUSE")}
+    sel_noa1 = load(os.path.join(R, "taskF", "no_a1", "selector_results.json"))
+    fin_noa1 = load(os.path.join(R, "taskF", "no_a1", "final", "final_results.json"))
+    f_cost = load(os.path.join(R, "taskF", "cost.json"))
     sel_al = {a: load(os.path.join(R, "taskA", a, "selector_results.json")) for a in ALIGNERS}
     fin_al = {"identity": t6, **{a: load(os.path.join(R, "taskA", a, "final", "final_results.json")) for a in ("farneback", "region")}}
 
     models = []
     for k, m in t6["models"].items():
         lat = t6["latency_ms"].get(k, {})
+        desc = t6["descriptions"][k]
+        retired = k in ("M2", "M4", "M5")                   # these contain A1 (stereo label transfer), retired in Task F
+        if k == "M6":                                       # the selector over A2 and A3 only
+            m, desc = fin_noa1["models"]["M6"], fin_noa1["descriptions"]["M6"]
+            lat = {"mean_ms": f_cost["M6_without_A1_ms"], "p95_ms": None}
         models.append({
-            "id": k, "description": t6["descriptions"][k], "mIoU": m["mIoU"], "boundary_f1": m["boundary_f1_instruments"],
+            "id": k, "description": desc, "retired": retired, "mIoU": m["mIoU"], "boundary_f1": m["boundary_f1_instruments"],
             "cldice": m["cldice"], "activation_pct": m["activation_pct"], "harmful_pct_of_all": m["harmful_pct_of_all"],
             "harmful_pct_of_corrected": m["harmful_pct_of_corrected"], "improved_pct_of_corrected": m["improved_pct_of_corrected"],
             "mean_delta_vs_M1": m["mean_delta_vs_M1_all"], "aurc_gate": m["aurc_gate"],
@@ -184,7 +192,7 @@ def build(R, out_path):
                  "harm_margin": t6["harm_margin"], "boundary_tol_px": t6["boundary_tol_px"]},
         "crosscheck": t6["crosscheck_official_run_py"],
         "gate_detection": t6["gate"],
-        "headline_M4_vs_M6": t6["headline_M4_vs_M6"],
+        "headline_M4_vs_M6": fin_noa1["headline_M4_vs_M6"],
         "latency": t6["latency_ms"],
         "models": models,
         "stereo": {
@@ -201,11 +209,12 @@ def build(R, out_path):
             "leave_one_out": [{"indicator": k, "auc_drop": v["auc_drop"]} for k, v in t4o["loo"].items()],
         },
         "selector": {
-            "tau": t5["tau"], "margin": t5["margin"],
-            "oof": policy_rows(t5["oof"]), "test": policy_rows(t5["test"]),
-            "n_oof": t5["n_oof"], "n_oof_routed": t5["n_oof_routed"], "n_test": t5["n_test"], "n_test_routed": t5["n_test_routed"],
-            "prediction_quality_oof": t5["prediction_quality_oof"], "margin_sweep_oof": t5["margin_sweep_oof"],
-            "stop_check_oof": t5["stop_check_oof"], "stop_check_test": t5["stop_check_test"],
+            "tau": sel_noa1["tau"], "margin": sel_noa1["margin"],
+            "oof": policy_rows(sel_noa1["oof"]), "test": policy_rows(sel_noa1["test"]),
+            "n_oof": sel_noa1["n_oof"], "n_oof_routed": sel_noa1["n_oof_routed"], "n_test": sel_noa1["n_test"], "n_test_routed": sel_noa1["n_test_routed"],
+            "prediction_quality_oof": sel_noa1["prediction_quality_oof"], "margin_sweep_oof": sel_noa1["margin_sweep_oof"],
+            "stop_check_oof": sel_noa1["stop_check_oof"], "stop_check_test": sel_noa1["stop_check_test"],
+            "with_a1_test": policy_rows({k: t5["test"][k] for k in ("selector", "always-A1 (routed)", "always-fuse (routed)", "always-fuse (EVERY frame)")}),
         },
         "recovery": {k: v for k, v in t3.items() if k != "source"},
         "difficulty": {"oof_spearman": t4d["oof_train_sequences"]["vs_instrument_error"]["spearman"],
@@ -226,18 +235,23 @@ def build(R, out_path):
         },
         "taskB": {"policy_table": ptab, "metric_gap": gaps},
     }
+    from tools.export_web_extra import extra_blocks
+    extra, extra_src = extra_blocks(R)
+    out.update(extra)
     out["_sources"] = {
         "frames": ["web_extract/per_frame_test.json"],
         "meta": [t6p, "taskA/aligner_comparison.json", t5p],
-        "crosscheck": [t6p], "gate_detection": [t6p], "headline_M4_vs_M6": [t6p], "latency": [t6p], "models": [t6p],
+        "crosscheck": [t6p], "gate_detection": [t6p], "headline_M4_vs_M6": ["taskF/no_a1/final/final_results.json"], "latency": [t6p],
+        "models": [t6p, "taskF/no_a1/final/final_results.json", "taskF/cost.json"],
         "stereo": ["task2/stereo_check.json", "task4/gate_comparison_gbm.json", "task4/gate_comparison_test.json",
                    "web_extract/stereo_pairs.json"],
-        "selector": [t5p], "recovery": ["web_extract/task3_recovery.json"], "difficulty": ["task4/difficulty_report.json"],
+        "selector": ["taskF/no_a1/selector_results.json", t5p], "recovery": ["web_extract/task3_recovery.json"], "difficulty": ["task4/difficulty_report.json"],
         "conformal": ["web_extract/stage2_gate.json"], "stereo_matching": ["task2/stereo_check.json"],
         "taskA": ["taskA/aligner_comparison.json", "taskA/identity/selector_results.json", "taskA/farneback/selector_results.json",
                   "taskA/region/selector_results.json", t6p, "taskA/farneback/final/final_results.json", "taskA/region/final/final_results.json"],
         "taskB": ["taskB/policy_table.json", "taskB/metric_gap_A3.json", "taskB/metric_gap_A2.json", "taskB/metric_gap_FUSE.json"],
     }
+    out["_sources"].update(extra_src)
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1)

@@ -371,8 +371,21 @@ def main():
             print(f"  FIGURE {k} FAILED: {type(e).__name__}: {e}")
             traceback.print_exc()
     print("made:", [m[0] for m in MADE], "\nmissing:", MISSING)
-    json.dump({"made": [dict(name=n, title=t, sources=s, caption=c) for n, t, s, c in MADE], "missing": MISSING},
-              open(os.path.join(a.out, "_manifest_part.json" if a.only else "_manifest.json"), "w"), indent=1)
+    reg_path = os.path.join(a.out, "_registry.json")
+    reg = json.load(open(reg_path)) if os.path.exists(reg_path) else {}
+    for n, t, srcs, c in MADE:
+        reg[n] = dict(title=t, sources=srcs, caption=c)
+    json.dump(reg, open(reg_path, "w"), indent=1)
+    lines = ["# Paper figures", "",
+             "Every figure is drawn by `tools/paper_figures.py` (figures 3, 4 and 6a by `tools/paper_figures_p1.py`) from the files listed under it; none contains typed numbers. Each exists as PDF (vector, for LaTeX) and PNG at 300 dpi, "
+             "with the caption in the `.txt` file of the same name. Palette: Okabe and Ito (colour-blind safe), with a distinct line style or marker per series. Sized for a single IEEE column (3.5 in) unless the figure needs the double width.", ""]
+    for n in sorted(reg):
+        r = reg[n]
+        lines += [f"## {n}", "", f"**{r['title']}.** {r['caption']}", "", "Source files: " + ", ".join(f"`{x}`" for x in r["sources"]), ""]
+    lines += ["## Not produced", "",
+              "- **Figure 13, qualitative frames.** Publishing EndoVis frames is governed by the dataset's own licence and data-use terms, which are not the owner's alone to approve (see NEEDS OWNER in RUNLOG.md); it is not generated on assumption.",
+              "- Any figure of the list in task P.2 that does not appear above had its inputs missing at the time of the last run; `_manifest.json` lists the reason."]
+    open(os.path.join(a.out, "README.md"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
     return 0
 
 

@@ -36,6 +36,7 @@ ALLOWED_LITERALS = {
     "2018": "name of the dataset (EndoVis 2018)",
     "3050": "name of the GPU (RTX 3050 Ti)",
     "95%": "confidence level of the bootstrap intervals (stated choice in the brief)",
+    "2001.11190": "arXiv identifier of the EndoVis 2018 challenge paper (a citation, not a result)",
     "1 px": "stated threshold above which the label-free vertical correction is applied (tools/check_stereo.py, RUNLOG.md)",
 }
 
