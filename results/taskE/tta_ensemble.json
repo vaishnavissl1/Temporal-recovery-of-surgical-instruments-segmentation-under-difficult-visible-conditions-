@@ -1,0 +1,232 @@
+{
+ "n_frames": 997,
+ "systems": {
+  "single": {
+   "mIoU": 0.6128195705353472,
+   "mcIoU": 0.4955982470389668,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8590057075334712,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5660239907551038,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6304585239274775,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6449337573244737,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.40138223709988663,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.43016913789908773,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6530113739382523,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.4634277906207109,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.30756995129120457,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.42386303349289955,
+   "boundary_tolerance_px": 3,
+   "cldice": {
+    "shaft": 0.9013394977248022,
+    "thread": 0.7640501525110498,
+    "needle": 0.0
+   },
+   "per_sequence": {
+    "test/seq_1": 0.6680646893325174,
+    "test/seq_2": 0.5638317506344903,
+    "test/seq_3": 0.8059892923556471,
+    "test/seq_4": 0.41317068187175743
+   },
+   "trained_models": 1,
+   "forward_passes": 1
+  },
+  "tta": {
+   "mIoU": 0.6138599742335541,
+   "mcIoU": 0.4970929519124737,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8607294679955785,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.568534582047297,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6342331810073528,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6460973931551046,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.3987050760842022,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.4346149633373111,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6605498528197026,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.4598325170063557,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.3076324856718333,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.4283150964796863,
+   "boundary_tolerance_px": 3,
+   "cldice": {
+    "shaft": 0.9075952526729152,
+    "thread": 0.7705240785283425,
+    "needle": 0.0
+   },
+   "per_sequence": {
+    "test/seq_1": 0.670779055922751,
+    "test/seq_2": 0.5666522664282431,
+    "test/seq_3": 0.8081573846836241,
+    "test/seq_4": 0.4096225992100833
+   },
+   "trained_models": 1,
+   "forward_passes": 6
+  },
+  "ensemble": {
+   "mIoU": 0.6105063656539932,
+   "mcIoU": 0.4977264521899286,
+   "n_classes_scored": 10,
+   "per_class": {
+    "instrument-shaft": {
+     "iou": 0.8575389323507674,
+     "n_frames": 843
+    },
+    "instrument-clasper": {
+     "iou": 0.5607511974561393,
+     "n_frames": 875
+    },
+    "instrument-wrist": {
+     "iou": 0.6344902593487596,
+     "n_frames": 822
+    },
+    "kidney-parenchyma": {
+     "iou": 0.6411921808604369,
+     "n_frames": 949
+    },
+    "covered-kidney": {
+     "iou": 0.3780932850748921,
+     "n_frames": 484
+    },
+    "thread": {
+     "iou": 0.4313591702826633,
+     "n_frames": 102
+    },
+    "clamps": {
+     "iou": 0.6978974309104409,
+     "n_frames": 69
+    },
+    "suturing-needle": {
+     "iou": 0.0,
+     "n_frames": 95
+    },
+    "suction-instrument": {
+     "iou": null,
+     "n_frames": 0
+    },
+    "intestine": {
+     "iou": 0.4585349149296452,
+     "n_frames": 225
+    },
+    "ultrasound-probe": {
+     "iou": 0.317407150685542,
+     "n_frames": 152
+    }
+   },
+   "boundary_f1_instruments": 0.3980327750734819,
+   "boundary_tolerance_px": 3,
+   "cldice": {
+    "shaft": 0.8978933086111337,
+    "thread": 0.756755562838213,
+    "needle": 0.0
+   },
+   "per_sequence": {
+    "test/seq_1": 0.6596972987524462,
+    "test/seq_2": 0.5540214473534606,
+    "test/seq_3": 0.8077028440970775,
+    "test/seq_4": 0.4204063184648017
+   },
+   "trained_models": 4,
+   "forward_passes": 4
+  }
+ },
+ "notes": {
+  "single": "the segmentation model alone",
+  "tta": "same model, 6 passes (flip x scales 0.75/1.0/1.25), probabilities averaged",
+  "ensemble": "a DIFFERENT SYSTEM: 4 trained models (3 cross-fitting fold models + final), probabilities averaged; test sequences only because every training sequence is inside some member's training set"
+ },
+ "differences_vs_single": {
+  "tta": {
+   "mIoU_points": 0.1040403698206862,
+   "ci95_points": [
+    -0.19777593788486586,
+    0.27673348300658185
+   ],
+   "frames_improved_by_more_than_0_01": 0.18655967903711135,
+   "frames_worse_by_more_than_0_01": 0.1514543630892678,
+   "mcIoU_points": 0.14947048735068913
+  },
+  "ensemble": {
+   "mIoU_points": -0.23132048813540668,
+   "ci95_points": [
+    -0.9087401126240888,
+    0.44745941672373474
+   ],
+   "frames_improved_by_more_than_0_01": 0.23671013039117353,
+   "frames_worse_by_more_than_0_01": 0.35707121364092276,
+   "mcIoU_points": 0.21282051509617927
+  }
+ },
+ "published_M1_mIoU": 0.6128226461561003,
+ "single_minus_published_M1": -3.0756207530791e-06
+}
