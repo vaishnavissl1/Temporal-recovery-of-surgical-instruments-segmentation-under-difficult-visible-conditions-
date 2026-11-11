@@ -75,7 +75,7 @@ Plain-language summary of what was measured. Every number comes from a file in `
 Supported by our measurements:
 - The evaluation pipeline reproduces the official metric exactly.
 - Calibrated stereo rectification is usable on this data, and a label-free vertical correction fixes the sequences where it is not.
-- A reliability gate built from prediction-confidence and temporal indicators detects bad frames (test AUROC about 0.84).
+- A reliability gate built from prediction-confidence and temporal indicators detects frames with low INSTRUMENT IoU (test AUROC about 0.84 against that label). Against the official-IoU risk it scores test AUROC 0.771, and plain one-pass max-softmax scores 0.792 (Task C); say which label is meant, and do not claim the gate beats simple confidence.
 - Selective correction can match blind fusion's mIoU at roughly a third of the compute.
 
 Not supported:
