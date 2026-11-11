@@ -43,6 +43,13 @@ Applied to every baseline. SegFormer-B0 had already started when the epoch-level
 | DeepLabV3+, run 1 | loss 0.56 at epoch 6 rising to 1.90 at epoch 11; pretrained BatchNorm uses batch statistics at batch size 1 | stopped by hand; BatchNorm statistics frozen (kept in `work_v2/baselines/_diverged_run1`) |
 | DeepLabV3+, run 2 | loss 0.67 at epoch 4, 0.94 at epoch 5, non-finite at epoch 6; the image-pooling branch had no normalisation | GroupNorm added to that branch, step-level guard added (kept in `_diverged_run2`) |
 
+**Outcome of launch 3 (finished 12 November, 04:58 IST).** SegFormer-B0 trained all 20 epochs (loss 2.657 to 0.591; the epoch-level rule applied afterwards finds no three-epoch rise). U-Net trained all 20 epochs
+(loss 3.578 to 1.220, monotone; it is the least converged model and is the floor of the comparison). **DeepLabV3+ failed twice more and is absent from the comparison**: at lr 3e-4 the loss rose at epoch 6 (0.721 to 1.124)
+and went non-finite; the single permitted retry at lr 1e-4 rose at epoch 5 (0.636 to 1.263) and went non-finite at epoch 6. Four DeepLabV3+ runs in all were unstable at epochs 5 to 6 whatever the learning rate (3e-4, 1e-4) and
+whatever the normalisation fix, so the cause is not the learning rate; it was not diagnosed (candidates: fp16 overflow with frozen BatchNorm statistics, or the fixed-seed data order at those epochs). The partial weights were
+archived (`work_v2/baselines/_failed_deeplabv3p_r18_retry_lr1e-4`) so that they cannot be evaluated as a finished model. The comparison therefore has two baselines. A line in `work_v2/baselines/status.txt` reading "retry exit 0" is
+wrong (a driver-script bug in how the exit code was read); the retry aborted with exit 3 and the status file carries a correcting note.
+
 Run 3 changes the order (SegFormer-B0 and U-Net first, DeepLabV3+ last). The frozen BatchNorm statistics and the extra GroupNorm are properties of this DeepLabV3+ implementation at batch size 1, not changes of the shared recipe.
 Any learning-rate retry is a deviation from the 3e-4 shared with the other models and is listed in the results table.
 

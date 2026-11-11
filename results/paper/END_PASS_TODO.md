@@ -12,3 +12,5 @@ Tasks O (site) and R (deck, paper) run once at the end. Changes found since the 
 4. **Promote** cvavish/main_new.tex over cvavish/main.tex (the owner's original is already saved as cvavish/main_original.tex; verify before overwriting). Typo pass, cite check, tectonic twice, page count.
 5. **Deck**: slide 8 line "Frame-level intervals" slightly past the border; slide 9 baselines bullet; leave the three slide-1 placeholders.
 6. **Figure 6a** (segmenter pixel reliability) needs tools/calibration_pixels.py on the GPU after training.
+7. **DeepLabV3+ is absent** (four unstable runs, see RUNLOG and P1_PROTOCOL.md). Every place that mentions "U-Net, DeepLabV3+, SegFormer-B0" (deck slide 9 and any methodology text, paper, site /bench/) must say two baselines, name DeepLabV3+ as not finished and give the reason. The deck's "baselines pending" bullet must go.
+8. The zero-shot smoke tests (first 6 and first 2 frames of each 2017 sequence) are disclosed in RUNLOG; say so in the paper's EndoVis 2017 subsection.
