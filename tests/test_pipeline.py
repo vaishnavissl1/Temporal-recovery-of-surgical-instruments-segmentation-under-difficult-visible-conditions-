@@ -66,6 +66,8 @@ def _cache(T=40, extended=True, seed=0):
                    for k in ("ent", "margin", "bnd", "frag")})
         # stereo indicators too, so the "every indicator set" tests cover them
         kw.update({k: r.random(T).astype(np.float32) for k in ("sd", "oc", "dc")})
+        # and the six cross-view indicators (Task D)
+        kw["xv"] = r.random((T, 6)).astype(np.float32)
     return SequenceCache(**kw)
 
 
@@ -278,6 +280,18 @@ def main() -> int:
         except ValueError:
             return
         raise AssertionError("silently accepted a cache missing indicators")
+
+    @check("a cache without cross-view indicators REFUSES the cross-view sets")
+    def _():
+        c = _cache()
+        c.xv = None
+        for setname in ("crossview6", "paper4_crossview6"):
+            try:
+                run_sequence(c, StreamConfig(indicators=setname))
+            except ValueError:
+                continue
+            raise AssertionError(f"{setname}: silently accepted a cache with no cross-view indicators")
+        run_sequence(c, StreamConfig(indicators="paper4"))          # sets that do not need them still run
 
     @check("eq. (10): empty foreground zeroes every indicator")
     def _():
