@@ -1,0 +1,509 @@
+{
+ "hardware": "NVIDIA GeForce RTX 3050 Ti Laptop GPU",
+ "batch": 1,
+ "latency_method": "wall clock with the GPU synchronised before and after, mean and P95 over the frames; measured, not composed",
+ "groups": {
+  "oof": {
+   "n_frames": 2235,
+   "bad_rate": 0.13914988814317675,
+   "aurc_floor": 0.23025180773232082,
+   "aurc_random": 0.34673635235640565,
+   "detectors": {
+    "max-softmax": {
+     "auroc": 0.7856497048619235,
+     "auroc_ci95": [
+      0.6764556301195572,
+      0.8803860515798617
+     ],
+     "aurc": 0.26922603976180465,
+     "aurc_ci95": [
+      0.2225991911086781,
+      0.33315012454269854
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 80.06837498105597,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7041684327964299,
+     "note": ""
+    },
+    "mean entropy": {
+     "auroc": 0.7730862819287256,
+     "auroc_ci95": [
+      0.6618814594317136,
+      0.8735951054575285
+     ],
+     "aurc": 0.2703644289714965,
+     "aurc_ci95": [
+      0.22270223029685002,
+      0.33436885606866773
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 80.44129000045359,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7002451254818535,
+     "note": ""
+    },
+    "Soft Dice Confidence": {
+     "auroc": 0.7337974878167804,
+     "auroc_ci95": [
+      0.6722832339785207,
+      0.8102119077003874
+     ],
+     "aurc": 0.28489614065457425,
+     "aurc_ci95": [
+      0.23838831016574724,
+      0.34260803963259673
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 84.77648500993382,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7653533325868935,
+     "note": ""
+    },
+    "MC stochastic depth (10 passes)": {
+     "auroc": 0.740933612316249,
+     "auroc_ci95": [
+      0.6697371168098949,
+      0.8416129584994241
+     ],
+     "aurc": 0.28811298620121817,
+     "aurc_ci95": [
+      0.23688548677738552,
+      0.3498860056241523
+     ],
+     "forward_passes": 10,
+     "segmenters_trained": 1,
+     "ms_per_frame": 782.3478700069245,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7534769430093252,
+     "note": "the segmenter has no dropout layer; its DropPath (stochastic depth, rate 0.1) is switched on at inference"
+    },
+    "TTA entropy (6 passes)": {
+     "auroc": 0.7635435955371647,
+     "auroc_ci95": [
+      0.6492819647410037,
+      0.8673120454590785
+     ],
+     "aurc": 0.27117030217818644,
+     "aurc_ci95": [
+      0.22263637739507336,
+      0.3362146800219049
+     ],
+     "forward_passes": 6,
+     "segmenters_trained": 1,
+     "ms_per_frame": 535.3656925115502,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.6917996928933604,
+     "note": "flip x scales 0.75, 1.0, 1.25"
+    },
+    "TTA pairwise Dice (6 passes)": {
+     "auroc": 0.7571177410405706,
+     "auroc_ci95": [
+      0.6881803183178904,
+      0.8665670625495697
+     ],
+     "aurc": 0.2823232580911007,
+     "aurc_ci95": [
+      0.23174053868074515,
+      0.3454571769547379
+     ],
+     "forward_passes": 6,
+     "segmenters_trained": 1,
+     "ms_per_frame": 557.0336149976356,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7716424207041059,
+     "note": "flip x scales 0.75, 1.0, 1.25"
+    },
+    "gate: confidence only": {
+     "auroc": 0.6836691378492021,
+     "auroc_ci95": [
+      0.5847451686656921,
+      0.7598988122915357
+     ],
+     "aurc": 0.310730186534741,
+     "aurc_ci95": [
+      0.26088458227990263,
+      0.364132962560189
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 108.97202748456039,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7493956837121515,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate: + temporal (9 indicators)": {
+     "auroc": 0.7181046988120943,
+     "auroc_ci95": [
+      0.5933415216673562,
+      0.8010936789599924
+     ],
+     "aurc": 0.3075100435322475,
+     "aurc_ci95": [
+      0.2592973551341535,
+      0.36033765993666717
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 108.97202748456039,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7700094171371903,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 original indicators": {
+     "auroc": 0.7177328515752953,
+     "auroc_ci95": [
+      0.5714756434834195,
+      0.8255806960239325
+     ],
+     "aurc": 0.3164098062143266,
+     "aurc_ci95": [
+      0.2684861784290807,
+      0.36501353290396304
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 108.97202748456039,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7449300412674547,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 + 3 disparity indicators (control)": {
+     "auroc": 0.7469834415172035,
+     "auroc_ci95": [
+      0.6196679304932878,
+      0.8520586424336618
+     ],
+     "aurc": 0.3098491973694609,
+     "aurc_ci95": [
+      0.26066565369769373,
+      0.36009839621053397
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 1857.9154408187605,
+     "ms_basis": "composed: measured gate + measured SGBM stereo matching (Task 6)",
+     "auroc_instr_label": 0.7747244837569379,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 + 6 cross-view indicators": {
+     "auroc": 0.7286024894545795,
+     "auroc_ci95": [
+      0.63291554330213,
+      0.8120821400468925
+     ],
+     "aurc": 0.29795936386198624,
+     "aurc_ci95": [
+      0.24573498438896038,
+      0.3554313663784851
+     ],
+     "forward_passes": 2,
+     "segmenters_trained": 1,
+     "ms_per_frame": 287.97677500988357,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7937277067771398,
+     "note": "needs the right image segmented by the same model (a second forward pass) and a small trained estimator; Task D pre-set test: NOT passed (AUROC gain +0.049, 95% -0.040 to +0.160, label: instrument IoU < 0.5)"
+    },
+    "gate (GBM): 6 cross-view indicators alone": {
+     "auroc": 0.6549458189329572,
+     "auroc_ci95": [
+      0.5603142509359023,
+      0.7720364979171561
+     ],
+     "aurc": 0.29719032283736674,
+     "aurc_ci95": [
+      0.24214832156286398,
+      0.36125031175492794
+     ],
+     "forward_passes": 2,
+     "segmenters_trained": 1,
+     "ms_per_frame": 287.97677500988357,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7132951582718854,
+     "note": "needs the right image segmented by the same model (a second forward pass) and a small trained estimator; Task D pre-set test: NOT passed (AUROC gain +0.049, 95% -0.040 to +0.160, label: instrument IoU < 0.5)"
+    },
+    "gate: production (MLP, 9 indicators)": {
+     "auroc": 0.7403754236551664,
+     "auroc_ci95": [
+      0.6181768789009732,
+      0.8214026976193687
+     ],
+     "aurc": 0.3033592577389272,
+     "aurc_ci95": [
+      0.2549191341056932,
+      0.3571104162626404
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 108.97202748456039,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7879724563732625,
+     "note": "the released gate; a small trained estimator on top of the segmenter"
+    }
+   }
+  },
+  "test": {
+   "n_frames": 997,
+   "bad_rate": 0.2948846539618857,
+   "aurc_floor": 0.2330034732761081,
+   "aurc_random": 0.3871804294646528,
+   "detectors": {
+    "max-softmax": {
+     "auroc": 0.7918614102824629,
+     "auroc_ci95": [
+      0.6406161773009599,
+      0.8671196806251593
+     ],
+     "aurc": 0.2851817732672963,
+     "aurc_ci95": [
+      0.19403077514125533,
+      0.4754675339315786
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 80.06837498105597,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7097354497354498,
+     "note": ""
+    },
+    "mean entropy": {
+     "auroc": 0.7893285336894359,
+     "auroc_ci95": [
+      0.6473984814021942,
+      0.87372802174467
+     ],
+     "aurc": 0.2852558670158209,
+     "aurc_ci95": [
+      0.19392128397163824,
+      0.4728819699881067
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 80.44129000045359,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7088936988936989,
+     "note": ""
+    },
+    "Soft Dice Confidence": {
+     "auroc": 0.6846459778790606,
+     "auroc_ci95": [
+      0.5208058017727639,
+      0.7999866167023555
+     ],
+     "aurc": 0.34070372498690954,
+     "aurc_ci95": [
+      0.2239505321101662,
+      0.4549308351156018
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 84.77648500993382,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7795334295334295,
+     "note": ""
+    },
+    "MC stochastic depth (10 passes)": {
+     "auroc": 0.792100908642262,
+     "auroc_ci95": [
+      0.5531668009669621,
+      0.9036865948314318
+     ],
+     "aurc": 0.32547264114152397,
+     "aurc_ci95": [
+      0.21454440640963232,
+      0.4316776482387621
+     ],
+     "forward_passes": 10,
+     "segmenters_trained": 1,
+     "ms_per_frame": 782.3478700069245,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.8551803751803752,
+     "note": "the segmenter has no dropout layer; its DropPath (stochastic depth, rate 0.1) is switched on at inference"
+    },
+    "TTA entropy (6 passes)": {
+     "auroc": 0.8498369475813085,
+     "auroc_ci95": [
+      0.6877121743022127,
+      0.9170236039147956
+     ],
+     "aurc": 0.272658751690981,
+     "aurc_ci95": [
+      0.19188522000365138,
+      0.45654797320171664
+     ],
+     "forward_passes": 6,
+     "segmenters_trained": 1,
+     "ms_per_frame": 535.3656925115502,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.7784704184704184,
+     "note": "flip x scales 0.75, 1.0, 1.25"
+    },
+    "TTA pairwise Dice (6 passes)": {
+     "auroc": 0.8083480903029775,
+     "auroc_ci95": [
+      0.5888477034649476,
+      0.8987584487800201
+     ],
+     "aurc": 0.32027892957107645,
+     "aurc_ci95": [
+      0.2113091729965628,
+      0.43101570189743355
+     ],
+     "forward_passes": 6,
+     "segmenters_trained": 1,
+     "ms_per_frame": 557.0336149976356,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.864030784030784,
+     "note": "flip x scales 0.75, 1.0, 1.25"
+    },
+    "4-model ensemble pairwise Dice": {
+     "auroc": 0.8397731781190427,
+     "auroc_ci95": [
+      0.5833360193392425,
+      0.9257705766741767
+     ],
+     "aurc": 0.31197111983923964,
+     "aurc_ci95": [
+      0.19263711251532986,
+      0.43366269755731496
+     ],
+     "forward_passes": 4,
+     "segmenters_trained": 4,
+     "ms_per_frame": 312.02099000220187,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.8700625300625301,
+     "note": "TEST ONLY: every training sequence lies inside some member's training set"
+    },
+    "gate: confidence only": {
+     "auroc": 0.7611233682662254,
+     "auroc_ci95": [
+      0.4156164383561644,
+      0.9254827147647127
+     ],
+     "aurc": 0.3190862507892037,
+     "aurc_ci95": [
+      0.19799978993819975,
+      0.46110033366005637
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 108.97202748456039,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.8473569023569023,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate: + temporal (9 indicators)": {
+     "auroc": 0.7573252629643608,
+     "auroc_ci95": [
+      0.3791136180499597,
+      0.9336893197715418
+     ],
+     "aurc": 0.31191964248313153,
+     "aurc_ci95": [
+      0.1953996264202856,
+      0.46494788473364634
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 108.97202748456039,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.8453006253006253,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 original indicators": {
+     "auroc": 0.772099166836009,
+     "auroc_ci95": [
+      0.4532473811442385,
+      0.9438570663811563
+     ],
+     "aurc": 0.31304810484744616,
+     "aurc_ci95": [
+      0.20232823627355162,
+      0.46008320120856483
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 108.97202748456039,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.8464117364117364,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 + 3 disparity indicators (control)": {
+     "auroc": 0.7463083384136016,
+     "auroc_ci95": [
+      0.3799194198227236,
+      0.8843218869233438
+     ],
+     "aurc": 0.3257480223871294,
+     "aurc_ci95": [
+      0.20968879401857687,
+      0.4626301671993797
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 1857.9154408187605,
+     "ms_basis": "composed: measured gate + measured SGBM stereo matching (Task 6)",
+     "auroc_instr_label": 0.830055315055315,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 + 6 cross-view indicators": {
+     "auroc": 0.8126251923244404,
+     "auroc_ci95": [
+      0.5356970185334408,
+      0.9518870449678801
+     ],
+     "aurc": 0.3049895781180642,
+     "aurc_ci95": [
+      0.1996875950306112,
+      0.45459330775019735
+     ],
+     "forward_passes": 2,
+     "segmenters_trained": 1,
+     "ms_per_frame": 287.97677500988357,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.8987542087542087,
+     "note": "needs the right image segmented by the same model (a second forward pass) and a small trained estimator; Task D pre-set test: NOT passed (AUROC gain +0.049, 95% -0.040 to +0.160, label: instrument IoU < 0.5)"
+    },
+    "gate (GBM): 6 cross-view indicators alone": {
+     "auroc": 0.7541537240785361,
+     "auroc_ci95": [
+      0.555423045930701,
+      0.8686429336188437
+     ],
+     "aurc": 0.3232931613372023,
+     "aurc_ci95": [
+      0.2183521753754624,
+      0.46469569781708503
+     ],
+     "forward_passes": 2,
+     "segmenters_trained": 1,
+     "ms_per_frame": 287.97677500988357,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.8286964886964887,
+     "note": "needs the right image segmented by the same model (a second forward pass) and a small trained estimator; Task D pre-set test: NOT passed (AUROC gain +0.049, 95% -0.040 to +0.160, label: instrument IoU < 0.5)"
+    },
+    "gate: production (MLP, 9 indicators)": {
+     "auroc": 0.770947639368692,
+     "auroc_ci95": [
+      0.4488638195004029,
+      0.928133517150245
+     ],
+     "aurc": 0.307597017426619,
+     "aurc_ci95": [
+      0.1981877513292227,
+      0.46667384028512365
+     ],
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "ms_per_frame": 108.97202748456039,
+     "ms_basis": "measured",
+     "auroc_instr_label": 0.8437085137085137,
+     "note": "the released gate; a small trained estimator on top of the segmenter"
+    }
+   }
+  }
+ }
+}

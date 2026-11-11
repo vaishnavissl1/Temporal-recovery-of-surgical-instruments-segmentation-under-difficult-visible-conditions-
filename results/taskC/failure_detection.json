@@ -1,0 +1,1128 @@
+{
+ "definition": {
+  "risk": "1 - official frame IoU of the single-pass mask at 1280x1024 (class counted only if in the ground truth)",
+  "bad_frame": "official frame IoU < 0.5 (the repo's standing threshold, not tuned here)",
+  "intervals": "95% percentile intervals from 2000 bootstrap draws that resample whole sequences (seed 0)",
+  "direction": "AUROC higher is better; AURC lower is better"
+ },
+ "groups": {
+  "oof": {
+   "n_frames": 2235,
+   "n_with_risk": 2235,
+   "n_sequences": 15,
+   "bad_rate": 0.13914988814317675,
+   "detectors": {
+    "max-softmax": {
+     "auroc": 0.7856497048619235,
+     "aurc": 0.26922603976180465,
+     "auroc_instr_label": 0.7041684327964299,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.6764556301195572,
+      0.8803860515798617
+     ],
+     "aurc_ci95": [
+      0.2225991911086781,
+      0.33315012454269854
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.056278973309118026,
+      "ci95": [
+       -0.03659733879891462,
+       0.15650360115469378
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.030628655405135416,
+      "ci95": [
+       -0.06560678762615908,
+       -0.0005556586913402691
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": ""
+    },
+    "mean entropy": {
+     "auroc": 0.7730862819287256,
+     "aurc": 0.2703644289714965,
+     "auroc_instr_label": 0.7002451254818535,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.6618814594317136,
+      0.8735951054575285
+     ],
+     "aurc_ci95": [
+      0.22270223029685002,
+      0.33436885606866773
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.04431425605330086,
+      "ci95": [
+       -0.050177683580411456,
+       0.14610241147293823
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.029909399684827,
+      "ci95": [
+       -0.06481576894180438,
+       0.0002115058772994492
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": ""
+    },
+    "Soft Dice Confidence": {
+     "auroc": 0.7337974878167804,
+     "aurc": 0.28489614065457425,
+     "auroc_instr_label": 0.7653533325868935,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.6722832339785207,
+      0.8102119077003874
+     ],
+     "aurc_ci95": [
+      0.23838831016574724,
+      0.34260803963259673
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.004375585745081677,
+      "ci95": [
+       -0.09083095031253932,
+       0.11883486977272843
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.01654214554829246,
+      "ci95": [
+       -0.049015143335711775,
+       0.010243753853559181
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": ""
+    },
+    "MC stochastic depth (10 passes)": {
+     "auroc": 0.740933612316249,
+     "aurc": 0.28811298620121817,
+     "auroc_instr_label": 0.7534769430093252,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.6697371168098949,
+      0.8416129584994241
+     ],
+     "aurc_ci95": [
+      0.23688548677738552,
+      0.3498860056241523
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.016517992534623355,
+      "ci95": [
+       -0.11810448909344529,
+       0.1581596020720744
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.013004850329732415,
+      "ci95": [
+       -0.04710118191685701,
+       0.01839682865787891
+      ]
+     },
+     "forward_passes": 10,
+     "segmenters_trained": 1,
+     "note": "the segmenter has no dropout layer; its DropPath (stochastic depth, rate 0.1) is switched on at inference"
+    },
+    "TTA entropy (6 passes)": {
+     "auroc": 0.7635435955371647,
+     "aurc": 0.27117030217818644,
+     "auroc_instr_label": 0.6917996928933604,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.6492819647410037,
+      0.8673120454590785
+     ],
+     "aurc_ci95": [
+      0.22263637739507336,
+      0.3362146800219049
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.03413450324388467,
+      "ci95": [
+       -0.07594800178277276,
+       0.14309033844263164
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.0286768462399029,
+      "ci95": [
+       -0.06318189613295637,
+       0.0033134506685614734
+      ]
+     },
+     "forward_passes": 6,
+     "segmenters_trained": 1,
+     "note": "flip x scales 0.75, 1.0, 1.25"
+    },
+    "TTA pairwise Dice (6 passes)": {
+     "auroc": 0.7571177410405706,
+     "aurc": 0.2823232580911007,
+     "auroc_instr_label": 0.7716424207041059,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.6881803183178904,
+      0.8665670625495697
+     ],
+     "aurc_ci95": [
+      0.23174053868074515,
+      0.3454571769547379
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.03252840584257707,
+      "ci95": [
+       -0.08220866120653453,
+       0.1684670302120343
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.018632474215816725,
+      "ci95": [
+       -0.05263485045240835,
+       0.012973395009677677
+      ]
+     },
+     "forward_passes": 6,
+     "segmenters_trained": 1,
+     "note": "flip x scales 0.75, 1.0, 1.25"
+    },
+    "gate: confidence only": {
+     "auroc": 0.6836691378492021,
+     "aurc": 0.310730186534741,
+     "auroc_instr_label": 0.7493956837121515,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.5847451686656921,
+      0.7598988122915357
+     ],
+     "aurc_ci95": [
+      0.26088458227990263,
+      0.364132962560189
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.05383824808257788,
+      "ci95": [
+       -0.11986392433727225,
+       0.012052608069046664
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.007277576754700077,
+      "ci95": [
+       -0.003784304578185377,
+       0.017211167712603056
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate: + temporal (9 indicators)": {
+     "auroc": 0.7181046988120943,
+     "aurc": 0.3075100435322475,
+     "auroc_instr_label": 0.7700094171371903,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.5933415216673562,
+      0.8010936789599924
+     ],
+     "aurc_ci95": [
+      0.2592973551341535,
+      0.36033765993666717
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.023204550610461026,
+      "ci95": [
+       -0.0705144744186877,
+       0.008284969702203717
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.004476664541238005,
+      "ci95": [
+       -0.005590632246757662,
+       0.012966832992874525
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 original indicators": {
+     "auroc": 0.7177328515752953,
+     "aurc": 0.3164098062143266,
+     "auroc_instr_label": 0.7449300412674547,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.5714756434834195,
+      0.8255806960239325
+     ],
+     "aurc_ci95": [
+      0.2684861784290807,
+      0.36501353290396304
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.02411302092904195,
+      "ci95": [
+       -0.09675286914727232,
+       0.026881819184741137
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.012700483543907475,
+      "ci95": [
+       -0.0053338865463314344,
+       0.03372163922411382
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 + 3 disparity indicators (control)": {
+     "auroc": 0.7469834415172035,
+     "aurc": 0.3098491973694609,
+     "auroc_instr_label": 0.7747244837569379,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.6196679304932878,
+      0.8520586424336618
+     ],
+     "aurc_ci95": [
+      0.26066565369769373,
+      0.36009839621053397
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.008784127012759869,
+      "ci95": [
+       -0.03842147133436201,
+       0.06326081632545176
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.0056703575599878105,
+      "ci95": [
+       -0.0038556309362455634,
+       0.015254745902645037
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 + 6 cross-view indicators": {
+     "auroc": 0.7286024894545795,
+     "aurc": 0.29795936386198624,
+     "auroc_instr_label": 0.7937277067771398,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.63291554330213,
+      0.8120821400468925
+     ],
+     "aurc_ci95": [
+      0.24573498438896038,
+      0.3554313663784851
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.0023778239645561713,
+      "ci95": [
+       -0.08125668546444402,
+       0.08743372633114607
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.004853695703215247,
+      "ci95": [
+       -0.018884921346436455,
+       0.006962507081926693
+      ]
+     },
+     "forward_passes": 2,
+     "segmenters_trained": 1,
+     "note": "needs the right image segmented by the same model (a second forward pass) and a small trained estimator; Task D pre-set test: NOT passed (AUROC gain +0.049, 95% -0.040 to +0.160, label: instrument IoU < 0.5)"
+    },
+    "gate (GBM): 6 cross-view indicators alone": {
+     "auroc": 0.6549458189329572,
+     "aurc": 0.29719032283736674,
+     "auroc_instr_label": 0.7132951582718854,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.5603142509359023,
+      0.7720364979171561
+     ],
+     "aurc_ci95": [
+      0.24214832156286398,
+      0.36125031175492794
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.06891831877882919,
+      "ci95": [
+       -0.1855838859366439,
+       0.07913076149684338
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.004262717283798733,
+      "ci95": [
+       -0.035222565999750995,
+       0.02287328280759842
+      ]
+     },
+     "forward_passes": 2,
+     "segmenters_trained": 1,
+     "note": "needs the right image segmented by the same model (a second forward pass) and a small trained estimator; Task D pre-set test: NOT passed (AUROC gain +0.049, 95% -0.040 to +0.160, label: instrument IoU < 0.5)"
+    },
+    "gate: production (MLP, 9 indicators)": {
+     "auroc": 0.7403754236551664,
+     "aurc": 0.3033592577389272,
+     "auroc_instr_label": 0.7879724563732625,
+     "n": 2235,
+     "aurc_oracle": 0.23025180773232082,
+     "aurc_random": 0.34673635235640565,
+     "bad_rate": 0.13914988814317675,
+     "auroc_ci95": [
+      0.6181768789009732,
+      0.8214026976193687
+     ],
+     "aurc_ci95": [
+      0.2549191341056932,
+      0.3571104162626404
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 15,
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "the released gate; a small trained estimator on top of the segmenter"
+    }
+   },
+   "_columns": [
+    "MC stochastic depth (10 passes)",
+    "Soft Dice Confidence",
+    "TTA entropy (6 passes)",
+    "TTA pairwise Dice (6 passes)",
+    "gate (GBM): 4 + 3 disparity indicators (control)",
+    "gate (GBM): 4 + 6 cross-view indicators",
+    "gate (GBM): 4 original indicators",
+    "gate (GBM): 6 cross-view indicators alone",
+    "gate: + temporal (9 indicators)",
+    "gate: confidence only",
+    "gate: production (MLP, 9 indicators)",
+    "max-softmax",
+    "mean entropy"
+   ]
+  },
+  "test": {
+   "n_frames": 997,
+   "n_with_risk": 997,
+   "n_sequences": 4,
+   "bad_rate": 0.2948846539618857,
+   "detectors": {
+    "max-softmax": {
+     "auroc": 0.7918614102824629,
+     "aurc": 0.2851817732672963,
+     "auroc_instr_label": 0.7097354497354498,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.6406161773009599,
+      0.8671196806251593
+     ],
+     "aurc_ci95": [
+      0.19403077514125533,
+      0.4754675339315786
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.051511557477897256,
+      "ci95": [
+       -0.1031852248394004,
+       0.35908138597904915
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.012861081606439846,
+      "ci95": [
+       -0.07948532279985945,
+       0.05405221758588952
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": ""
+    },
+    "mean entropy": {
+     "auroc": 0.7893285336894359,
+     "aurc": 0.2852558670158209,
+     "auroc_instr_label": 0.7088936988936989,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.6473984814021942,
+      0.87372802174467
+     ],
+     "aurc_ci95": [
+      0.19392128397163824,
+      0.4728819699881067
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.04705399961705599,
+      "ci95": [
+       -0.1088731263383298,
+       0.3494278807413377
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.012147640601812266,
+      "ci95": [
+       -0.07910941689573858,
+       0.05707961326240235
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": ""
+    },
+    "Soft Dice Confidence": {
+     "auroc": 0.6846459778790606,
+     "aurc": 0.34070372498690954,
+     "auroc_instr_label": 0.7795334295334295,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.5208058017727639,
+      0.7999866167023555
+     ],
+     "aurc_ci95": [
+      0.2239505321101662,
+      0.4549308351156018
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.036409030846364945,
+      "ci95": [
+       -0.21419689119170982,
+       0.16251079415180297
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.02357160269635432,
+      "ci95": [
+       -0.02868137770822704,
+       0.06614648602008089
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": ""
+    },
+    "MC stochastic depth (10 passes)": {
+     "auroc": 0.792100908642262,
+     "aurc": 0.32547264114152397,
+     "auroc_instr_label": 0.8551803751803752,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.5531668009669621,
+      0.9036865948314318
+     ],
+     "aurc_ci95": [
+      0.21454440640963232,
+      0.4316776482387621
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.05712692550816587,
+      "ci95": [
+       -0.07228403975197495,
+       0.2319518383999204
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.007478223194866589,
+      "ci95": [
+       -0.03687234639737774,
+       0.026268817402537337
+      ]
+     },
+     "forward_passes": 10,
+     "segmenters_trained": 1,
+     "note": "the segmenter has no dropout layer; its DropPath (stochastic depth, rate 0.1) is switched on at inference"
+    },
+    "TTA entropy (6 passes)": {
+     "auroc": 0.8498369475813085,
+     "aurc": 0.272658751690981,
+     "auroc_instr_label": 0.7784704184704184,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.6877121743022127,
+      0.9170236039147956
+     ],
+     "aurc_ci95": [
+      0.19188522000365138,
+      0.45654797320171664
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.09915039060620488,
+      "ci95": [
+       -0.06497591006423986,
+       0.3689927477840451
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.021693600593816767,
+      "ci95": [
+       -0.08227191532450939,
+       0.03085929202035631
+      ]
+     },
+     "forward_passes": 6,
+     "segmenters_trained": 1,
+     "note": "flip x scales 0.75, 1.0, 1.25"
+    },
+    "TTA pairwise Dice (6 passes)": {
+     "auroc": 0.8083480903029775,
+     "aurc": 0.32027892957107645,
+     "auroc_instr_label": 0.864030784030784,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.5888477034649476,
+      0.8987584487800201
+     ],
+     "aurc_ci95": [
+      0.2113091729965628,
+      0.43101570189743355
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.07338642183663384,
+      "ci95": [
+       -0.07067291016302457,
+       0.25526145579382054
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.004394552796222147,
+      "ci95": [
+       -0.03792469538274279,
+       0.02374240389291926
+      ]
+     },
+     "forward_passes": 6,
+     "segmenters_trained": 1,
+     "note": "flip x scales 0.75, 1.0, 1.25"
+    },
+    "4-model ensemble pairwise Dice": {
+     "auroc": 0.8397731781190427,
+     "aurc": 0.31197111983923964,
+     "auroc_instr_label": 0.8700625300625301,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.5833360193392425,
+      0.9257705766741767
+     ],
+     "aurc_ci95": [
+      0.19263711251532986,
+      0.43366269755731496
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.09357842931109445,
+      "ci95": [
+       -0.010330171597745963,
+       0.26158017811831435
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.0046342920787876725,
+      "ci95": [
+       -0.04392917697781812,
+       0.01388169438888992
+      ]
+     },
+     "forward_passes": 4,
+     "segmenters_trained": 4,
+     "note": "TEST ONLY: every training sequence lies inside some member's training set"
+    },
+    "gate: confidence only": {
+     "auroc": 0.7611233682662254,
+     "aurc": 0.3190862507892037,
+     "auroc_instr_label": 0.8473569023569023,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.4156164383561644,
+      0.9254827147647127
+     ],
+     "aurc_ci95": [
+      0.19799978993819975,
+      0.46110033366005637
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.010169639543037092,
+      "ci95": [
+       -0.04994841937170558,
+       0.02250891092603058
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.006392271363440413,
+      "ci95": [
+       -0.00704764533633484,
+       0.031717935428735966
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate: + temporal (9 indicators)": {
+     "auroc": 0.7573252629643608,
+     "aurc": 0.31191964248313153,
+     "auroc_instr_label": 0.8453006253006253,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.3791136180499597,
+      0.9336893197715418
+     ],
+     "aurc_ci95": [
+      0.1953996264202856,
+      0.46494788473364634
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.013806195445498175,
+      "ci95": [
+       -0.0697502014504432,
+       0.020598796583850998
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.0019808457903826115,
+      "ci95": [
+       -0.01258883927880105,
+       0.025579112875520504
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 original indicators": {
+     "auroc": 0.772099166836009,
+     "aurc": 0.31304810484744616,
+     "auroc_instr_label": 0.8464117364117364,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.4532473811442385,
+      0.9438570663811563
+     ],
+     "aurc_ci95": [
+      0.20232823627355162,
+      0.46008320120856483
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.008014611880707803,
+      "ci95": [
+       -0.00191059841384289,
+       0.025829764453961457
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.0028335195419830904,
+      "ci95": [
+       -0.010135561434697071,
+       0.015782860349011496
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 + 3 disparity indicators (control)": {
+     "auroc": 0.7463083384136016,
+     "aurc": 0.3257480223871294,
+     "auroc_instr_label": 0.830055315055315,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.3799194198227236,
+      0.8843218869233438
+     ],
+     "aurc_ci95": [
+      0.20968879401857687,
+      0.4626301671993797
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": -0.023075325114662214,
+      "ci95": [
+       -0.06894439967767929,
+       0.020936350438266138
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.012001982836814296,
+      "ci95": [
+       -0.007301204966547958,
+       0.038455200331925066
+      ]
+     },
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "needs a trained reliability estimator (a small gradient-boosted model) in addition to the segmenter"
+    },
+    "gate (GBM): 4 + 6 cross-view indicators": {
+     "auroc": 0.8126251923244404,
+     "aurc": 0.3049895781180642,
+     "auroc_instr_label": 0.8987542087542087,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.5356970185334408,
+      0.9518870449678801
+     ],
+     "aurc_ci95": [
+      0.1996875950306112,
+      0.45459330775019735
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.05574456604720728,
+      "ci95": [
+       0.013539454684447394,
+       0.13264341509527833
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": -0.004458376705266679,
+      "ci95": [
+       -0.027763039647172527,
+       0.008175521202587077
+      ]
+     },
+     "forward_passes": 2,
+     "segmenters_trained": 1,
+     "note": "needs the right image segmented by the same model (a second forward pass) and a small trained estimator; Task D pre-set test: NOT passed (AUROC gain +0.049, 95% -0.040 to +0.160, label: instrument IoU < 0.5)"
+    },
+    "gate (GBM): 6 cross-view indicators alone": {
+     "auroc": 0.7541537240785361,
+     "aurc": 0.3232931613372023,
+     "auroc_instr_label": 0.8286964886964887,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.555423045930701,
+      0.8686429336188437
+     ],
+     "aurc_ci95": [
+      0.2183521753754624,
+      0.46469569781708503
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "diff_auroc_vs_production_gate": {
+      "mean": 0.01590620401724709,
+      "ci95": [
+       -0.09354058721934366,
+       0.16563013085228118
+      ]
+     },
+     "diff_aurc_vs_production_gate": {
+      "mean": 0.012592674246967422,
+      "ci95": [
+       -0.019061717921807497,
+       0.04587139695367387
+      ]
+     },
+     "forward_passes": 2,
+     "segmenters_trained": 1,
+     "note": "needs the right image segmented by the same model (a second forward pass) and a small trained estimator; Task D pre-set test: NOT passed (AUROC gain +0.049, 95% -0.040 to +0.160, label: instrument IoU < 0.5)"
+    },
+    "gate: production (MLP, 9 indicators)": {
+     "auroc": 0.770947639368692,
+     "aurc": 0.307597017426619,
+     "auroc_instr_label": 0.8437085137085137,
+     "n": 997,
+     "aurc_oracle": 0.2330034732761081,
+     "aurc_random": 0.3871804294646528,
+     "bad_rate": 0.2948846539618857,
+     "auroc_ci95": [
+      0.4488638195004029,
+      0.928133517150245
+     ],
+     "aurc_ci95": [
+      0.1981877513292227,
+      0.46667384028512365
+     ],
+     "n_boot_used": 2000,
+     "n_boot_skipped": 0,
+     "n_clusters": 4,
+     "forward_passes": 1,
+     "segmenters_trained": 1,
+     "note": "the released gate; a small trained estimator on top of the segmenter"
+    }
+   },
+   "_columns": [
+    "4-model ensemble pairwise Dice",
+    "MC stochastic depth (10 passes)",
+    "Soft Dice Confidence",
+    "TTA entropy (6 passes)",
+    "TTA pairwise Dice (6 passes)",
+    "gate (GBM): 4 + 3 disparity indicators (control)",
+    "gate (GBM): 4 + 6 cross-view indicators",
+    "gate (GBM): 4 original indicators",
+    "gate (GBM): 6 cross-view indicators alone",
+    "gate: + temporal (9 indicators)",
+    "gate: confidence only",
+    "gate: production (MLP, 9 indicators)",
+    "max-softmax",
+    "mean entropy"
+   ]
+  }
+ },
+ "frame_alignment_check": {
+  "rule": "mean abs instrument-IoU difference < 0.005 and correlation > 0.99 between the cache and the action data, per sequence (a one-frame shift gives correlation <= 0.82)",
+  "per_sequence": {
+   "train/seq_1": {
+    "mean_abs_difference": 0.00014887835809923103,
+    "max_abs_difference": 0.0013890221893150256,
+    "correlation": 0.9999976993345457
+   },
+   "train/seq_2": {
+    "mean_abs_difference": 0.00047712913665787346,
+    "max_abs_difference": 0.04345987910097587,
+    "correlation": 0.9997633307206296
+   },
+   "train/seq_3": {
+    "mean_abs_difference": 0.00025938599209837415,
+    "max_abs_difference": 0.0018675366508416613,
+    "correlation": 0.9999976241502663
+   },
+   "train/seq_4": {
+    "mean_abs_difference": 0.0002617120851236864,
+    "max_abs_difference": 0.002109726499853082,
+    "correlation": 0.9999945975327196
+   },
+   "train/seq_5": {
+    "mean_abs_difference": 0.00014455913130694288,
+    "max_abs_difference": 0.0008943410837469745,
+    "correlation": 0.9999993639955355
+   },
+   "train/seq_6": {
+    "mean_abs_difference": 0.00013897092557890397,
+    "max_abs_difference": 0.0009593174107330182,
+    "correlation": 0.9999993073982647
+   },
+   "train/seq_7": {
+    "mean_abs_difference": 0.0001568072847904437,
+    "max_abs_difference": 0.001071995233223988,
+    "correlation": 0.9999975609812963
+   },
+   "train/seq_9": {
+    "mean_abs_difference": 0.00017914495014190887,
+    "max_abs_difference": 0.002276194426217404,
+    "correlation": 0.9999992803789022
+   },
+   "train/seq_10": {
+    "mean_abs_difference": 0.00015504015821401126,
+    "max_abs_difference": 0.0007235723985882236,
+    "correlation": 0.999998232184878
+   },
+   "train/seq_11": {
+    "mean_abs_difference": 0.0021732562502514313,
+    "max_abs_difference": 0.2980233985334082,
+    "correlation": 0.9943341829695257
+   },
+   "train/seq_12": {
+    "mean_abs_difference": 0.00022143350048221103,
+    "max_abs_difference": 0.001502337054924252,
+    "correlation": 0.9999977833469993
+   },
+   "train/seq_13": {
+    "mean_abs_difference": 0.0003022007503941909,
+    "max_abs_difference": 0.0035100182169048866,
+    "correlation": 0.9999914113827086
+   },
+   "train/seq_14": {
+    "mean_abs_difference": 0.0005454643733865433,
+    "max_abs_difference": 0.05574615511019465,
+    "correlation": 0.99938795168345
+   },
+   "train/seq_15": {
+    "mean_abs_difference": 0.00017659512732970024,
+    "max_abs_difference": 0.0017718275701438246,
+    "correlation": 0.9999976559473414
+   },
+   "train/seq_16": {
+    "mean_abs_difference": 0.0001847212616795659,
+    "max_abs_difference": 0.0018076417654984134,
+    "correlation": 0.9999986584028611
+   },
+   "test/seq_1": {
+    "mean_abs_difference": 0.00014356594808675365,
+    "max_abs_difference": 0.0018689439791826912,
+    "correlation": 0.9999992426727434
+   },
+   "test/seq_2": {
+    "mean_abs_difference": 9.945556253503681e-05,
+    "max_abs_difference": 0.0007002112816031358,
+    "correlation": 0.9999993000123844
+   },
+   "test/seq_3": {
+    "mean_abs_difference": 0.0001545356921380703,
+    "max_abs_difference": 0.0023246962797298654,
+    "correlation": 0.999998187552021
+   },
+   "test/seq_4": {
+    "mean_abs_difference": 0.000857000169634189,
+    "max_abs_difference": 0.15241338663932436,
+    "correlation": 0.9994623291167721
+   }
+  }
+ }
+}

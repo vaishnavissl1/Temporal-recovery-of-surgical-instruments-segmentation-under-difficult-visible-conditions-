@@ -1,0 +1,1 @@
+Overlap of the ground-truth instrument masks of consecutive frames in the 15 training sequences (2220 pairs, 1 Hz sampling). Left: distribution, pooled mean 0.323, median 0.272, 76% of pairs below 0.5, against random pairs from the same sequence. Right: per sequence (box = quartiles, whiskers = 1.5 IQR). Source: results/taskK/consecutive_frame_iou.json.

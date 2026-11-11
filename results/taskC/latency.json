@@ -1,0 +1,101 @@
+{
+ "hardware": "NVIDIA GeForce RTX 3050 Ti Laptop GPU",
+ "batch": 1,
+ "input": "512x640, image already on the GPU, fp16 autocast",
+ "method": "wall clock with the GPU synchronised before and after, mean and P95 over the frames; measured, not composed",
+ "n_frames": 40,
+ "frames": [
+  "test/seq_4:89",
+  "test/seq_2:229",
+  "test/seq_3:48",
+  "test/seq_3:39",
+  "test/seq_4:7",
+  "test/seq_1:80",
+  "test/seq_1:16",
+  "test/seq_4:107",
+  "test/seq_3:221",
+  "test/seq_2:10",
+  "test/seq_1:40",
+  "test/seq_3:130",
+  "test/seq_1:22",
+  "test/seq_1:174",
+  "test/seq_2:240",
+  "test/seq_4:195",
+  "test/seq_1:73",
+  "test/seq_1:33",
+  "test/seq_1:89",
+  "test/seq_2:171",
+  "test/seq_3:90",
+  "test/seq_4:95",
+  "test/seq_3:210",
+  "test/seq_4:39",
+  "test/seq_2:137",
+  "test/seq_2:22",
+  "test/seq_3:47",
+  "test/seq_2:238",
+  "test/seq_4:136",
+  "test/seq_3:158",
+  "test/seq_4:165",
+  "test/seq_1:169",
+  "test/seq_4:51",
+  "test/seq_3:31",
+  "test/seq_1:3",
+  "test/seq_2:49",
+  "test/seq_2:46",
+  "test/seq_4:67",
+  "test/seq_3:112",
+  "test/seq_3:117"
+ ],
+ "detectors": {
+  "max-softmax": {
+   "mean_ms": 80.06837498105597,
+   "p95_ms": 86.02372994646427,
+   "n_frames": 40
+  },
+  "mean entropy": {
+   "mean_ms": 80.44129000045359,
+   "p95_ms": 89.71787493210283,
+   "n_frames": 40
+  },
+  "Soft Dice Confidence": {
+   "mean_ms": 84.77648500993382,
+   "p95_ms": 93.38343500276096,
+   "n_frames": 40
+  },
+  "MC stochastic depth (10 passes)": {
+   "mean_ms": 782.3478700069245,
+   "p95_ms": 810.983170021791,
+   "n_frames": 40
+  },
+  "TTA entropy (6 passes)": {
+   "mean_ms": 535.3656925115502,
+   "p95_ms": 574.9243699363433,
+   "n_frames": 40
+  },
+  "TTA pairwise Dice (6 passes)": {
+   "mean_ms": 557.0336149976356,
+   "p95_ms": 590.3591900947504,
+   "n_frames": 40
+  },
+  "4-model ensemble pairwise Dice": {
+   "mean_ms": 312.02099000220187,
+   "p95_ms": 334.21028495649807,
+   "n_frames": 40
+  },
+  "gate (segmentation pass + indicators + estimator)": {
+   "mean_ms": 108.97202748456039,
+   "p95_ms": 129.6933049801737,
+   "n_frames": 40
+  },
+  "gate + cross-view (two passes + six indicators)": {
+   "mean_ms": 287.97677500988357,
+   "p95_ms": 327.8780999418814,
+   "n_frames": 40
+  }
+ },
+ "crossview_indicators_only_cpu_ms": {
+  "mean_ms": 9.268819994758815,
+  "p95_ms": 18.242504954105243
+ },
+ "peak_gpu_gb": 1.883192539215088
+}

@@ -1,0 +1,13 @@
+  GPU memory hard cap: 3.30 GB of 4.00 GB
+  ! seq_3 [test]: dropping 1 unlabelled frame(s): ['frame249.png']
+  ! seq_4 [test]: dropping 1 unlabelled frame(s): ['frame249.png']
+  max-softmax                                                 80.1 ms  (P95 86.0)
+  mean entropy                                                80.4 ms  (P95 89.7)
+  Soft Dice Confidence                                        84.8 ms  (P95 93.4)
+  MC stochastic depth (10 passes)                            782.3 ms  (P95 811.0)
+  TTA entropy (6 passes)                                     535.4 ms  (P95 574.9)
+  TTA pairwise Dice (6 passes)                               557.0 ms  (P95 590.4)
+  4-model ensemble pairwise Dice                             312.0 ms  (P95 334.2)
+  gate (segmentation pass + indicators + estimator)          109.0 ms  (P95 129.7)
+  gate + cross-view (two passes + six indicators)            288.0 ms  (P95 327.9)
+wrote results/taskC/latency.json

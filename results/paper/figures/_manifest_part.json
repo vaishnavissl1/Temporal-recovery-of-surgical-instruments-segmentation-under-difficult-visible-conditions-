@@ -1,0 +1,45 @@
+{
+ "made": [
+  {
+   "name": "fig01_risk_coverage_test",
+   "title": "Risk-coverage curves, test",
+   "sources": [
+    "results/taskC/failure_detection.json",
+    "work_v2/failure_detection/scores",
+    "results/taskD/gate_scores_*.npz"
+   ],
+   "caption": "Risk-coverage curves of every failure detector on the same 997 official test frames; risk is 1 minus the official frame IoU and a frame is bad when its official IoU is below 0.5 (bad rate 29.5%). AURC in the legend. The 4-model ensemble is test-only: every training sequence lies inside some member's training set. The MC row is MC stochastic depth (the segmenter has no dropout layer). Source: results/taskC/failure_detection.json and per-frame scores in work_v2/failure_detection."
+  },
+  {
+   "name": "fig01_risk_coverage_oof",
+   "title": "Risk-coverage curves, oof",
+   "sources": [
+    "results/taskC/failure_detection.json",
+    "work_v2/failure_detection/scores",
+    "results/taskD/gate_scores_*.npz"
+   ],
+   "caption": "Risk-coverage curves of every failure detector on the same 2235 out-of-fold training frames; risk is 1 minus the official frame IoU and a frame is bad when its official IoU is below 0.5 (bad rate 13.9%). AURC in the legend. No out-of-fold ensemble exists. The MC row is MC stochastic depth (the segmenter has no dropout layer). Source: results/taskC/failure_detection.json and per-frame scores in work_v2/failure_detection."
+  },
+  {
+   "name": "fig02_roc_test",
+   "title": "ROC curves, test",
+   "sources": [
+    "results/taskC/failure_detection.json",
+    "work_v2/failure_detection/scores",
+    "results/taskD/gate_scores_*.npz"
+   ],
+   "caption": "ROC curves of every failure detector on the same 997 official test frames; risk is 1 minus the official frame IoU and a frame is bad when its official IoU is below 0.5 (bad rate 29.5%). AUROC in the legend. The 4-model ensemble is test-only: every training sequence lies inside some member's training set. The MC row is MC stochastic depth (the segmenter has no dropout layer). Source: results/taskC/failure_detection.json and per-frame scores in work_v2/failure_detection."
+  },
+  {
+   "name": "fig02_roc_oof",
+   "title": "ROC curves, oof",
+   "sources": [
+    "results/taskC/failure_detection.json",
+    "work_v2/failure_detection/scores",
+    "results/taskD/gate_scores_*.npz"
+   ],
+   "caption": "ROC curves of every failure detector on the same 2235 out-of-fold training frames; risk is 1 minus the official frame IoU and a frame is bad when its official IoU is below 0.5 (bad rate 13.9%). AUROC in the legend. No out-of-fold ensemble exists. The MC row is MC stochastic depth (the segmenter has no dropout layer). Source: results/taskC/failure_detection.json and per-frame scores in work_v2/failure_detection."
+  }
+ ],
+ "missing": []
+}

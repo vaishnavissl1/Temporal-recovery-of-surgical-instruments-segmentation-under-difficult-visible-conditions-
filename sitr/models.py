@@ -32,7 +32,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 ARCHITECTURES = ("unet11", "resnet34_unet", "convnext_unet",
-                 "caformer_surgenet", "caformer_imagenet")
+                 "caformer_surgenet", "caformer_imagenet",
+                 # Task P.1 baselines, trained under the identical protocol as the main model
+                 "unet_classic", "deeplabv3p_r18", "segformer_b0")
 
 
 # --------------------------------------------------------------------------- #
@@ -395,6 +397,126 @@ class CaFormerFPN(nn.Module):
         return self.final(feat), feat
 
 # --------------------------------------------------------------------------- #
+# Task P.1 baselines. Every one returns (logits at input resolution, a feature map) like every other model here,
+# so the same training, EMA, loss, optimiser and evaluation code runs on all of them unchanged. GroupNorm replaces
+# BatchNorm wherever a block is built here, for the same reason as GNConv above (batch 1 with gradient accumulation).
+# --------------------------------------------------------------------------- #
+class _DoubleGN(nn.Module):
+    def __init__(self, i, o):
+        super().__init__()
+        self.b = nn.Sequential(nn.Conv2d(i, o, 3, padding=1, bias=False), _gn(o), nn.ReLU(inplace=True),
+                               nn.Conv2d(o, o, 3, padding=1, bias=False), _gn(o), nn.ReLU(inplace=True))
+
+    def forward(self, x):
+        return self.b(x)
+
+
+class ClassicUNet(nn.Module):
+    """The classic encoder-decoder U-Net (Ronneberger et al. 2015): four 2x downsamplings with doubled width, four
+    upsamplings with skip concatenation, double 3x3 convolutions, 1x1 classifier. Base width 32.
+    Trained FROM SCRATCH (no pretrained weights): it is the floor of the comparison."""
+
+    feature_dim = 32
+
+    def __init__(self, num_classes: int, base: int = 32):
+        super().__init__()
+        c = [base, base * 2, base * 4, base * 8, base * 16]
+        self.enc = nn.ModuleList([_DoubleGN(3, c[0])] + [_DoubleGN(c[i], c[i + 1]) for i in range(4)])
+        self.up = nn.ModuleList([nn.ConvTranspose2d(c[i + 1], c[i], 2, stride=2) for i in range(4)])
+        self.dec = nn.ModuleList([_DoubleGN(c[i] * 2, c[i]) for i in range(4)])
+        self.final = nn.Conv2d(c[0], num_classes, 1)
+        for m in self.modules():
+            if isinstance(m, (nn.Conv2d, nn.ConvTranspose2d)):
+                nn.init.kaiming_normal_(m.weight, mode="fan_out", nonlinearity="relu")
+                if m.bias is not None:
+                    nn.init.zeros_(m.bias)
+
+    def forward(self, x):
+        skips, y = [], x
+        for i, blk in enumerate(self.enc):
+            y = blk(y if i == 0 else F.max_pool2d(y, 2))
+            skips.append(y)
+        for i in (3, 2, 1, 0):
+            y = self.up[i](y)
+            y = self.dec[i](torch.cat([y, skips[i]], 1))
+        return self.final(y), y
+
+
+class DeepLabV3PlusR18(nn.Module):
+    """DeepLabV3+ (Chen et al. 2018) with a ResNet-18 encoder, the backbone of STswinCL: ImageNet-pretrained ResNet-18 at output stride 16
+    (layer4 dilated), ASPP (1x1, three 3x3 atrous branches at rates 6/12/18, image pooling; 256 channels), and the DeepLabV3+ decoder that
+    fuses the 1/4-resolution layer1 features (reduced to 48 channels) with the upsampled ASPP output."""
+
+    feature_dim = 256
+
+    def __init__(self, num_classes: int, pretrained: bool = True):
+        super().__init__()
+        import torchvision
+        r = torchvision.models.resnet18(weights=torchvision.models.ResNet18_Weights.IMAGENET1K_V1 if pretrained else None)
+        # output stride 16: layer4 keeps resolution and dilates its 3x3 convolutions
+        for blk in r.layer4:
+            for m in blk.modules():
+                if isinstance(m, nn.Conv2d) and m.kernel_size == (3, 3):
+                    m.dilation, m.padding = (2, 2), (2, 2)
+        r.layer4[0].conv1.stride = (1, 1)
+        r.layer4[0].downsample[0].stride = (1, 1)
+        self.stem = nn.Sequential(r.conv1, r.bn1, r.relu, r.maxpool)
+        self.layer1, self.layer2, self.layer3, self.layer4 = r.layer1, r.layer2, r.layer3, r.layer4
+        P = 256
+
+        def br(rate):
+            k = 1 if rate == 1 else 3
+            return nn.Sequential(nn.Conv2d(512, P, k, padding=0 if rate == 1 else rate, dilation=rate, bias=False), _gn(P), nn.ReLU(inplace=True))
+
+        self.aspp = nn.ModuleList([br(1), br(6), br(12), br(18)])
+        self.pool = nn.Sequential(nn.AdaptiveAvgPool2d(1), nn.Conv2d(512, P, 1, bias=False), nn.ReLU(inplace=True))
+        self.proj = nn.Sequential(nn.Conv2d(5 * P, P, 1, bias=False), _gn(P), nn.ReLU(inplace=True))
+        self.low = nn.Sequential(nn.Conv2d(64, 48, 1, bias=False), _gn(48), nn.ReLU(inplace=True))
+        self.fuse = nn.Sequential(nn.Conv2d(P + 48, P, 3, padding=1, bias=False), _gn(P), nn.ReLU(inplace=True),
+                                  nn.Conv2d(P, P, 3, padding=1, bias=False), _gn(P), nn.ReLU(inplace=True))
+        self.final = nn.Conv2d(P, num_classes, 1)
+        for m in [self.aspp, self.proj, self.low, self.fuse, self.final]:
+            for mm in m.modules():
+                if isinstance(mm, nn.Conv2d):
+                    nn.init.kaiming_normal_(mm.weight, mode="fan_out", nonlinearity="relu")
+                    if mm.bias is not None:
+                        nn.init.zeros_(mm.bias)
+
+    def forward(self, x):
+        H, W = x.shape[-2:]
+        y = self.stem(x)
+        l1 = self.layer1(y)
+        y = self.layer4(self.layer3(self.layer2(l1)))
+        a = [b(y) for b in self.aspp] + [F.interpolate(self.pool(y), size=y.shape[-2:], mode="bilinear", align_corners=False)]
+        a = F.interpolate(self.proj(torch.cat(a, 1)), size=l1.shape[-2:], mode="bilinear", align_corners=False)
+        f = self.fuse(torch.cat([a, self.low(l1)], 1))
+        return F.interpolate(self.final(f), size=(H, W), mode="bilinear", align_corners=False), f
+
+
+class SegFormerB0(nn.Module):
+    """SegFormer-B0 (Xie et al. 2021; 3.7 M parameters), the MiT-B0 hierarchical transformer encoder with the all-MLP decoder, initialised from
+    the ImageNet-1k encoder weights (nvidia/mit-b0). Logits come out at 1/4 resolution and are upsampled bilinearly to the input size."""
+
+    feature_dim = 256
+
+    def __init__(self, num_classes: int, pretrained: bool = True):
+        super().__init__()
+        from transformers import SegformerConfig, SegformerForSemanticSegmentation
+        if pretrained:
+            net = SegformerForSemanticSegmentation.from_pretrained("nvidia/mit-b0", num_labels=num_classes, ignore_mismatched_sizes=True)
+        else:
+            net = SegformerForSemanticSegmentation(SegformerConfig.from_pretrained("nvidia/mit-b0", num_labels=num_classes))
+        self.encoder = net.segformer
+        self.decode_head = net.decode_head
+
+    def forward(self, x):
+        H, W = x.shape[-2:]
+        hs = self.encoder(pixel_values=x, output_hidden_states=True).hidden_states
+        lg = self.decode_head(hs)
+        return F.interpolate(lg, size=(H, W), mode="bilinear", align_corners=False), lg
+
+
+# --------------------------------------------------------------------------- #
 def build_model(num_classes: int, arch: str = "resnet34_unet",
                 pretrained: bool = True, num_filters: int = 32,
                 pretrained_path: str = None, grad_checkpoint: bool = False,
@@ -409,6 +531,12 @@ def build_model(num_classes: int, arch: str = "resnet34_unet",
                            variant=variant, pretrained_path=pretrained_path,
                            grad_checkpoint=grad_checkpoint,
                            drop_path_rate=drop_path_rate)
+    if arch == "unet_classic":
+        return ClassicUNet(num_classes)
+    if arch == "deeplabv3p_r18":
+        return DeepLabV3PlusR18(num_classes, pretrained)
+    if arch == "segformer_b0":
+        return SegFormerB0(num_classes, pretrained)
     if arch == "unet11":
         return UNet11(num_classes, num_filters, pretrained)
     if arch == "resnet34_unet":
@@ -429,6 +557,12 @@ def encoder_param_names(arch: str) -> Tuple[str, ...]:
     if arch == "convnext_unet":
         return ("stage1", "stage2", "stage3", "stage4")
     if arch in ("caformer_surgenet", "caformer_imagenet"):
+        return ("encoder",)
+    if arch == "unet_classic":
+        return ()               # trained from scratch: no pretrained part, so no reduced encoder learning rate
+    if arch == "deeplabv3p_r18":
+        return ("stem", "layer1", "layer2", "layer3", "layer4")
+    if arch == "segformer_b0":
         return ("encoder",)
     raise ValueError(f"unknown arch {arch!r}")
 
