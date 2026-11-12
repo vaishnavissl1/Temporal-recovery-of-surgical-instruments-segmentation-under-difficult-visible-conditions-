@@ -307,7 +307,7 @@ def main():
     n_examples = 0
     if os.path.isfile(ex_json):
         exd = json.load(open(ex_json, encoding="utf-8"))
-        files = [x["file"] for k in ("segmentation", "correction") for x in exd[k]] + [exd["dataset"]["file"]]
+        files = [x["file"] for k in ("samples", "segmentation", "correction") for x in exd[k]] + [exd["dataset"]["file"], exd["class_key"]]
         for f in files:
             rel = os.path.normpath(f.lstrip("/"))
             if os.path.isfile(os.path.join(a.web, rel)):

@@ -12,10 +12,16 @@ Every picture is one EndoVis 2018 test frame with its label and our output; the 
 """
 import json
 import os
+import sys
 
+import cv2
+import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+from sitr.metrics import official_frame_iou  # noqa: E402
+from tools.check_stereo import PALETTE  # noqa: E402
 SRC = os.path.join(ROOT, "results", "pipeline")
 OUT_IMG = os.path.join(ROOT, "web", "public", "examples")
 OUT_JSON = os.path.join(ROOT, "web", "data", "examples.json")
@@ -31,6 +37,63 @@ def compose(folder, steps, labels, out):
         sheet.paste(im, (i * PW + 2, HEAD + 2))
         d.text((i * PW + 8, 5), lab, fill=(20, 20, 20), font=FONT)
     sheet.save(out, "JPEG", quality=85, optimize=True)
+
+
+NAMES = ["background-tissue", "instrument-shaft", "instrument-clasper", "instrument-wrist", "kidney-parenchyma", "covered-kidney",
+         "thread", "clamps", "suturing-needle", "suction-instrument", "small-intestine", "ultrasound-probe"]
+COLOUR = np.zeros((256, 3), np.uint8)
+for _rgb, _i in PALETTE.items():
+    COLOUR[_i] = _rgb
+
+
+def overlay(img, m):
+    out = img.copy()
+    fg = m != 0
+    out[fg] = (0.45 * img[fg] + 0.55 * COLOUR[m][fg]).astype(np.uint8)
+    return out
+
+
+def samples(out_dir):
+    """One representative frame per test sequence: the frame whose official IoU is closest to that sequence's median
+    (a fixed rule, so these are typical frames, not the best ones). Frame, ground truth and my final mask, both drawn over the frame."""
+    prep = os.path.join(ROOT, "work_v2", "prepared_512x640_full", "test")
+    acts = os.path.join(ROOT, "work_v2", "actions", "test_masks")
+    ch = np.load(os.path.join(ROOT, "results", "taskF", "no_a1", "choices_test.npz"), allow_pickle=True)
+    res = []
+    for seq in ("seq_1", "seq_2", "seq_3", "seq_4"):
+        rows = []
+        for i in np.where(ch["seq"] == "test/" + seq)[0]:
+            t = int(ch["t"][i])
+            gt = cv2.imread(os.path.join(prep, seq, "labels", f"frame{t:03d}.png"), cv2.IMREAD_UNCHANGED)
+            z = np.load(os.path.join(acts, "test_" + seq, f"frame{t:03d}.npz"))
+            m = z[str(ch["choice"][i])]
+            v = official_frame_iou(m, gt, 12)
+            if v is not None:
+                rows.append((t, v))
+        med = float(np.median([v for _, v in rows]))
+        t, v = min(rows, key=lambda r: abs(r[1] - med))
+        img = cv2.cvtColor(cv2.imread(os.path.join(prep, seq, "left_frames", f"frame{t:03d}.png")), cv2.COLOR_BGR2RGB)
+        gt = cv2.imread(os.path.join(prep, seq, "labels", f"frame{t:03d}.png"), cv2.IMREAD_UNCHANGED)
+        i = int(np.where((ch["seq"] == "test/" + seq) & (ch["t"] == t))[0][0])
+        m = np.load(os.path.join(acts, "test_" + seq, f"frame{t:03d}.npz"))[str(ch["choice"][i])]
+        panels = [("Dataset frame", img), ("Ground truth on the frame", overlay(img, gt)), ("My result on the frame", overlay(img, m))]
+        sheet = Image.new("RGB", (PW * 3, PH + HEAD), "white")
+        d = ImageDraw.Draw(sheet)
+        for k, (lab, arr) in enumerate(panels):
+            sheet.paste(Image.fromarray(arr).resize((PW - 4, PH - 4), Image.LANCZOS), (k * PW + 2, HEAD + 2))
+            d.text((k * PW + 8, 5), lab, fill=(20, 20, 20), font=FONT)
+        fn = f"sample_{seq}_frame{t:03d}.jpg"
+        sheet.save(os.path.join(out_dir, fn), "JPEG", quality=86, optimize=True)
+        res.append(dict(file=f"/examples/{fn}", seq=seq.replace("seq_", "sequence "), frame=t, iou=round(float(v), 4), median_iou=round(med, 4)))
+    # the colour key, drawn once
+    key = Image.new("RGB", (PW * 3, 74), "white")
+    d = ImageDraw.Draw(key)
+    for k, n in enumerate(NAMES):
+        x, y = 8 + (k % 6) * 196, 6 + (k // 6) * 32
+        d.rectangle([x, y + 3, x + 18, y + 21], fill=tuple(int(c) for c in COLOUR[k]), outline=(120, 120, 120))
+        d.text((x + 24, y + 3), n, fill=(30, 30, 30), font=FONT)
+    key.save(os.path.join(out_dir, "class_key.jpg"), "JPEG", quality=90)
+    return res
 
 
 def main():
@@ -63,7 +126,8 @@ def main():
     ds = Image.open(os.path.join(SRC, "dataset_overview.png")).convert("RGB")
     ds.thumbnail((1600, 1600), Image.LANCZOS)
     ds.save(os.path.join(OUT_IMG, "dataset_overview.jpg"), "JPEG", quality=85, optimize=True)
-    out = dict(segmentation=seg, correction=ba, dataset=dict(file="/examples/dataset_overview.jpg"))
+    smp = samples(OUT_IMG)
+    out = dict(samples=smp, class_key="/examples/class_key.jpg", segmentation=seg, correction=ba, dataset=dict(file="/examples/dataset_overview.jpg"))
     json.dump(out, open(OUT_JSON, "w", encoding="utf-8"), indent=1)
     n = len(os.listdir(OUT_IMG))
     print(f"wrote {n} images, {sum(os.path.getsize(os.path.join(OUT_IMG, f)) for f in os.listdir(OUT_IMG)) / 1e3:.0f} kB -> {OUT_IMG}")

@@ -165,7 +165,7 @@
   "section": "S.6",
   "item": "published images are only the paper plots and the chosen example frames; no model weights",
   "status": "PASS",
-  "evidence": "image or weight-type files outside the framework's own assets the 14 paper plots (byte-identical to results/paper/figures) and the 8 example frames listed in data/examples.json: []; total output size 3.9 MB"
+  "evidence": "image or weight-type files outside the framework's own assets the 14 paper plots (byte-identical to results/paper/figures) and the 13 example frames listed in data/examples.json: []; total output size 4.3 MB"
  },
  {
   "section": "S.6",
