@@ -35,6 +35,7 @@ ALLOWED_LITERALS = {
     "1.0": "axis end of a fixed 0.5 to 1.0 AUROC scale",
     "2018": "name of the dataset (EndoVis 2018)",
     "2017": "name of the dataset (EndoVis 2017)",
+    "2020": "publication year of the EndoVis 2018 challenge paper (a citation, not a result)",
     "10527017": "Zenodo record identifier of the licensed copy of EndoVis 2017 (a citation, not a result)",
     "3050": "name of the GPU (RTX 3050 Ti)",
     "95%": "confidence level of the bootstrap intervals (stated choice in the brief)",

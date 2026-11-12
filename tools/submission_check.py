@@ -278,7 +278,7 @@ def main():
     pv = subprocess.run([sys.executable, "-m", "tools.verify_web_data", "--results", "results", "--web", "web"], capture_output=True, text=True)
     last = [l for l in pv.stdout.splitlines() if l.startswith("RESULT")]
     rec("S.6", "tools/verify_web_data.py: zero untraced fields and zero source literals", pv.returncode == 0 and bool(last) and "0 untraced data fields, 0 source literals" in last[0], last[0] if last else pv.stdout[-300:])
-    routes = ["", "review/", "learn/", "frameguard/", "bench/", "maskcheck/", "instruments/", "problem/", "results/", "stereo/", "selector/", "limits/", "run/"]
+    routes = ["", "problem/", "analyse/", "my-results/"]
     codes = {}
     for r in routes:
         try:
@@ -302,8 +302,18 @@ def main():
                 else:
                     bad_fig.append(rel)
     n_plots = len(allowed)
+    # the example frames the owner chose to publish (tools/export_web_examples.py): allowed only when listed in data/examples.json
+    ex_json = os.path.join(os.path.dirname(os.path.abspath(a.web)), "data", "examples.json")
+    n_examples = 0
+    if os.path.isfile(ex_json):
+        exd = json.load(open(ex_json, encoding="utf-8"))
+        files = [x["file"] for k in ("segmentation", "correction") for x in exd[k]] + [exd["dataset"]["file"]]
+        for f in files:
+            rel = os.path.normpath(f.lstrip("/"))
+            if os.path.isfile(os.path.join(a.web, rel)):
+                allowed.add(rel); n_examples += 1
     media = [m for m in media if os.path.normpath(m) not in allowed] + bad_fig
-    rec("S.6", "no EndoVis frames and no weights in the published output", not media, f"image or weight-type files outside the framework's own assets and the {n_plots} paper plots (byte-identical to results/paper/figures): {media}; total output size {sum(os.path.getsize(p) for p in glob.glob(os.path.join(a.web, '**', '*'), recursive=True) if os.path.isfile(p))/1e6:.1f} MB")
+    rec("S.6", "published images are only the paper plots and the chosen example frames; no model weights", not media, f"image or weight-type files outside the framework's own assets the {n_plots} paper plots (byte-identical to results/paper/figures) and the {n_examples} example frames listed in data/examples.json: {media}; total output size {sum(os.path.getsize(p) for p in glob.glob(os.path.join(a.web, '**', '*'), recursive=True) if os.path.isfile(p))/1e6:.1f} MB")
     real = [k for k in wpages if k.endswith("index.html") and not k.startswith(("404", "_not-found"))]
     miss = [k for k in real if not re.search(r"research.prototype", wpages[k], re.I)]
     rec("S.6", "research-prototype disclaimer on every page", not miss, f"pages checked: {len(real)} (the framework's own 404 page excluded); pages without it: {miss}")
