@@ -200,4 +200,12 @@ def extra_blocks(R):
         S["gateAblation"] = ["taskC/gate_ablation_seeds.json"]
     else:
         B["gateAblation"], S["gateAblation"] = {"available": False}, []
+    # ---- pixel accuracy, Dice, precision and recall of the proposed model and the baselines (results/taskR)
+    pdj = _load(R, "taskR/pixel_dice.json")
+    if pdj:
+        B["pixelDice"] = {"available": True, "n_frames": pdj["n_frames"],
+                          "models": [{k: m[k] for k in ("label", "pixel_accuracy", "mdice", "mcdice", "mprecision", "mrecall", "per_class_dice")} for m in pdj["models"]]}
+        S["pixelDice"] = ["taskR/pixel_dice.json"]
+    else:
+        B["pixelDice"], S["pixelDice"] = {"available": False}, []
     return B, S

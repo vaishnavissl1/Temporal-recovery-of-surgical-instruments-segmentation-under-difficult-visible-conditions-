@@ -36,6 +36,7 @@ TE, TF, TFS, TFC, TFA = "results/taskE/tta_ensemble.json", "results/taskF/mciou_
 TG, TH, TI, TJ, TK, TL, TQ = ("results/taskG/information_bound.json", "results/taskH/occlusion_localisation.json", "results/taskI/metric_ablation.json", "results/taskJ/per_class_and_rigs.json",
                               "results/taskK/consecutive_frame_iou.json", "results/taskL/label_noise_summary.json", "results/taskQ/identity_headroom.json")
 TP = "results/taskP/baselines.json"
+PD = "results/taskR/pixel_dice.json"
 DF = "results/task4/difficulty_report.json"
 ZS, CALP, GCO = "results/taskP3/endovis17_zeroshot.json", "results/paper/calibration_pixels.json", "results/paper/gate_calibration_offset.json"
 GB, S2, T5 = "results/task4/gate_comparison_gbm.json", "results/web_extract/stage2_gate.json", "results/task5/selector_results.json"
@@ -153,6 +154,8 @@ SPEC = [
     ("DifPearOof", DF, ["oof_train_sequences", "vs_instrument_error", "pearson"], "{:+.3f}", 1), ("DifPearTest", DF, ["official_test_sequences", "vs_instrument_error", "pearson"], "{:+.3f}", 1),
     ("DifQPearOof", DF, ["oof_train_sequences", "confidence_reference", "pearson_q_vs_iou"], "{:.3f}", 1), ("DifQPearTest", DF, ["official_test_sequences", "confidence_reference", "pearson_q_vs_iou"], "{:.3f}", 1),
     ("DifWithinLo", DF, ["official_test_sequences", "vs_instrument_error", "within_seq_spearman_ci95", 0], "{:+.3f}", 1), ("DifWithinHi", DF, ["official_test_sequences", "vs_instrument_error", "within_seq_spearman_ci95", 1], "{:+.3f}", 1),
+    # ---- pixel accuracy, Dice, precision and recall (Task R)
+    ("PdOursAcc", PD, ["models", 0, "pixel_accuracy"], "{:.4f}", 1), ("PdOursDice", PD, ["models", 0, "mdice"], "{:.4f}", 1), ("PdOursMcDice", PD, ["models", 0, "mcdice"], "{:.4f}", 1), ("PdOursPrec", PD, ["models", 0, "mprecision"], "{:.4f}", 1), ("PdOursRec", PD, ["models", 0, "mrecall"], "{:.4f}", 1), ("PdSegAcc", PD, ["models", 1, "pixel_accuracy"], "{:.4f}", 1), ("PdSegDice", PD, ["models", 1, "mdice"], "{:.4f}", 1), ("PdSegMcDice", PD, ["models", 1, "mcdice"], "{:.4f}", 1), ("PdSegPrec", PD, ["models", 1, "mprecision"], "{:.4f}", 1), ("PdSegRec", PD, ["models", 1, "mrecall"], "{:.4f}", 1), ("PdUnetAcc", PD, ["models", 2, "pixel_accuracy"], "{:.4f}", 1), ("PdUnetDice", PD, ["models", 2, "mdice"], "{:.4f}", 1), ("PdUnetMcDice", PD, ["models", 2, "mcdice"], "{:.4f}", 1), ("PdUnetPrec", PD, ["models", 2, "mprecision"], "{:.4f}", 1), ("PdUnetRec", PD, ["models", 2, "mrecall"], "{:.4f}", 1),
     # ---- Task P.1 baselines (index 0 = ours, 1 = SegFormer-B0, 2 = U-Net; DeepLabV3+ did not finish)
     ("BlOursMiou", TP, ["models", 0, "mIoU"], "{:.4f}", 1), ("BlOursMc", TP, ["models", 0, "mcIoU"], "{:.4f}", 1), ("BlOursParams", TP, ["models", 0, "params_millions"], "{:.1f}", 1),
     ("BlOursMs", TP, ["models", 0, "ms_per_frame"], "{:.0f}", 1), ("BlOursGflops", TP, ["models", 0, "gflops"], "{:.0f}", 1),

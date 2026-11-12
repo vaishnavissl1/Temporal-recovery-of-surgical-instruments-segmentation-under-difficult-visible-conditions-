@@ -51,7 +51,7 @@
   "section": "S.3",
   "item": "every \\ref resolves",
   "status": "PASS",
-  "evidence": "42 distinct refs, unresolved: []"
+  "evidence": "43 distinct refs, unresolved: []"
  },
  {
   "section": "S.3",
@@ -63,7 +63,7 @@
   "section": "S.3",
   "item": "every table and figure is referenced from the body",
   "status": "PASS",
-  "evidence": "12 tables, 9 figures; unreferenced: []"
+  "evidence": "13 tables, 9 figures; unreferenced: []"
  },
  {
   "section": "S.3",

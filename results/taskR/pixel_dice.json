@@ -1,0 +1,213 @@
+{
+ "n_frames": 997,
+ "protocol": "\nPixel accuracy, Dice, precision and recall of the proposed model and the two trained baselines on the 997 official test frames.\n\n    python -m tools.pixel_dice_metrics --root <endovis2018_cvdataset> --out results/taskR\n\nNothing is re-run: it reads the argmax masks already written by tools/baseline_eval.py (work_v2/baselines/masks/<arch>.npy, 512x640,\nframes in sequence order) and scores them exactly as the official IoU is scored, at 1280x1024 (nearest-neighbour up from the working grid):\n\n  pixel accuracy   share of labelled pixels (background included) whose predicted class equals the ground truth, pooled over all frames\n  Dice             2 TP / (2 TP + FP + FN) per class and frame; mean over the classes present in the frame's ground truth, background excluded\n                   (the same class rule as the official mIoU), then over frames (mDice); and per class over its frames, then over classes (mcDice)\n  precision, recall  TP / (TP + FP) and TP / (TP + FN) per class and frame under the same class rule; precision counts as 0 when the class\n                   is absent from the prediction; means taken as for Dice\n\nIoU stays the headline metric (it is what the challenge scores); these are the other standard views of the same masks.\n",
+ "models": [
+  {
+   "label": "Ours: CAFormer-S18 + FPN",
+   "arch": "caformer_surgenet",
+   "pixel_accuracy": 0.8345740177686379,
+   "n_pixels": 1306787840,
+   "mdice": 0.709155452646819,
+   "mcdice": 0.594078638122401,
+   "per_class_dice": {
+    "instrument-shaft": 0.913353979053141,
+    "instrument-clasper": 0.7085728401041108,
+    "instrument-wrist": 0.7408447148756957,
+    "kidney-parenchyma": 0.7160418309675335,
+    "covered-kidney": 0.5270177853926705,
+    "thread": 0.5923856269423795,
+    "clamps": 0.7834198438132468,
+    "suturing-needle": 0.0,
+    "suction-instrument": null,
+    "small-intestine": 0.5535751552992308,
+    "ultrasound-probe": 0.40557460477600243
+   },
+   "per_sequence_mdice": {
+    "test/seq_1": 0.7573063158928715,
+    "test/seq_2": 0.6681455224509297,
+    "test/seq_3": 0.8817261345389666,
+    "test/seq_4": 0.5292504607436805
+   },
+   "mprecision": 0.7411414047366528,
+   "mcprecision": 0.6282326595045771,
+   "per_class_precision": {
+    "instrument-shaft": 0.8968662715254169,
+    "instrument-clasper": 0.5913275824121704,
+    "instrument-wrist": 0.7810392910235395,
+    "kidney-parenchyma": 0.7993152753826459,
+    "covered-kidney": 0.712495790225322,
+    "thread": 0.5442565827970073,
+    "clamps": 0.6830050262704525,
+    "suturing-needle": 0.0,
+    "suction-instrument": null,
+    "small-intestine": 0.60315322449855,
+    "ultrasound-probe": 0.6708675509106671
+   },
+   "per_sequence_mprecision": {
+    "test/seq_1": 0.7435716828309542,
+    "test/seq_2": 0.7254369753755363,
+    "test/seq_3": 0.8701050750068162,
+    "test/seq_4": 0.6254421255803152
+   },
+   "mrecall": 0.7460036095816641,
+   "mcrecall": 0.6421709826917632,
+   "per_class_recall": {
+    "instrument-shaft": 0.9440983718035927,
+    "instrument-clasper": 0.9326903867542169,
+    "instrument-wrist": 0.7486904933037376,
+    "kidney-parenchyma": 0.69204050649473,
+    "covered-kidney": 0.45073299994525756,
+    "thread": 0.7379064383436559,
+    "clamps": 0.9461628652959999,
+    "suturing-needle": 0.0,
+    "suction-instrument": null,
+    "small-intestine": 0.636916797222858,
+    "ultrasound-probe": 0.3324709677535838
+   },
+   "per_sequence_mrecall": {
+    "test/seq_1": 0.8086430640889644,
+    "test/seq_2": 0.7001062106004856,
+    "test/seq_3": 0.9165514035859407,
+    "test/seq_4": 0.5584621959769396
+   }
+  },
+  {
+   "label": "SegFormer-B0",
+   "arch": "segformer_b0",
+   "pixel_accuracy": 0.7768561383307637,
+   "n_pixels": 1306787840,
+   "mdice": 0.573386933308881,
+   "mcdice": 0.42950525778037213,
+   "per_class_dice": {
+    "instrument-shaft": 0.8733768438792245,
+    "instrument-clasper": 0.659966888642662,
+    "instrument-wrist": 0.6244583709236314,
+    "kidney-parenchyma": 0.6116327818170009,
+    "covered-kidney": 0.10545578660358657,
+    "thread": 0.16196685982600237,
+    "clamps": 0.7134469652280654,
+    "suturing-needle": 0.0,
+    "suction-instrument": null,
+    "small-intestine": 0.47273434555470484,
+    "ultrasound-probe": 0.07201373532884328
+   },
+   "per_sequence_mdice": {
+    "test/seq_1": 0.6579996241399256,
+    "test/seq_2": 0.5449222691029539,
+    "test/seq_3": 0.8137334839443767,
+    "test/seq_4": 0.27655254604493
+   },
+   "mprecision": 0.6623464351398028,
+   "mcprecision": 0.5517416500078715,
+   "per_class_precision": {
+    "instrument-shaft": 0.8760987100268294,
+    "instrument-clasper": 0.6019353497207153,
+    "instrument-wrist": 0.7568445322799603,
+    "kidney-parenchyma": 0.6860813692288149,
+    "covered-kidney": 0.4436657827956586,
+    "thread": 0.516285684572435,
+    "clamps": 0.8224957209683916,
+    "suturing-needle": 0.0,
+    "suction-instrument": null,
+    "small-intestine": 0.6031268715902982,
+    "ultrasound-probe": 0.21088247889561076
+   },
+   "per_sequence_mprecision": {
+    "test/seq_1": 0.7145332954522088,
+    "test/seq_2": 0.656255690745018,
+    "test/seq_3": 0.8505863835936316,
+    "test/seq_4": 0.4278007849839661
+   },
+   "mrecall": 0.5902463750257197,
+   "mcrecall": 0.4338144327288809,
+   "per_class_recall": {
+    "instrument-shaft": 0.8947907422064316,
+    "instrument-clasper": 0.7842301207445673,
+    "instrument-wrist": 0.5975762310890073,
+    "kidney-parenchyma": 0.5978672591835816,
+    "covered-kidney": 0.07098609094957395,
+    "thread": 0.11251106819525401,
+    "clamps": 0.6535214275339476,
+    "suturing-needle": 0.0,
+    "suction-instrument": null,
+    "small-intestine": 0.5778476818977228,
+    "ultrasound-probe": 0.04881370548872313
+   },
+   "per_sequence_mrecall": {
+    "test/seq_1": 0.67071674878682,
+    "test/seq_2": 0.5446239604522616,
+    "test/seq_3": 0.8213196848840888,
+    "test/seq_4": 0.3240019317878967
+   }
+  },
+  {
+   "label": "U-Net (classic, from scratch)",
+   "arch": "unet_classic",
+   "pixel_accuracy": 0.6617056491740848,
+   "n_pixels": 1306787840,
+   "mdice": 0.5194239730832799,
+   "mcdice": 0.43560294879668177,
+   "per_class_dice": {
+    "instrument-shaft": 0.8243061163379104,
+    "instrument-clasper": 0.539392865646033,
+    "instrument-wrist": 0.5394183148153413,
+    "kidney-parenchyma": 0.49606394651869085,
+    "covered-kidney": 0.1344755302642081,
+    "thread": 0.35646670147205056,
+    "clamps": 0.7387794011157688,
+    "suturing-needle": 2.514497650516258e-05,
+    "suction-instrument": null,
+    "small-intestine": 0.5581980174409562,
+    "ultrasound-probe": 0.16890344937935226
+   },
+   "per_sequence_mdice": {
+    "test/seq_1": 0.5344951740708639,
+    "test/seq_2": 0.5143436388879075,
+    "test/seq_3": 0.7288627495261948,
+    "test/seq_4": 0.299933802936557
+   },
+   "mprecision": 0.5826689171534073,
+   "mcprecision": 0.5412658328389803,
+   "per_class_precision": {
+    "instrument-shaft": 0.8235382490388448,
+    "instrument-clasper": 0.4177217603373628,
+    "instrument-wrist": 0.588355815255184,
+    "kidney-parenchyma": 0.5660885712717673,
+    "covered-kidney": 0.49058583961586993,
+    "thread": 0.48840196697414756,
+    "clamps": 0.7694100469320203,
+    "suturing-needle": 0.010526315789473684,
+    "suction-instrument": null,
+    "small-intestine": 0.6996719952045739,
+    "ultrasound-probe": 0.5583577679705584
+   },
+   "per_sequence_mprecision": {
+    "test/seq_1": 0.587482297595967,
+    "test/seq_2": 0.5932230136169657,
+    "test/seq_3": 0.7439533011482201,
+    "test/seq_4": 0.4059977254073252
+   },
+   "mrecall": 0.5919048265467595,
+   "mcrecall": 0.4691455299024477,
+   "per_class_recall": {
+    "instrument-shaft": 0.8466346087603882,
+    "instrument-clasper": 0.8476099671666845,
+    "instrument-wrist": 0.5582627631424707,
+    "kidney-parenchyma": 0.541460548794607,
+    "covered-kidney": 0.09522510228438612,
+    "thread": 0.308030322067078,
+    "clamps": 0.7660461424877333,
+    "suturing-needle": 1.2587522618204706e-05,
+    "suction-instrument": null,
+    "small-intestine": 0.6053520258560087,
+    "ultrasound-probe": 0.1228212309425016
+   },
+   "per_sequence_mrecall": {
+    "test/seq_1": 0.5944944389895344,
+    "test/seq_2": 0.5735873189721246,
+    "test/seq_3": 0.7764185942531541,
+    "test/seq_4": 0.42310855392225394
+   }
+  }
+ ]
+}
