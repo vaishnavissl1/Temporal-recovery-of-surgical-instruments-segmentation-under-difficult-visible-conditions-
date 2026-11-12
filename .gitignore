@@ -36,3 +36,4 @@ work_v2/
 
 # website built from a licensed template (license forbids publishing its source); built output is deployed, source stays local
 /web/
+FINAL_PROMPT.md
