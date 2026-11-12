@@ -4,6 +4,18 @@ The Analyse page uploads a folder of consecutive stereo frames to a small server
 
 This is a research prototype on public EndoVis 2018 data. It is not a medical device.
 
+## Which upload goes where
+
+The Analyse page has more than one tool, and they take different things:
+
+| tool | where it works | what you select |
+|---|---|---|
+| Analyse a folder (full pipeline) | your computer only, with the server from step 1 running | the whole `demo_subset` folder (or its zip) |
+| Score masks (official metric) | the public website and your computer | **Predicted masks:** the 24 files in `demo_subset/predicted_masks`; **Ground-truth masks:** the 24 files in `demo_subset/labels` |
+| Describe frames | the public website and your computer | any frames, for example `demo_subset/left_frames` |
+
+On the public website only the second and third tools exist. For the second, expect mIoU 0.5954 and mcIoU 0.6005 on 24 frames.
+
 ## What you need (once)
 
 - Windows, macOS or Linux, no GPU required (the demo runs on the CPU).

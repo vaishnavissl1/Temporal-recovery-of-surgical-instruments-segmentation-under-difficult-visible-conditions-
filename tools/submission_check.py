@@ -287,7 +287,23 @@ def main():
             codes["/" + r] = getattr(e, "code", str(e))
     rec("S.6", "every route returns HTTP 200 on the deployed site", all(c == 200 for c in codes.values()), json.dumps(codes))
     media = [os.path.relpath(p, a.web) for p in glob.glob(os.path.join(a.web, "**", "*"), recursive=True) if os.path.splitext(p)[1].lower() in (".png", ".jpg", ".jpeg", ".gif", ".webp", ".pt", ".pth", ".ckpt", ".onnx", ".safetensors", ".npz", ".npy") and "_next" not in p.replace("\\", "/")]
-    rec("S.6", "no EndoVis frames and no weights in the published output", not media, f"image or weight-type files outside the framework's own assets: {media}; total output size {sum(os.path.getsize(p) for p in glob.glob(os.path.join(a.web, '**', '*'), recursive=True) if os.path.isfile(p))/1e6:.1f} MB")
+    # the paper's plots are published on purpose: allowed only when byte-identical to the file in results/paper/figures
+    import hashlib
+    figs_json = os.path.join(os.path.dirname(os.path.abspath(a.web)), "data", "figures.json")
+    allowed, bad_fig = set(), []
+    if os.path.isfile(figs_json):
+        for grp in json.load(open(figs_json, encoding="utf-8")):
+            for f in grp["figures"]:
+                rel = "figures/" + os.path.basename(f["file"])
+                src = os.path.join("results", "paper", "figures", os.path.basename(f["file"]))
+                pub = os.path.join(a.web, rel)
+                if os.path.isfile(pub) and os.path.isfile(src) and hashlib.sha256(open(pub, "rb").read()).hexdigest() == hashlib.sha256(open(src, "rb").read()).hexdigest():
+                    allowed.add(os.path.normpath(rel))
+                else:
+                    bad_fig.append(rel)
+    n_plots = len(allowed)
+    media = [m for m in media if os.path.normpath(m) not in allowed] + bad_fig
+    rec("S.6", "no EndoVis frames and no weights in the published output", not media, f"image or weight-type files outside the framework's own assets and the {n_plots} paper plots (byte-identical to results/paper/figures): {media}; total output size {sum(os.path.getsize(p) for p in glob.glob(os.path.join(a.web, '**', '*'), recursive=True) if os.path.isfile(p))/1e6:.1f} MB")
     real = [k for k in wpages if k.endswith("index.html") and not k.startswith(("404", "_not-found"))]
     miss = [k for k in real if not re.search(r"research.prototype", wpages[k], re.I)]
     rec("S.6", "research-prototype disclaimer on every page", not miss, f"pages checked: {len(real)} (the framework's own 404 page excluded); pages without it: {miss}")

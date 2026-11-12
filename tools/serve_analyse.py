@@ -13,14 +13,15 @@ summary numbers.
     POST /batch/zip?job=ID                   (body = a zip of the folder)
     POST /batch/run?job=ID                   starts the run, returns at once
     GET  /batch/status?job=ID                -> {state, done, total, message, seconds}
-    GET  /batch/result?job=ID                -> the results once state == "done"
+    GET  /batch/result?job=ID                -> the results once state == "done" (delivered once, then forgotten)
 
 SINGLE FRAME (secondary): POST /analyse with the image as the body. Segmentation overlay, class
 shares and max-softmax confidence only. It does not run the gate: the gate reads earlier frames of
 the same video, and one frame has none.
 
 Privacy: uploaded files are written to a temporary folder that is deleted as soon as the run
-finishes (or fails); only the numeric results are kept in memory, for one hour. Nothing is logged.
+finishes (or fails). The numeric results are held in memory only until the page fetches them once (or ten minutes
+pass); after that the server keeps nothing. The page holds them in its own tab only, so a refresh clears them. Nothing is logged.
 The server listens on 127.0.0.1 and answers only the origins you list.
 """
 from __future__ import annotations
@@ -56,7 +57,7 @@ MAX_BYTES = 8 * 1024 * 1024            # one frame
 MAX_FILE = 40 * 1024 * 1024            # one file of a batch (a labelled 1280x1024 PNG is about 1 MB)
 MAX_ZIP = 600 * 1024 * 1024
 MAX_FILES = 1500
-RESULT_TTL = 3600
+RESULT_TTL = 600            # an undelivered result is forgotten after ten minutes
 NAME_OK = re.compile(r"^(left_frames|right_frames|labels)/[A-Za-z0-9_.\-]{1,80}\.(png|jpg|jpeg)$|^camera_calibration\.txt$", re.I)
 LOCK = threading.Lock()
 COLOUR = np.zeros((256, 3), np.uint8)
@@ -265,7 +266,9 @@ def make_handler(an: Analyser, jobs: Jobs, origins: list):
                     j = jobs._get(q["job"][0])
                     if j["state"] != "done":
                         return self._send(409, dict(error="not finished", state=j["state"]))
-                    return self._send(200, j["result"])
+                    self._send(200, j["result"])
+                    jobs.drop(q["job"][0])       # delivered once; the server keeps nothing after that
+                    return
                 return self._send(404, dict(error="not found"))
             except KeyError:
                 return self._send(404, dict(error="unknown job"))
@@ -319,9 +322,20 @@ def main():
     print("loading the released models and fitting the selector ...", flush=True)
     bundle = ReleaseBundle.load(a.release, device=a.device)
     bp = BatchPipeline(a.release, a.actions, a.sgbm_json, device=a.device, bundle=bundle)
+    # leftovers of an earlier, interrupted server, then a janitor that drops abandoned uploads and undelivered results
+    for d in os.listdir(tempfile.gettempdir()):
+        if d.startswith("sitr_batch_"):
+            shutil.rmtree(os.path.join(tempfile.gettempdir(), d), ignore_errors=True)
+    jobs = Jobs(bp)
+
+    def janitor():
+        while True:
+            time.sleep(60)
+            jobs.purge()
+    threading.Thread(target=janitor, daemon=True).start()
     ThreadingHTTPServer.request_queue_size = 256         # the default of 5 drops connections when a folder uploads file after file
     ThreadingHTTPServer.allow_reuse_address = False     # on Windows, reuse lets a second copy silently share the port
-    srv = ThreadingHTTPServer((a.host, a.port), make_handler(Analyser(bundle), Jobs(bp), [o.strip() for o in a.origins.split(",")]))
+    srv = ThreadingHTTPServer((a.host, a.port), make_handler(Analyser(bundle), jobs, [o.strip() for o in a.origins.split(",")]))
     print(f"ready in {time.time() - t0:.0f} s on http://{a.host}:{a.port}  device={bundle.device}  uploads are deleted when a run ends", flush=True)
     srv.serve_forever()
 

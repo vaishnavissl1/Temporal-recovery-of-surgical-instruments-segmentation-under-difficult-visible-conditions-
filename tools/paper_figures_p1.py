@@ -42,7 +42,7 @@ def models():
 
 
 def absent_note(absent):
-    return (" Not shown (training did not finish; see results/taskP/baselines.json): " + ", ".join(absent) + ".") if absent else ""
+    return (" Not shown (it did not train stably in five attempts, one of them in full precision; see results/taskP/baselines.json): " + ", ".join(absent) + ".") if absent else ""
 
 
 def fig3():
@@ -80,7 +80,7 @@ def fig4():
     ax.set_ylim(0, 1.0)
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=3, frameon=False)   # above the axes: inside, it covered the bars of sequence 1
     allv = np.array([[m["per_sequence"][s] for s in seqs] for m in ms])
-    cap = (f"mIoU of each model on each of the 4 official test sequences. The proposed model's per-sequence score ranges from {allv[0].min():.2f} to {allv[0].max():.2f}; the gap between sequences is larger than "
+    cap = (f"mIoU of each model on each of the 4 official test sequences. The proposed model's per-sequence score ranges from {allv[0].min():.4f} to {allv[0].max():.4f}; the gap between sequences is larger than "
            f"the gap between models, which is why intervals in this study resample whole sequences.{absent_note(absent)} Source: {SRC}.")
     save(fig, PF_OUT, "fig04_per_sequence_baselines", "Per-sequence mIoU by model", cap, [SRC])
 
