@@ -278,7 +278,7 @@ def main():
     pv = subprocess.run([sys.executable, "-m", "tools.verify_web_data", "--results", "results", "--web", "web"], capture_output=True, text=True)
     last = [l for l in pv.stdout.splitlines() if l.startswith("RESULT")]
     rec("S.6", "tools/verify_web_data.py: zero untraced fields and zero source literals", pv.returncode == 0 and bool(last) and "0 untraced data fields, 0 source literals" in last[0], last[0] if last else pv.stdout[-300:])
-    routes = ["", "problem/", "analyse/", "my-results/"]
+    routes = ["", "problem/", "analyse/", "my-results/", "review/", "learn/", "frameguard/", "bench/", "maskcheck/", "instruments/"]
     codes = {}
     for r in routes:
         try:
