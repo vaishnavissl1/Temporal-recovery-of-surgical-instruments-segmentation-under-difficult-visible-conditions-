@@ -100,12 +100,12 @@ def t_perclass(out):
             for m in B["models"]:
                 r.append(N("perclass", f"{n} {m['label']}", m, ["per_class", n, "iou"], base))
         rows.append(r)
-    r = ["mIoU", "", N("perclass", "mIoU ours", J_, ["test_pooled", "mIoU"], src)]
-    r2 = ["mcIoU", "", N("perclass", "mcIoU ours", J_, ["test_pooled", "mcIoU"], src)]
+    r = ["mIoU", "", N("perclass", "mIoU ours", J_, ["test_pooled", "mIoU"], src, "{:.4f}")]
+    r2 = ["mcIoU", "", N("perclass", "mcIoU ours", J_, ["test_pooled", "mcIoU"], src, "{:.4f}")]
     if B:
         for m in B["models"]:
-            r.append(N("perclass", f"mIoU {m['label']}", m, ["mIoU"], base))
-            r2.append(N("perclass", f"mcIoU {m['label']}", m, ["mcIoU"], base))
+            r.append(N("perclass", f"mIoU {m['label']}", m, ["mIoU"], base, "{:.4f}"))
+            r2.append(N("perclass", f"mcIoU {m['label']}", m, ["mcIoU"], base, "{:.4f}"))
     write(out, "per_class", "l" + "c" * (len(cols) - 1), cols, rows + [r, r2])
 
 
@@ -126,7 +126,7 @@ def t_baselines(out):
     B = J(src)
     rows = []
     for i, m in enumerate(B["models"]):
-        rows.append([tex(m["label"]), N("baselines", f"{m['label']} mIoU", B, ["models", i, "mIoU"], src), N("baselines", f"{m['label']} mcIoU", B, ["models", i, "mcIoU"], src),
+        rows.append([tex(m["label"]), N("baselines", f"{m['label']} mIoU", B, ["models", i, "mIoU"], src, "{:.4f}"), N("baselines", f"{m['label']} mcIoU", B, ["models", i, "mcIoU"], src, "{:.4f}"),
                      N("baselines", f"{m['label']} bF1", B, ["models", i, "boundary_f1_instruments"], src), N("baselines", f"{m['label']} clDice shaft", B, ["models", i, "cldice", "shaft"], src),
                      N("baselines", f"{m['label']} clDice thread", B, ["models", i, "cldice", "thread"], src),
                      N("baselines", f"{m['label']} params", B, ["models", i, "params_millions"], src, "{:.1f}"), N("baselines", f"{m['label']} GFLOPs", B, ["models", i, "gflops"], src, "{:.0f}"),

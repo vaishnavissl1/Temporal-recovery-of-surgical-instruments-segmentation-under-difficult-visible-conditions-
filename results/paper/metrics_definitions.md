@@ -81,6 +81,22 @@ ground-truth area of c.
 - **Meaning.** Headroom, not a result: no deployable method can reach it. **Range.** >= 0; higher means more headroom. **Blind to.** Everything the oracle cannot know at inference time.
 - **Computed by.** `tools/train_selector.py`, `tools/policy_table.py`.
 
+## 12. Binary instrument IoU (EndoVis 2017 zero-shot, and its 2018 reference)
+- **Formula.** Collapse both label maps to instrument against background (ground truth: any 2017 instrument type; prediction: shaft, clasper, wrist, suction instrument, ultrasound probe; everything else, including
+  thread, clamps, needle and all anatomy, is background). Frame IoU = |P and G| / |P or G|; both empty = 1.0, one empty = 0.0. A frame is bad when its IoU is below 0.5; risk = 1 - IoU.
+- **Rewards.** Overlap of the instrument region. **Range.** 0 to 1; higher is better. **Blind to.** Part, type and anatomy errors (the mapping removes them), and to any difference between the 2017 and 2018 label
+  conventions for what counts as an instrument.
+- **Computed by.** `tools/endovis17_zeroshot.py`. Intervals resample the nine 2017 sequences.
+
+## 13. Expected calibration error (pixel level)
+- **Formula.** Pixels of every class are grouped into 15 equal-width bins of the maximum softmax probability; ECE = sum over bins of (pixels in bin / all pixels) x |accuracy in bin - mean confidence in bin|.
+  Reported at temperature 1 and at the stored temperature.
+- **Range.** 0 to 1; lower is better. **Blind to.** Class-wise calibration and to spatial structure. **Computed by.** `tools/calibration_pixels.py` (every fourth test frame, network resolution).
+
+## 14. Gate calibration offset
+- **Formula.** Mean gate score minus mean achieved instrument IoU over a set of frames (out of fold or test); positive means the gate is optimistic. Also the same difference within ten equal-count score bins.
+- **Meaning.** Level of the gate's scores, separate from the ranking quality that AUROC and AURC measure. **Blind to.** Whether the offset is uniform across sequences. **Computed by.** `tools/gate_calibration_offset.py`.
+
 ## Related definitions used in the text
 - **Instrument IoU** (the gate's target and the action data's label): per class over the 8 instrument classes, a class counted if it is in the ground truth OR the prediction, an empty pair
   scoring 1.0 (`sitr/metrics.py: instrument_iou`). Because it counts the prediction, removing an invented class raises it; the official metric does not.

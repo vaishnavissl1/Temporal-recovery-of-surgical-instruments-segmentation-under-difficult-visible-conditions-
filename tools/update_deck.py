@@ -128,24 +128,23 @@ def main():
     sh = find(S[6], 4)
     replace_in(sh, "so 11 of 12 classes are scored", f"so {V['ClassesScored']} of the 11 foreground classes are scored")
     replace_in(sh, "7 distinct rig files", f"{V['JRigFiles']} distinct calibration files describing {V['JRigs']} rigs")
+    replace_in(sh, "Only this dataset is used.", f"Training and every decision use EndoVis 2018 only. EndoVis 2017 (CC BY 4.0 copy, {V['ZsFrames']} frames, {V['ZsSeqs']} sequences) is a zero-shot, evaluation-only test, scored once and mapped to instrument against background.")
 
     # ---- slide 8: metric list stays; state the number of scored classes
     sh = find(S[7], 12)
     replace_in(sh, "this is where rare-class and relabelling gains appear.", f"rare-class and relabelling gains appear here ({V['ClassesScored']} classes on test).")
     replace_in(sh, "AUROC - ranking quality of the reliability gate, reported for comparability.", "AUROC - ranking quality of a failure detector, reported for comparability.")
     replace_in(sh, "All 95% intervals use a bootstrap that resamples whole sequences, because frames within a sequence are correlated.", "All 95% intervals resample whole sequences, because frames within a sequence are correlated.")
+    replace_in(sh, " Frame-level intervals are not reported.", "")
 
     # ---- slide 9: results
     sh = find(S[8], 5)
-    bl = ""
-    if base and base.get("models"):
-        parts = [f"{m['label'].split(' (')[0].replace('Ours: ', 'ours')} {m['mIoU']:.3f}" for m in base["models"]]
-        bl = "Models trained under one protocol (mIoU): " + "; ".join(parts) + "."
-    else:
-        bl = "Baselines (U-Net, DeepLabV3+, SegFormer-B0) trained under the same protocol: results pending."
+    bl = (f"Same recipe, official mIoU: ours {V['BlOursMiou']}, SegFormer-B0 {V['BlSegMiou']}, U-Net from scratch {V['BlUnetMiou']}. DeepLabV3+ did not train stably (four runs) and is absent.")
+    zs = (f"EndoVis 2017, zero-shot, scored once (instrument against background only): mean IoU {V['ZsIou']}, against {V['ZsIouRef']} on 2018 test under the same mapping. No large drop on this narrow task.")
     set_paras(sh, [
         f"Base segmentation reaches {V['BaseMiou']} mIoU and {V['BaseMcIoU']} mcIoU on the four official test sequences under the exact challenge metric, matching the official script to {V['OfficialDiff']}.",
         bl,
+        zs,
         f"Failure detection, same frames, risk = 1 - official IoU: one-pass max-softmax has test AURC {V['MsAurcTest']} against {V['GateAurcTest']} for the gate; no interval separates them. The gate leads only on its own label.",
         f"On the {V['FlaggedPct']}% of test frames the gate flags, the refinement is worth {V['FlagAThree']} instrument IoU (oracle {V['FlagOracle']}), but {V['GapGtOnly']} counting only ground-truth classes, as the official metric does: the gain is invented classes removed.",
         f"Selective correction keeps the official mIoU ({V['MiouMSix']}) and costs {V['CostSelNoA']} ms against {V['CostAllTwo']} ms for correcting every frame. Harmful: {V['SelNoAHarmAll']}% of all frames, {V['SelNoAHarmCorr']}% of corrected ones, against {V['FourHarmAll']}% and {V['FourHarmCorr']}% for blind fusion.",
@@ -155,21 +154,23 @@ def main():
     # ---- slide 10: key findings (the negatives stay)
     sh = find(S[9], 5)
     set_paras(sh, [
-        f"Temporal recovery is structurally limited on this data, not merely weak. Consecutive ground-truth masks overlap at {V['KMean']} IoU; the temporal action exists for {V['ATwoAvail']} of {V['OofRouted']} flagged training frames and leaves {V['UnchangedIdOof']}% of flagged frames unchanged.",
+        f"Temporal recovery is limited by the data, not merely weak: consecutive ground-truth masks overlap at {V['KMean']} IoU, and the temporal action exists for {V['ATwoAvail']} of {V['OofRouted']} flagged training frames.",
         f"Motion compensation is not the cause. Pasting, optical flow and region matching leave {V['UnchangedIdOof']} to {V['UnchangedRgTest']}% of flagged frames unchanged, and region matching is lower ({V['AlignRgDiff']}).",
         f"Where defined, the stereo axis carries more mask information than the temporal axis: a round trip keeps {V['GStereo']} of the mask against {V['GFlow']} for the best temporal aligner, on {V['GValid']}% of instrument pixels.",
         f"Cross-view indicators did not clear the pre-set test: AUROC gain {V['DGain']}, interval {V['DLo']} to {V['DHi']}. Reported as a failure of the stated criterion; the AURC change was not the test.",
-        f"Reported negatives: disparity-based indicators at chance; TTA ({V['ETtaPts']} points) and a four-model ensemble ({V['EEnsPts']}) do not beat the single model; per-pixel occlusion at chance ({V['HOcc']}); no label error in the {20} highest-loss frames. Identity: M7 equals M6 by construction, ceiling {V['QMcPts']} mcIoU points.",
+        f"The gate's ranking is usable (AUROC {V['GateAurocOwnTest']} on its own label, test) but its scores are optimistic: mean {V['GateScoreTest']} against {V['GateAchTest']} achieved, as the missed risk budget ({V['RiskAcceptedTest']} against {V['Alpha']}) suggests.",
+        f"Negatives: disparity indicators and per-pixel occlusion ({V['HOcc']}) at chance; TTA ({V['ETtaPts']} points) and a four-model ensemble ({V['EEnsPts']}) do not beat the single model; the identity stage returns its input, ceiling {V['QMcPts']} mcIoU points.",
     ])
 
     # ---- slide 11: conclusion
     sh = find(S[10], 5)
     set_paras(sh, [
         f"The segmenter scores {V['BaseMiou']} mIoU and no correction changes that: the gain on flagged frames is mostly invented classes removed, which the official metric cannot see.",
-        "On the official-IoU risk, simple confidence scores detect failures as well as the gate, which leads only on the instrument IoU it was trained for.",
-        f"Selectivity is the defensible gain, a cost result: {V['CostSelNoA']} ms against {V['CostAllTwo']} ms for correcting every frame, with reliable frames untouched. The stereo action was retired.",
+        "On the official-IoU risk, simple confidence scores detect failures as well as the gate.",
+        f"Selectivity is the defensible gain: {V['CostSelNoA']} ms against {V['CostAllTwo']} ms for correcting every frame, with reliable frames untouched.",
+        f"Under one recipe the segmenter leads SegFormer-B0 and a from-scratch U-Net; scored once on EndoVis 2017 with no adaptation it separates instrument from background at {V['ZsIou']} mean IoU.",
         f"We measure what had been assumed: consecutive masks overlap at {V['KMean']} IoU; two definition choices move mIoU by over ten points; harmful corrections are reported with both denominators.",
-        "Limitations: one dataset, four test sequences, one run per model, 512x640 training on 4 GB, conformal budget and 40 ms target not met, needle at zero IoU. Future work: a relabelling identity stage, needle training, more sequences, a second dataset.",
+        "Limitations: one training dataset, four test sequences, one run per model, DeepLabV3+ baseline absent, conformal budget and 40 ms target not met, needle at zero IoU. Future work: a relabelling identity stage, needle training, more sequences and datasets.",
     ])
     prs.save(cur)
     print("deck updated:", cur)

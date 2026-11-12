@@ -36,6 +36,7 @@ TE, TF, TFS, TFC, TFA = "results/taskE/tta_ensemble.json", "results/taskF/mciou_
 TG, TH, TI, TJ, TK, TL, TQ = ("results/taskG/information_bound.json", "results/taskH/occlusion_localisation.json", "results/taskI/metric_ablation.json", "results/taskJ/per_class_and_rigs.json",
                               "results/taskK/consecutive_frame_iou.json", "results/taskL/label_noise_summary.json", "results/taskQ/identity_headroom.json")
 TP = "results/taskP/baselines.json"
+DF = "results/task4/difficulty_report.json"
 ZS, CALP, GCO = "results/taskP3/endovis17_zeroshot.json", "results/paper/calibration_pixels.json", "results/paper/gate_calibration_offset.json"
 GB, S2, T5 = "results/task4/gate_comparison_gbm.json", "results/web_extract/stage2_gate.json", "results/task5/selector_results.json"
 DET = lambda g, n, k: ["groups", g, "detectors", n, k]  # noqa: E731
@@ -148,14 +149,18 @@ SPEC = [
     ("QMiouPts", TQ, ["ceiling_all_instrument_classes", "mIoU_points_over_M6"], "{:+.2f}", 1), ("QMcPts", TQ, ["ceiling_all_instrument_classes", "mcIoU_points_over_M6"], "{:+.2f}", 1),
     ("QWristToClasp", TQ, ["clasper_wrist", "gt_wrist_pixels_predicted_clasper"], "{:.1f}", 100), ("QNeedleCeil", TQ, ["ceiling_all_instrument_classes", "per_class", "suturing-needle"], "{:.3f}", 1),
     ("QFrames", TQ, ["ceiling_frames_with_any_relabelled_pixel_pct"], "{:.0f}", 1),
+    # ---- image-based difficulty index (negative result)
+    ("DifPearOof", DF, ["oof_train_sequences", "vs_instrument_error", "pearson"], "{:+.3f}", 1), ("DifPearTest", DF, ["official_test_sequences", "vs_instrument_error", "pearson"], "{:+.3f}", 1),
+    ("DifQPearOof", DF, ["oof_train_sequences", "confidence_reference", "pearson_q_vs_iou"], "{:.3f}", 1), ("DifQPearTest", DF, ["official_test_sequences", "confidence_reference", "pearson_q_vs_iou"], "{:.3f}", 1),
+    ("DifWithinLo", DF, ["official_test_sequences", "vs_instrument_error", "within_seq_spearman_ci95", 0], "{:+.3f}", 1), ("DifWithinHi", DF, ["official_test_sequences", "vs_instrument_error", "within_seq_spearman_ci95", 1], "{:+.3f}", 1),
     # ---- Task P.1 baselines (index 0 = ours, 1 = SegFormer-B0, 2 = U-Net; DeepLabV3+ did not finish)
-    ("BlOursMiou", TP, ["models", 0, "mIoU"], "{:.3f}", 1), ("BlOursMc", TP, ["models", 0, "mcIoU"], "{:.3f}", 1), ("BlOursParams", TP, ["models", 0, "params_millions"], "{:.1f}", 1),
+    ("BlOursMiou", TP, ["models", 0, "mIoU"], "{:.4f}", 1), ("BlOursMc", TP, ["models", 0, "mcIoU"], "{:.4f}", 1), ("BlOursParams", TP, ["models", 0, "params_millions"], "{:.1f}", 1),
     ("BlOursMs", TP, ["models", 0, "ms_per_frame"], "{:.0f}", 1), ("BlOursGflops", TP, ["models", 0, "gflops"], "{:.0f}", 1),
-    ("BlSegMiou", TP, ["models", 1, "mIoU"], "{:.3f}", 1), ("BlSegMc", TP, ["models", 1, "mcIoU"], "{:.3f}", 1), ("BlSegParams", TP, ["models", 1, "params_millions"], "{:.1f}", 1),
+    ("BlSegMiou", TP, ["models", 1, "mIoU"], "{:.4f}", 1), ("BlSegMc", TP, ["models", 1, "mcIoU"], "{:.4f}", 1), ("BlSegParams", TP, ["models", 1, "params_millions"], "{:.1f}", 1),
     ("BlSegMs", TP, ["models", 1, "ms_per_frame"], "{:.0f}", 1), ("BlSegGflops", TP, ["models", 1, "gflops"], "{:.0f}", 1),
     ("BlSegDiff", TP, ["models", 1, "difference_from_ours_mIoU_points"], "{:+.1f}", 1), ("BlSegLo", TP, ["models", 1, "difference_from_ours_ci95_points", 0], "{:+.1f}", 1),
     ("BlSegHi", TP, ["models", 1, "difference_from_ours_ci95_points", 1], "{:+.1f}", 1),
-    ("BlUnetMiou", TP, ["models", 2, "mIoU"], "{:.3f}", 1), ("BlUnetMc", TP, ["models", 2, "mcIoU"], "{:.3f}", 1), ("BlUnetParams", TP, ["models", 2, "params_millions"], "{:.1f}", 1),
+    ("BlUnetMiou", TP, ["models", 2, "mIoU"], "{:.4f}", 1), ("BlUnetMc", TP, ["models", 2, "mcIoU"], "{:.4f}", 1), ("BlUnetParams", TP, ["models", 2, "params_millions"], "{:.1f}", 1),
     ("BlUnetMs", TP, ["models", 2, "ms_per_frame"], "{:.0f}", 1), ("BlUnetGflops", TP, ["models", 2, "gflops"], "{:.0f}", 1),
     ("BlUnetDiff", TP, ["models", 2, "difference_from_ours_mIoU_points"], "{:+.1f}", 1), ("BlUnetLo", TP, ["models", 2, "difference_from_ours_ci95_points", 0], "{:+.1f}", 1),
     ("BlUnetHi", TP, ["models", 2, "difference_from_ours_ci95_points", 1], "{:+.1f}", 1),

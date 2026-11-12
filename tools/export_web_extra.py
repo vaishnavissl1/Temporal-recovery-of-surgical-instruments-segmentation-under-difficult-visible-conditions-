@@ -166,4 +166,30 @@ def extra_blocks(R):
         S["taskP"] = ["taskP/baselines.json"]
     else:
         B["taskP"], S["taskP"] = {"available": False, "models": [], "unavailable": []}, []
+
+    # ---- P.3 B: EndoVis 2017 zero-shot (evaluation only)
+    z = _load(R, "taskP3/endovis17_zeroshot.json")
+    if z:
+        def _grp(g):
+            d = g["detectors"]
+            return {"segmentation": g["segmentation"], "flagged_pct": g["flagged_pct"], "n_frames": d["_n_frames"], "n_sequences": d["_n_sequences"], "bad_rate": d["_bad_rate"],
+                    "aurc_floor": d["_aurc_floor"], "aurc_random": d["_aurc_random"],
+                    "detectors": {k: {x: d[k][x] for x in ("auroc", "auroc_ci95", "aurc", "aurc_ci95")} for k in ("r", "q", "ent", "margin")}}
+        B["taskP3"] = {"available": True, "tau": z["tau"], "pred_instrument_classes": z["pred_instrument_classes"],
+                       "excluded_classes": sorted(z["excluded_predicted_classes_mapped_to_background"].keys()),
+                       "endovis2017": _grp(z["endovis2017"]), "endovis2018_reference": _grp(z["endovis2018_reference"])}
+        S["taskP3"] = ["taskP3/endovis17_zeroshot.json"]
+    else:
+        B["taskP3"], S["taskP3"] = {"available": False}, []
+
+    # ---- calibration of the segmenter (pixel level) and of the gate (frame level)
+    cp, go = _load(R, "paper/calibration_pixels.json"), _load(R, "paper/gate_calibration_offset.json")
+    if cp and go:
+        B["calibration"] = {"available": True,
+                            "pixels": {"n_frames": cp["n_frames"], "n_pixels": cp["n_pixels"], "temperature_stored": cp["temperature_stored"],
+                                       **{k: {x: cp[k][x] for x in ("temperature", "ece", "nll_per_pixel", "mean_confidence", "pixel_accuracy")} for k in ("before", "after")}},
+                            "gate": {"groups": go["groups"], "test_decile_offsets": go["test_decile_offsets_score_minus_achieved"], "conformal": go["conformal"], "ranking": go["ranking"]}}
+        S["calibration"] = ["paper/calibration_pixels.json", "paper/gate_calibration_offset.json"]
+    else:
+        B["calibration"], S["calibration"] = {"available": False}, []
     return B, S

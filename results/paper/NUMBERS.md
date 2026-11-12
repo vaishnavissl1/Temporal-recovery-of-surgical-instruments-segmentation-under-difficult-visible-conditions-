@@ -122,14 +122,14 @@ Every number placed in a table by `tools/paper_tables.py`, with the file and key
 | perclass | ultrasound-probe Ours: CAFormer-S18 + FPN | 0.308 | results/taskP/baselines.json | `per_class.ultrasound-probe.iou` |
 | perclass | ultrasound-probe SegFormer-B0 | 0.049 | results/taskP/baselines.json | `per_class.ultrasound-probe.iou` |
 | perclass | ultrasound-probe U-Net (classic, from scratch) | 0.103 | results/taskP/baselines.json | `per_class.ultrasound-probe.iou` |
-| perclass | mIoU ours | 0.613 | results/taskJ/per_class_and_rigs.json | `test_pooled.mIoU` |
-| perclass | mcIoU ours | 0.496 | results/taskJ/per_class_and_rigs.json | `test_pooled.mcIoU` |
-| perclass | mIoU Ours: CAFormer-S18 + FPN | 0.613 | results/taskP/baselines.json | `mIoU` |
-| perclass | mcIoU Ours: CAFormer-S18 + FPN | 0.496 | results/taskP/baselines.json | `mcIoU` |
-| perclass | mIoU SegFormer-B0 | 0.492 | results/taskP/baselines.json | `mIoU` |
-| perclass | mcIoU SegFormer-B0 | 0.360 | results/taskP/baselines.json | `mcIoU` |
-| perclass | mIoU U-Net (classic, from scratch) | 0.412 | results/taskP/baselines.json | `mIoU` |
-| perclass | mcIoU U-Net (classic, from scratch) | 0.338 | results/taskP/baselines.json | `mcIoU` |
+| perclass | mIoU ours | 0.6128 | results/taskJ/per_class_and_rigs.json | `test_pooled.mIoU` |
+| perclass | mcIoU ours | 0.4956 | results/taskJ/per_class_and_rigs.json | `test_pooled.mcIoU` |
+| perclass | mIoU Ours: CAFormer-S18 + FPN | 0.6128 | results/taskP/baselines.json | `mIoU` |
+| perclass | mcIoU Ours: CAFormer-S18 + FPN | 0.4956 | results/taskP/baselines.json | `mcIoU` |
+| perclass | mIoU SegFormer-B0 | 0.4921 | results/taskP/baselines.json | `mIoU` |
+| perclass | mcIoU SegFormer-B0 | 0.3599 | results/taskP/baselines.json | `mcIoU` |
+| perclass | mIoU U-Net (classic, from scratch) | 0.4119 | results/taskP/baselines.json | `mIoU` |
+| perclass | mcIoU U-Net (classic, from scratch) | 0.3384 | results/taskP/baselines.json | `mcIoU` |
 | ablation | row 0 mIoU | 0.6128 | results/taskI/metric_ablation.json | `rows.0.mIoU` |
 | ablation | row 0 change | +0.00 | results/taskI/metric_ablation.json | `rows.0.delta_points_vs_reference` |
 | ablation | row 1 mIoU | 0.6452 | results/taskI/metric_ablation.json | `rows.1.mIoU` |
@@ -148,24 +148,24 @@ Every number placed in a table by `tools/paper_tables.py`, with the file and key
 | ablation | row 7 change | +3.27 | results/taskI/metric_ablation.json | `rows.7.delta_points_vs_reference` |
 | ablation | row 8 mIoU | 0.5218 | results/taskI/metric_ablation.json | `rows.8.mIoU` |
 | ablation | row 8 change | -9.11 | results/taskI/metric_ablation.json | `rows.8.delta_points_vs_reference` |
-| baselines | Ours: CAFormer-S18 + FPN mIoU | 0.613 | results/taskP/baselines.json | `models.0.mIoU` |
-| baselines | Ours: CAFormer-S18 + FPN mcIoU | 0.496 | results/taskP/baselines.json | `models.0.mcIoU` |
+| baselines | Ours: CAFormer-S18 + FPN mIoU | 0.6128 | results/taskP/baselines.json | `models.0.mIoU` |
+| baselines | Ours: CAFormer-S18 + FPN mcIoU | 0.4956 | results/taskP/baselines.json | `models.0.mcIoU` |
 | baselines | Ours: CAFormer-S18 + FPN bF1 | 0.424 | results/taskP/baselines.json | `models.0.boundary_f1_instruments` |
 | baselines | Ours: CAFormer-S18 + FPN clDice shaft | 0.901 | results/taskP/baselines.json | `models.0.cldice.shaft` |
 | baselines | Ours: CAFormer-S18 + FPN clDice thread | 0.764 | results/taskP/baselines.json | `models.0.cldice.thread` |
 | baselines | Ours: CAFormer-S18 + FPN params | 25.9 | results/taskP/baselines.json | `models.0.params_millions` |
 | baselines | Ours: CAFormer-S18 + FPN GFLOPs | 153 | results/taskP/baselines.json | `models.0.gflops` |
 | baselines | Ours: CAFormer-S18 + FPN ms | 70 | results/taskP/baselines.json | `models.0.ms_per_frame` |
-| baselines | SegFormer-B0 mIoU | 0.492 | results/taskP/baselines.json | `models.1.mIoU` |
-| baselines | SegFormer-B0 mcIoU | 0.360 | results/taskP/baselines.json | `models.1.mcIoU` |
+| baselines | SegFormer-B0 mIoU | 0.4921 | results/taskP/baselines.json | `models.1.mIoU` |
+| baselines | SegFormer-B0 mcIoU | 0.3599 | results/taskP/baselines.json | `models.1.mcIoU` |
 | baselines | SegFormer-B0 bF1 | 0.413 | results/taskP/baselines.json | `models.1.boundary_f1_instruments` |
 | baselines | SegFormer-B0 clDice shaft | 0.851 | results/taskP/baselines.json | `models.1.cldice.shaft` |
 | baselines | SegFormer-B0 clDice thread | 0.197 | results/taskP/baselines.json | `models.1.cldice.thread` |
 | baselines | SegFormer-B0 params | 3.7 | results/taskP/baselines.json | `models.1.params_millions` |
 | baselines | SegFormer-B0 GFLOPs | 20 | results/taskP/baselines.json | `models.1.gflops` |
 | baselines | SegFormer-B0 ms | 18 | results/taskP/baselines.json | `models.1.ms_per_frame` |
-| baselines | U-Net (classic, from scratch) mIoU | 0.412 | results/taskP/baselines.json | `models.2.mIoU` |
-| baselines | U-Net (classic, from scratch) mcIoU | 0.338 | results/taskP/baselines.json | `models.2.mcIoU` |
+| baselines | U-Net (classic, from scratch) mIoU | 0.4119 | results/taskP/baselines.json | `models.2.mIoU` |
+| baselines | U-Net (classic, from scratch) mcIoU | 0.3384 | results/taskP/baselines.json | `models.2.mcIoU` |
 | baselines | U-Net (classic, from scratch) bF1 | 0.286 | results/taskP/baselines.json | `models.2.boundary_f1_instruments` |
 | baselines | U-Net (classic, from scratch) clDice shaft | 0.754 | results/taskP/baselines.json | `models.2.cldice.shaft` |
 | baselines | U-Net (classic, from scratch) clDice thread | 0.402 | results/taskP/baselines.json | `models.2.cldice.thread` |
