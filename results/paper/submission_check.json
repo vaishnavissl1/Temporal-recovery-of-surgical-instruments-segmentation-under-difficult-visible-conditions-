@@ -33,7 +33,7 @@
   "section": "S.3",
   "item": "paper builds twice with zero errors (tectonic; pdflatex is not installed on this machine)",
   "status": "PASS",
-  "evidence": "two runs of tectonic on main.tex: return codes 0, 0; errors 0; undefined/multiply-defined 0; pages 16. Caveat: the requested `pdflatex` is not available, so the build was not run with pdflatex itself; the source uses only IEEEtran, cite, amsmath, graphicx, tikz, algorithm(ic) and similar packages and no non-ASCII characters (checked below), which is the usual cause of a pdflatex-only failure."
+  "evidence": "two runs of tectonic on main.tex: return codes 0, 0; errors 0; undefined/multiply-defined 0; pages 21. Caveat: the requested `pdflatex` is not available, so the build was not run with pdflatex itself; the source uses only IEEEtran, cite, amsmath, graphicx, tikz, algorithm(ic) and similar packages and no non-ASCII characters (checked below), which is the usual cause of a pdflatex-only failure."
  },
  {
   "section": "S.3",
@@ -51,7 +51,7 @@
   "section": "S.3",
   "item": "every \\ref resolves",
   "status": "PASS",
-  "evidence": "41 distinct refs, unresolved: []"
+  "evidence": "42 distinct refs, unresolved: []"
  },
  {
   "section": "S.3",
@@ -63,7 +63,7 @@
   "section": "S.3",
   "item": "every table and figure is referenced from the body",
   "status": "PASS",
-  "evidence": "11 tables, 9 figures; unreferenced: []"
+  "evidence": "12 tables, 9 figures; unreferenced: []"
  },
  {
   "section": "S.3",
@@ -105,7 +105,7 @@
   "section": "S.3",
   "item": "page count",
   "status": "NOTE",
-  "evidence": "16 pages (IEEE two-column conference format)"
+  "evidence": "21 pages (IEEE two-column conference format)"
  },
  {
   "section": "S.4",
