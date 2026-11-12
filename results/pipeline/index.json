@@ -1,0 +1,134 @@
+[
+  {
+    "folder": "seq_1_frame079_best",
+    "seq": "seq_1",
+    "frame": 79,
+    "kind": "best",
+    "reliability": 0.734,
+    "flagged": false,
+    "choice": "A0",
+    "official_iou_before": 0.9005,
+    "official_iou_after": 0.9005
+  },
+  {
+    "folder": "seq_1_frame248_worst",
+    "seq": "seq_1",
+    "frame": 248,
+    "kind": "worst",
+    "reliability": 0.693,
+    "flagged": false,
+    "choice": "A0",
+    "official_iou_before": 0.1697,
+    "official_iou_after": 0.1697
+  },
+  {
+    "folder": "seq_1_frame023_corrected",
+    "seq": "seq_1",
+    "frame": 23,
+    "kind": "corrected",
+    "reliability": 0.573,
+    "flagged": true,
+    "choice": "A3",
+    "official_iou_before": 0.4581,
+    "official_iou_after": 0.4681
+  },
+  {
+    "folder": "seq_2_frame006_best",
+    "seq": "seq_2",
+    "frame": 6,
+    "kind": "best",
+    "reliability": 0.782,
+    "flagged": false,
+    "choice": "A0",
+    "official_iou_before": 0.8679,
+    "official_iou_after": 0.8679
+  },
+  {
+    "folder": "seq_2_frame246_worst",
+    "seq": "seq_2",
+    "frame": 246,
+    "kind": "worst",
+    "reliability": 0.711,
+    "flagged": false,
+    "choice": "A0",
+    "official_iou_before": 0.3349,
+    "official_iou_after": 0.3349
+  },
+  {
+    "folder": "seq_2_frame116_corrected",
+    "seq": "seq_2",
+    "frame": 116,
+    "kind": "corrected",
+    "reliability": 0.634,
+    "flagged": true,
+    "choice": "A3",
+    "official_iou_before": 0.48,
+    "official_iou_after": 0.4805
+  },
+  {
+    "folder": "seq_3_frame123_best",
+    "seq": "seq_3",
+    "frame": 123,
+    "kind": "best",
+    "reliability": 0.019,
+    "flagged": false,
+    "choice": "A0",
+    "official_iou_before": 0.9595,
+    "official_iou_after": 0.9595
+  },
+  {
+    "folder": "seq_3_frame122_worst",
+    "seq": "seq_3",
+    "frame": 122,
+    "kind": "worst",
+    "reliability": 0.256,
+    "flagged": true,
+    "choice": "A3",
+    "official_iou_before": 0.3885,
+    "official_iou_after": 0.389
+  },
+  {
+    "folder": "seq_3_frame143_corrected",
+    "seq": "seq_3",
+    "frame": 143,
+    "kind": "corrected",
+    "reliability": 0.636,
+    "flagged": true,
+    "choice": "A3",
+    "official_iou_before": 0.8375,
+    "official_iou_after": 0.8474
+  },
+  {
+    "folder": "seq_4_frame046_best",
+    "seq": "seq_4",
+    "frame": 46,
+    "kind": "best",
+    "reliability": 0.261,
+    "flagged": true,
+    "choice": "A3",
+    "official_iou_before": 0.7997,
+    "official_iou_after": 0.7996
+  },
+  {
+    "folder": "seq_4_frame013_worst",
+    "seq": "seq_4",
+    "frame": 13,
+    "kind": "worst",
+    "reliability": 0.365,
+    "flagged": true,
+    "choice": "A3",
+    "official_iou_before": 0.101,
+    "official_iou_after": 0.1012
+  },
+  {
+    "folder": "seq_4_frame210_corrected",
+    "seq": "seq_4",
+    "frame": 210,
+    "kind": "corrected",
+    "reliability": 0.003,
+    "flagged": true,
+    "choice": "FUSE",
+    "official_iou_before": 0.5219,
+    "official_iou_after": 0.5357
+  }
+]
