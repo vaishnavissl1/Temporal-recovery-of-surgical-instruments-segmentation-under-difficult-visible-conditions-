@@ -469,7 +469,7 @@ class DeepLabV3PlusR18(nn.Module):
             return nn.Sequential(nn.Conv2d(512, P, k, padding=0 if rate == 1 else rate, dilation=rate, bias=False), _gn(P), nn.ReLU(inplace=True))
 
         self.aspp = nn.ModuleList([br(1), br(6), br(12), br(18)])
-        self.pool = nn.Sequential(nn.AdaptiveAvgPool2d(1), nn.Conv2d(512, P, 1, bias=False), nn.ReLU(inplace=True))
+        self.pool = nn.Sequential(nn.AdaptiveAvgPool2d(1), nn.Conv2d(512, P, 1, bias=False), _gn(P), nn.ReLU(inplace=True))   # normalised, as in DeepLabV3 (the first version had none and diverged)
         self.proj = nn.Sequential(nn.Conv2d(5 * P, P, 1, bias=False), _gn(P), nn.ReLU(inplace=True))
         self.low = nn.Sequential(nn.Conv2d(64, 48, 1, bias=False), _gn(48), nn.ReLU(inplace=True))
         self.fuse = nn.Sequential(nn.Conv2d(P + 48, P, 3, padding=1, bias=False), _gn(P), nn.ReLU(inplace=True),
@@ -481,6 +481,16 @@ class DeepLabV3PlusR18(nn.Module):
                     nn.init.kaiming_normal_(mm.weight, mode="fan_out", nonlinearity="relu")
                     if mm.bias is not None:
                         nn.init.zeros_(mm.bias)
+
+    def train(self, mode: bool = True):
+        """Keep the pretrained BatchNorm layers in evaluation mode (running statistics frozen, affine parameters still trained).
+        With batch size 1 the batch statistics of a BatchNorm layer are noise, and the first run of this baseline diverged
+        (loss 0.56 at epoch 6, 1.90 at epoch 11). A deviation from the other models' recipe, forced by the batch size, stated in P1_PROTOCOL.md."""
+        super().train(mode)
+        for m in self.modules():
+            if isinstance(m, nn.BatchNorm2d):
+                m.eval()
+        return self
 
     def forward(self, x):
         H, W = x.shape[-2:]

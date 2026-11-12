@@ -46,12 +46,18 @@ Applied to every baseline. SegFormer-B0 had already started when the epoch-level
 **Outcome of launch 3 (finished 12 November, 04:58 IST).** SegFormer-B0 trained all 20 epochs (loss 2.657 to 0.591; the epoch-level rule applied afterwards finds no three-epoch rise). U-Net trained all 20 epochs
 (loss 3.578 to 1.220, monotone; it is the least converged model and is the floor of the comparison). **DeepLabV3+ failed twice more and is absent from the comparison**: at lr 3e-4 the loss rose at epoch 6 (0.721 to 1.124)
 and went non-finite; the single permitted retry at lr 1e-4 rose at epoch 5 (0.636 to 1.263) and went non-finite at epoch 6. Four DeepLabV3+ runs in all were unstable at epochs 5 to 6 whatever the learning rate (3e-4, 1e-4) and
-whatever the normalisation fix, so the cause is not the learning rate; it was not diagnosed (candidates: fp16 overflow with frozen BatchNorm statistics, or the fixed-seed data order at those epochs). The partial weights were
+whatever the normalisation fix, so the cause is not the learning rate; it was not diagnosed (a candidate, fp16 overflow, was tested by the fifth attempt below and ruled out; the fixed-seed data order and the architecture at batch size 1 remain candidates). The partial weights were
 archived (`work_v2/baselines/_failed_deeplabv3p_r18_retry_lr1e-4`) so that they cannot be evaluated as a finished model. The comparison therefore has two baselines. A line in `work_v2/baselines/status.txt` reading "retry exit 0" is
 wrong (a driver-script bug in how the exit code was read); the retry aborted with exit 3 and the status file carries a correcting note.
 
 Run 3 changes the order (SegFormer-B0 and U-Net first, DeepLabV3+ last). The frozen BatchNorm statistics and the extra GroupNorm are properties of this DeepLabV3+ implementation at batch size 1, not changes of the shared recipe.
 Any learning-rate retry is a deviation from the 3e-4 shared with the other models and is listed in the results table.
+
+**Fifth DeepLabV3+ attempt: full precision (12 November, 10:27 to 10:38 IST).** On the owner's request, one more attempt with automatic mixed precision switched off (`--no-amp`), everything else identical to the shared
+recipe (lr 3e-4, 20 epochs, batch 1 with 8-step accumulation, EMA 0.999, same seed, both divergence guards on, same architecture fixes). It did not train: epoch 1 loss 2.4345, epoch 2 loss 1.1098, then the step-level guard
+aborted at epoch 2 ("NON-FINITE LOSS for 3 consecutive steps"). It diverged earlier than the AMP runs, which failed at epochs 5 to 6, so mixed-precision overflow is not the cause of this instability. The cause remains
+undiagnosed. The rule fixed beforehand was to stop and keep two baselines on a second failure; no further attempt (and no learning-rate retry) was made. Files kept in `work_v2/baselines/_failed_deeplabv3p_r18_fp32`. The driver
+script logged this run's exit code as 1 where the guard's own message says 3; the log message, not the code, is the record. The comparison has two baselines and no DeepLabV3+ row appears anywhere.
 
 ## Identical evaluation
 
