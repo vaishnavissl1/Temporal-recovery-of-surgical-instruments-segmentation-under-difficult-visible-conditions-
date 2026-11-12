@@ -76,6 +76,9 @@ INDICATOR_SETS: Dict[str, Tuple[str, ...]] = {
     # ---- stereo (Task 4). The three stereo indicators are fractions/means over
     # the PREDICTED-instrument pixels, computed from the cached stereo evidence.
     "stereo3": ("stereo_disagreement", "occluded_fraction", "disparity_confidence"),
+    # the production nine WITHOUT max-softmax (q_confidence): the ablation of the owner's request, tools/gate_ablation_seeds.py. Not used by the shipped gate.
+    "extended_no_q": ("T_temporal", "A_area_stability", "F_feature_cos", "H_entropy_conf", "M_margin",
+                      "Bnd_compactness", "Frag_largest_cc", "Drift_prev_cos"),
     "extended_stereo": ("q_confidence", "T_temporal", "A_area_stability",
                         "F_feature_cos", "H_entropy_conf", "M_margin",
                         "Bnd_compactness", "Frag_largest_cc", "Drift_prev_cos",

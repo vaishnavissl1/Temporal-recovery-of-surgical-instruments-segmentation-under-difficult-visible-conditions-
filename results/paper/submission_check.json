@@ -3,7 +3,7 @@
   "section": "S.1",
   "item": "headline numbers: canonical value present, no other precision of the same value",
   "status": "PASS",
-  "evidence": "29 quantities; 0 with a rounding disagreement or missing macro. Precision rule: mIoU and mcIoU four decimals, AUROC and AURC three, harmful and flagged rates as in the macros. A number in the table is how many times the canonical string occurs in that channel; a '-' means the quantity is not shown there.\n\n| quantity | canonical value | paper | deck | website | NUMBERS | other renderings of the same value found |\n|---|---|---|---|---|---|---|\n| official mIoU | 0.6128 | 12 | 4 | 18 | 9 | none |\n| mcIoU | 0.4956 | 8 | 1 | 8 | 7 | none |\n| gate AUROC, out of fold (official risk) | 0.740 | 1 | - | 2 | 2 | none |\n| gate AUROC, test | 0.771 | 2 | - | 5 | 2 | none |\n| gate AURC, out of fold | 0.303 | 2 | - | 2 | 2 | none |\n| gate AURC, test | 0.308 | 5 | 1 | 3 | 3 | none |\n| max-softmax AURC, out of fold | 0.269 | 2 | - | 3 | 2 | none |\n| max-softmax AURC, test | 0.285 | 7 | 1 | 5 | 5 | none |\n| activation (flagged) rate, % | 30.4 | 6 | 1 | 9 | 4 | none |\n| flagged-frame instrument IoU change, always-A3 | +0.0621 | 4 | 1 | 9 | 3 | none |\n| oracle gain on flagged frames | +0.0707 | 2 | 1 | 3 | 2 | none |\n| selector harmful rate, % of all frames | 0.70 | 1 | 1 | 3 | 1 | none |\n| selector harmful rate, % of corrected frames | 2.75 | 1 | 1 | - | 1 | none |\n| blind fusion harmful rate, % of all frames | 1.20 | 2 | 2 | 3 | 2 | none |\n| blind fusion harmful rate, % of corrected frames | 1.20 | 2 | 2 | 3 | 2 | none |\n| hallucination rate, % of test frames | 58.4 | 2 | 1 | 2 | 2 | none |\n| latency, segmentation + gate, ms | 76 | 2 | 2 | 3 | 2 | none |\n| latency, selective path, ms | 153 | 3 | 2 | 7 | 3 | none |\n| latency, both corrections on every frame, ms | 360 | 2 | 3 | 5 | 1 | none |\n| consecutive-frame ground-truth IoU, mean | 0.323 | 1 | 3 | 2 | 1 | none |\n| selector mIoU (M6) | 0.6128 | 12 | 4 | 18 | 9 | none |\n| baseline table: ours mIoU | 0.6128 | 12 | 4 | 18 | 9 | none |\n| baseline table: SegFormer-B0 mIoU | 0.4921 | 4 | 1 | 1 | 3 | none |\n| baseline table: U-Net mIoU | 0.4119 | 4 | 1 | 1 | 3 | none |\n| baseline table: ours mcIoU | 0.4956 | 8 | 1 | 8 | 7 | none |\n| baseline table: SegFormer-B0 mcIoU | 0.3599 | 3 | - | 1 | 3 | none |\n| baseline table: U-Net mcIoU | 0.3384 | 3 | - | 1 | 3 | none |\n| EndoVis 2017 zero-shot mean binary IoU | 0.850 | 4 | 2 | 2 | 3 | none |\n| EndoVis 2018 reference (same mapping) | 0.797 | 2 | 1 | 1 | 1 | none |\n\nRenderings that matched a coarser or finer form of a value, were read in context, and are a different quantity or a deliberate full-precision check (so not a disagreement):\n- paper, `0.06`: axis tick label of the accuracy-against-cost figure\n- paper, `0.07`: axis tick label of the accuracy-against-cost figure\n- paper, `0.30`: axis tick label of the risk-coverage figure\n- website, `0.07`: a correlation (-0.07) on /selector/\n- website, `0.30`: a change of +0.30 mcIoU points on /limits/\n- website, `0.31`: SurgiReview's per-frame reliability and difficulty values\n- website, `0.338`: a per-frame value in SurgiReview\n- website, `0.49`: a pixel offset in the stereo table\n- website, `0.612823`: the identity check against the official script is shown at full precision on purpose (/results/, /maskcheck/)\n- website, `0.77`: a different per-model column on /results/ (a share, not the gate AUROC)\n- website, `0.80`: end of an interval\n- website, `0.85`: end of an interval"
+  "evidence": "29 quantities; 0 with a rounding disagreement or missing macro. Precision rule: mIoU and mcIoU four decimals, AUROC and AURC three, harmful and flagged rates as in the macros. A number in the table is how many times the canonical string occurs in that channel; a '-' means the quantity is not shown there.\n\n| quantity | canonical value | paper | deck | website | NUMBERS | other renderings of the same value found |\n|---|---|---|---|---|---|---|\n| official mIoU | 0.6128 | 12 | 3 | 21 | 9 | none |\n| mcIoU | 0.4956 | 8 | 1 | 9 | 7 | none |\n| gate AUROC, out of fold (official risk) | 0.740 | 2 | - | 4 | 2 | none |\n| gate AUROC, test | 0.771 | 6 | - | 8 | 4 | none |\n| gate AURC, out of fold | 0.303 | 4 | - | 5 | 4 | none |\n| gate AURC, test | 0.308 | 6 | 2 | 6 | 4 | none |\n| max-softmax AURC, out of fold | 0.269 | 7 | - | 7 | 8 | none |\n| max-softmax AURC, test | 0.285 | 8 | 2 | 11 | 7 | none |\n| activation (flagged) rate, % | 30.4 | 6 | 2 | 9 | 4 | none |\n| flagged-frame instrument IoU change, always-A3 | +0.0621 | 4 | - | 9 | 3 | none |\n| oracle gain on flagged frames | +0.0707 | 2 | - | 3 | 2 | none |\n| selector harmful rate, % of all frames | 0.70 | 1 | - | 3 | 1 | none |\n| selector harmful rate, % of corrected frames | 2.75 | 1 | - | - | 1 | none |\n| blind fusion harmful rate, % of all frames | 1.20 | 2 | - | 3 | 2 | none |\n| blind fusion harmful rate, % of corrected frames | 1.20 | 2 | - | 3 | 2 | none |\n| hallucination rate, % of test frames | 58.4 | 2 | - | 2 | 2 | none |\n| latency, segmentation + gate, ms | 76 | 2 | - | 5 | 2 | none |\n| latency, selective path, ms | 153 | 3 | 2 | 8 | 3 | none |\n| latency, both corrections on every frame, ms | 360 | 2 | 2 | 5 | 1 | none |\n| consecutive-frame ground-truth IoU, mean | 0.323 | 2 | - | 4 | 3 | none |\n| selector mIoU (M6) | 0.6128 | 12 | 3 | 21 | 9 | none |\n| baseline table: ours mIoU | 0.6128 | 12 | 3 | 21 | 9 | none |\n| baseline table: SegFormer-B0 mIoU | 0.4921 | 4 | 2 | 4 | 3 | none |\n| baseline table: U-Net mIoU | 0.4119 | 4 | 2 | 4 | 3 | none |\n| baseline table: ours mcIoU | 0.4956 | 8 | 1 | 9 | 7 | none |\n| baseline table: SegFormer-B0 mcIoU | 0.3599 | 3 | 1 | 2 | 3 | none |\n| baseline table: U-Net mcIoU | 0.3384 | 3 | 1 | 2 | 3 | none |\n| EndoVis 2017 zero-shot mean binary IoU | 0.850 | 4 | 2 | 6 | 3 | none |\n| EndoVis 2018 reference (same mapping) | 0.797 | 2 | 1 | 4 | 1 | none |\n\nRenderings that matched a coarser or finer form of a value, were read in context, and are a different quantity or a deliberate full-precision check (so not a disagreement):\n- paper, `0.06`: axis tick label of the accuracy-against-cost figure\n- paper, `0.07`: axis tick label of the accuracy-against-cost figure\n- paper, `0.30`: axis tick label of the risk-coverage figure\n- website, `0.07`: a correlation (-0.07) on /selector/\n- website, `0.30`: a change of +0.30 mcIoU points on /limits/\n- website, `0.31`: SurgiReview's per-frame reliability and difficulty values\n- website, `0.338`: a per-frame value in SurgiReview\n- website, `0.49`: a pixel offset in the stereo table\n- website, `0.612823`: the identity check against the official script is shown at full precision on purpose (/results/, /maskcheck/)\n- website, `0.77`: a different per-model column on /results/ (a share, not the gate AUROC)\n- website, `0.80`: end of an interval\n- website, `0.85`: end of an interval"
  },
  {
   "section": "S.2",
@@ -19,9 +19,9 @@
  },
  {
   "section": "S.2",
-  "item": "the three owner placeholders are on deck slide 1 and nowhere else",
+  "item": "the three owner placeholders on deck slide 1 are filled with the details the owner supplied, and none remains anywhere",
   "status": "PASS",
-  "evidence": "to fill in: guide name (`<guide name>`), teammate registration number (`<reg no>`) and teammate name (`<teammate name>`). Not filled by this work. The paper's author block already names the second author and registration number."
+  "evidence": "guide Dr. Tripty Singh, teammate Athish Kulakudi Suresh, registration BL.EN.U4CSE23210 (the paper's author block names the same second author). 'Panel No.' stays blank: no value was supplied."
  },
  {
   "section": "S.2",
@@ -33,7 +33,7 @@
   "section": "S.3",
   "item": "paper builds twice with zero errors (tectonic; pdflatex is not installed on this machine)",
   "status": "PASS",
-  "evidence": "two runs of tectonic on main.tex: return codes 0, 0; errors 0; undefined/multiply-defined 0; pages 15. Caveat: the requested `pdflatex` is not available, so the build was not run with pdflatex itself; the source uses only IEEEtran, cite, amsmath, graphicx, tikz, algorithm(ic) and similar packages and no non-ASCII characters (checked below), which is the usual cause of a pdflatex-only failure."
+  "evidence": "two runs of tectonic on main.tex: return codes 0, 0; errors 0; undefined/multiply-defined 0; pages 16. Caveat: the requested `pdflatex` is not available, so the build was not run with pdflatex itself; the source uses only IEEEtran, cite, amsmath, graphicx, tikz, algorithm(ic) and similar packages and no non-ASCII characters (checked below), which is the usual cause of a pdflatex-only failure."
  },
  {
   "section": "S.3",
@@ -51,19 +51,19 @@
   "section": "S.3",
   "item": "every \\ref resolves",
   "status": "PASS",
-  "evidence": "35 distinct refs, unresolved: []"
+  "evidence": "41 distinct refs, unresolved: []"
  },
  {
   "section": "S.3",
   "item": "every \\cite resolves to a bibliography entry; every entry is cited",
   "status": "PASS",
-  "evidence": "53 keys cited, 53 entries; cited but missing []; uncited []"
+  "evidence": "54 keys cited, 54 entries; cited but missing []; uncited []"
  },
  {
   "section": "S.3",
   "item": "every table and figure is referenced from the body",
   "status": "PASS",
-  "evidence": "8 tables, 9 figures; unreferenced: []"
+  "evidence": "11 tables, 9 figures; unreferenced: []"
  },
  {
   "section": "S.3",
@@ -97,7 +97,7 @@
  },
  {
   "section": "S.3",
-  "item": "R.3 item: 40 ms target stated as not met",
+  "item": "R.3 item: no latency target anywhere in the paper; the cost per frame is reported as a measurement in Results",
   "status": "PASS",
   "evidence": "checked by text search of main.tex"
  },
@@ -105,7 +105,7 @@
   "section": "S.3",
   "item": "page count",
   "status": "NOTE",
-  "evidence": "15 pages (IEEE two-column conference format)"
+  "evidence": "16 pages (IEEE two-column conference format)"
  },
  {
   "section": "S.4",
@@ -117,7 +117,7 @@
   "section": "S.4",
   "item": "2. graphs and plots",
   "status": "PASS",
-  "evidence": "14 figures as PDF plus 14 PNG (300 dpi): fig01_risk_coverage_oof, fig01_risk_coverage_test, fig02_roc_oof, fig02_roc_test, fig03_per_class_baselines, fig04_per_sequence_baselines, fig05_consecutive_frame_iou, fig06_reliability, fig07_action_change_distributions, fig08_accuracy_vs_cost, fig09_indicator_importance, fig10_aligner_comparison, fig11_memory_starvation, fig12_metric_ablation; listing: results/paper/figures/README.md. Figure 13 (qualitative frames) deliberately not produced (licence, NEEDS OWNER). Plus 5 generated LaTeX tables: baseline_comparison.tex, failure_detection.tex, metric_ablation.tex, per_class.tex, policies.tex."
+  "evidence": "14 figures as PDF plus 14 PNG (300 dpi): fig01_risk_coverage_oof, fig01_risk_coverage_test, fig02_roc_oof, fig02_roc_test, fig03_per_class_baselines, fig04_per_sequence_baselines, fig05_consecutive_frame_iou, fig06_reliability, fig07_action_change_distributions, fig08_accuracy_vs_cost, fig09_indicator_importance, fig10_aligner_comparison, fig11_memory_starvation, fig12_metric_ablation; listing: results/paper/figures/README.md. Figure 13 (qualitative frames) deliberately not produced (licence, NEEDS OWNER). Plus 6 generated LaTeX tables: baseline_comparison.tex, failure_detection.tex, gate_ablation.tex, metric_ablation.tex, per_class.tex, policies.tex."
  },
  {
   "section": "S.4",
@@ -135,7 +135,7 @@
   "section": "S.5",
   "item": "deck: slide count, numbering and emptiness",
   "status": "PASS",
-  "evidence": "13 slides, none empty; numbers read from each slide's own number box in the render (1..13, in order)"
+  "evidence": "13 slides (the plain-language deck of tools/build_deck_plain.py has 13: 10 content slides, the title, the references and the thank-you), none empty; the slide numbers are live number fields, checked in the render (1..13, in order)"
  },
  {
   "section": "S.5",
@@ -165,13 +165,13 @@
   "section": "S.6",
   "item": "no EndoVis frames and no weights in the published output",
   "status": "PASS",
-  "evidence": "image or weight-type files outside the framework's own assets: []; total output size 2.6 MB"
+  "evidence": "image or weight-type files outside the framework's own assets: []; total output size 2.8 MB"
  },
  {
   "section": "S.6",
   "item": "research-prototype disclaimer on every page",
   "status": "PASS",
-  "evidence": "pages checked: 13 (the framework's own 404 page excluded); pages without it: []"
+  "evidence": "pages checked: 14 (the framework's own 404 page excluded); pages without it: []"
  },
  {
   "section": "S.7",
@@ -220,6 +220,36 @@
   "item": "EndoVis 2017 zero-shot stated as narrow, no overclaim",
   "status": "PASS",
   "evidence": "paper Discussion (Transfer)"
+ },
+ {
+  "section": "S.7",
+  "item": "max-softmax already a gate indicator (not added); gate with and without it reported against max-softmax, both splits and both labels",
+  "status": "PASS",
+  "evidence": "paper Failure Detection (Max-Softmax Inside the Gate, Table gate ablation); website /results/ gate ablation; results/FINDINGS.md"
+ },
+ {
+  "section": "S.7",
+  "item": "paired comparison stated, not only overlapping intervals (corrected sentence)",
+  "status": "PASS",
+  "evidence": "paper Failure Detection; website /bench/ and /results/"
+ },
+ {
+  "section": "S.7",
+  "item": "gate seeds: mean and spread out of fold, released gate is the best seed, limitation line",
+  "status": "PASS",
+  "evidence": "paper; website /results/ and /limits/; results/FINDINGS.md"
+ },
+ {
+  "section": "S.7",
+  "item": "DeepLabV3+ fifth attempt (full precision) stated and two baselines kept",
+  "status": "PASS",
+  "evidence": "paper, deck slide 9, website /bench/ and /results/, P1_PROTOCOL.md"
+ },
+ {
+  "section": "S.7",
+  "item": "rubric items present: baseline comparison, plots, databases (4), evaluators",
+  "status": "PASS",
+  "evidence": "paper Evaluation Summary (Tables databases and evaluators); deck slides 7 to 13"
  },
  {
   "section": "S.7",

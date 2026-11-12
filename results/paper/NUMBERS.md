@@ -172,3 +172,27 @@ Every number placed in a table by `tools/paper_tables.py`, with the file and key
 | baselines | U-Net (classic, from scratch) params | 7.8 | results/taskP/baselines.json | `models.2.params_millions` |
 | baselines | U-Net (classic, from scratch) GFLOPs | 121 | results/taskP/baselines.json | `models.2.gflops` |
 | baselines | U-Net (classic, from scratch) ms | 48 | results/taskP/baselines.json | `models.2.ms_per_frame` |
+| gate_ablation | Max-softmax Official oof AUROC | 0.786 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.max-softmax baseline.auroc_official` |
+| gate_ablation | Max-softmax Official oof AURC | 0.269 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.max-softmax baseline.aurc_official` |
+| gate_ablation | Max-softmax Official test AUROC | 0.792 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.max-softmax baseline.auroc_official` |
+| gate_ablation | Max-softmax Official test AURC | 0.285 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.max-softmax baseline.aurc_official` |
+| gate_ablation | Gate, 9 indicators Official oof AUROC | 0.738 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official` |
+| gate_ablation | Gate, 9 indicators Official oof AURC | 0.303 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official` |
+| gate_ablation | Gate, 9 indicators Official test AUROC | 0.771 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official` |
+| gate_ablation | Gate, 9 indicators Official test AURC | 0.307 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official` |
+| gate_ablation | Gate, no max-softmax Official oof AUROC | 0.729 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official` |
+| gate_ablation | Gate, no max-softmax Official oof AURC | 0.304 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official` |
+| gate_ablation | Gate, no max-softmax Official test AUROC | 0.775 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official` |
+| gate_ablation | Gate, no max-softmax Official test AURC | 0.302 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official` |
+| gate_ablation | Max-softmax Instrument oof AUROC | 0.704 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.max-softmax baseline.auroc_instrument` |
+| gate_ablation | Max-softmax Instrument oof AURC | 0.306 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.max-softmax baseline.aurc_instrument` |
+| gate_ablation | Max-softmax Instrument test AUROC | 0.710 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.max-softmax baseline.auroc_instrument` |
+| gate_ablation | Max-softmax Instrument test AURC | 0.355 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.max-softmax baseline.aurc_instrument` |
+| gate_ablation | Gate, 9 indicators Instrument oof AUROC | 0.787 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_instrument` |
+| gate_ablation | Gate, 9 indicators Instrument oof AURC | 0.269 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_instrument` |
+| gate_ablation | Gate, 9 indicators Instrument test AUROC | 0.844 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_instrument` |
+| gate_ablation | Gate, 9 indicators Instrument test AURC | 0.323 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_instrument` |
+| gate_ablation | Gate, no max-softmax Instrument oof AUROC | 0.785 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_instrument` |
+| gate_ablation | Gate, no max-softmax Instrument oof AURC | 0.269 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_instrument` |
+| gate_ablation | Gate, no max-softmax Instrument test AUROC | 0.845 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_instrument` |
+| gate_ablation | Gate, no max-softmax Instrument test AURC | 0.319 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_instrument` |

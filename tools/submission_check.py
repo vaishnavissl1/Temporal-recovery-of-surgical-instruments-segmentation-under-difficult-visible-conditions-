@@ -179,7 +179,8 @@ def main():
     owner = ["<reg no>", "<teammate name>", "<guide name>"]
     extra_angle = {k: [x for x in v if x not in owner] for k, v in angle.items()}
     s1_deck = dtxt[0]
-    ok_owner = all(o in s1_deck for o in owner) and all(o not in "\n".join(dtxt[1:]) for o in owner)
+    filled = ["Dr. Tripty Singh", "Athish Kulakudi Suresh", "BL.EN.U4CSE23210"]   # supplied by the owner on 12 November
+    ok_owner = all(f in s1_deck for f in filled) and not any(o in "\n".join(dtxt) for o in owner)
     nogen = [k for k, v in found.items() if v]
     empty_cells = []
     prs = Presentation(os.path.join(a.paper, "CV Project PPT.pptx"))
@@ -193,8 +194,8 @@ def main():
     rec("S.2", "no TODO/TBD/XXX/FIXME/placeholder/lorem/'Not measured yet'/pending/??? in the paper PDF, deck or website", not nogen,
         "hits: " + (json.dumps(found) if nogen else "none in any of the three"))
     rec("S.2", "no angle-bracket placeholder other than the three owner placeholders", all(not v for v in extra_angle.values()), "others found: " + json.dumps(extra_angle))
-    rec("S.2", "the three owner placeholders are on deck slide 1 and nowhere else", ok_owner,
-        "to fill in: guide name (`<guide name>`), teammate registration number (`<reg no>`) and teammate name (`<teammate name>`). Not filled by this work. The paper's author block already names the second author and registration number.")
+    rec("S.2", "the three owner placeholders on deck slide 1 are filled with the details the owner supplied, and none remains anywhere", ok_owner,
+        "guide Dr. Tripty Singh, teammate Athish Kulakudi Suresh, registration BL.EN.U4CSE23210 (the paper's author block names the same second author). 'Panel No.' stays blank: no value was supplied.")
     rec("S.2", "empty table cells or figure slots", None if empty_cells else True,
         ("empty cells (owner's template, not filled): " + "; ".join(empty_cells) + ". 'Panel No.' on slide 1 is also blank. Row 3 of the student table is empty by design of the template (a third member); the owner decides.") if empty_cells else "none")
 
@@ -228,7 +229,7 @@ def main():
               "no 'Stage 6' / difficult-event construction": ("Stage 6" not in tex and "Difficult-Event" not in tex and "event inventory" not in tex),
               "no recovery success rate / recovery latency / false-restoration / identity continuity / phase-wise metric": not re.search(r"recovery success|false[- ]restoration|identity continuity|phase-wise", tex, re.I),
               "contribution 4 replaced by harmful rate + AURC + abstention": ("harmful-correction rate" in tex and "AURC" in tex and "abstention" in tex),
-              "40 ms target stated as not met": ("does not meet it" in tex or "not met" in tex) and "40" in tex}
+              "no latency target anywhere in the paper; the cost per frame is reported as a measurement in Results": ("40\\,ms" not in tex and "display budget" not in tex and "Deployment Goals" not in tex and "\\label{eq:cost_model}" in tex and "Cost per frame" in tex)}
     for k, v in claims.items():
         rec("S.3", "R.3 item: " + k, v, "checked by text search of main.tex")
     rec("S.3", "page count", None, f"{pages} pages (IEEE two-column conference format)")
@@ -260,7 +261,7 @@ def main():
 
     # ================================================================== S.5 (deck: structural part; the visual review is stated separately)
     n_sl = len(dtxt)
-    rec("S.5", "deck: slide count, numbering and emptiness", n_sl == 13 and all(len(t.strip()) > 0 for t in dtxt), f"{n_sl} slides, none empty; numbers read from each slide's own number box in the render (1..13, in order)")
+    rec("S.5", "deck: slide count, numbering and emptiness", n_sl == 13 and all(len(t.strip()) > 0 for t in dtxt), f"{n_sl} slides (the plain-language deck of tools/build_deck_plain.py has 13: 10 content slides, the title, the references and the thank-you), none empty; the slide numbers are live number fields, checked in the render (1..13, in order)")
     small = []
     for i, s in enumerate(prs.slides, 1):
         for sh in s.shapes:
@@ -315,6 +316,13 @@ def main():
     rec("S.7", "conformal risk budget not met on test, and said", has(ptxt, r"did not on the test set") and has(dk, r"not on test"), "paper Correction section and Calibration; deck slides 6 and 10")
     rec("S.7", "gate calibration (ranking versus level) stated", has(ptxt, r"Ranking is not level", r"optimistic") and has(wtxt, r"optimistic"), "paper Calibration and Discussion, deck slide 10, website /limits/")
     rec("S.7", "EndoVis 2017 zero-shot stated as narrow, no overclaim", has(ptxt, r"narrow result", r"does not support a claim of general robustness"), "paper Discussion (Transfer)")
+    rec("S.7", "max-softmax already a gate indicator (not added); gate with and without it reported against max-softmax, both splits and both labels", has(ptxt, r"so it was not added", r"with and without it", r"does not beat max-softmax") and has(wtxt, r"already one of the gate"),
+        "paper Failure Detection (Max-Softmax Inside the Gate, Table gate ablation); website /results/ gate ablation; results/FINDINGS.md")
+    rec("S.7", "paired comparison stated, not only overlapping intervals (corrected sentence)", has(ptxt, r"paired comparison", r"just excludes zero") and not has(ptxt, r"no detector is shown to beat another"), "paper Failure Detection; website /bench/ and /results/")
+    rec("S.7", "gate seeds: mean and spread out of fold, released gate is the best seed, limitation line", has(ptxt, r"Five refits", r"standard deviation", r"highest out-of-fold AUROC", r"segmenter seed variance") and has(wtxt, r"five seeds"), "paper; website /results/ and /limits/; results/FINDINGS.md")
+    rec("S.7", "DeepLabV3+ fifth attempt (full precision) stated and two baselines kept", has(ptxt, r"full precision", r"diverged earlier") and has(wtxt, r"full precision") and has(dk, r"five attempts"), "paper, deck slide 9, website /bench/ and /results/, P1_PROTOCOL.md")
+    rec("S.7", "rubric items present: baseline comparison, plots, databases (4), evaluators", has(ptxt, r"Evaluation Summary", r"Databases used", r"Performance evaluators", r"eight data plots") and has(dk, r"Databases Used \(4\)", r"How We Measure Success", r"Comparison With Other Models", r"Plot 1"),
+        "paper Evaluation Summary (Tables databases and evaluators); deck slides 7 to 13")
     rec("S.7", "DeepLabV3+ absence stated wherever baselines are listed", has(ptxt, r"DeepLabV3\+ did not") and has(dk, r"DeepLabV3\+ did not train stably") and has(wtxt, r"DeepLabV3\+"), "paper, deck slides 9 and 11, website /bench/")
 
     # ------------------------------------------------------------------ write

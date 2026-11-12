@@ -78,7 +78,7 @@ def fig4():
     ax.set_xlabel("test sequence")
     ax.set_ylabel("mIoU (official rule)")
     ax.set_ylim(0, 1.0)
-    ax.legend(loc="lower left", ncol=2)
+    ax.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=3, frameon=False)   # above the axes: inside, it covered the bars of sequence 1
     allv = np.array([[m["per_sequence"][s] for s in seqs] for m in ms])
     cap = (f"mIoU of each model on each of the 4 official test sequences. The proposed model's per-sequence score ranges from {allv[0].min():.2f} to {allv[0].max():.2f}; the gap between sequences is larger than "
            f"the gap between models, which is why intervals in this study resample whole sequences.{absent_note(absent)} Source: {SRC}.")

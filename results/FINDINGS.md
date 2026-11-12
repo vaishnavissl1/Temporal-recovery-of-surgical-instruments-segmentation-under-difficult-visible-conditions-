@@ -102,9 +102,35 @@ Indefensible: "Our method outperforms published results." No published number wa
 - The temporal memory inside the action data holds uncorrected base predictions (policy-independent). Chained corrections are not simulated.
 - Suturing-needle IoU is 0 and suction-instrument does not appear in the test set; 11 of 12 classes are scored.
 - The latency figures are composed from separately measured components on an RTX 3050 Ti laptop GPU (4 GB), not timed end to end.
-- Single training run; no seed variation (the gate learner is deterministic, the segmenter was trained once per fold).
+- One training run per segmenter, so no segmenter seed variation. The gate alone was refit with five seeds (out-of-fold spread in the final-additions section); the released gate is the best of those five on AUROC.
 - Resolution was limited by 4 GB of VRAM (training at 512x640, evaluation at full resolution).
 
 ## Where to look
 
 `results/task6/final_results.json` (all numbers above), `results/task5/selector_results.json`, `results/task4/`, `results/task3/`, `results/task2/STEREO_REPORT.md`, `RUNLOG.md` (every error and decision), `DATASET_FACTS.md`.
+
+
+## Owner's final additions, 12 November (gate and max-softmax, DeepLabV3+ in full precision, gate seeds)
+
+Source: `results/taskC/gate_ablation_seeds.json` (script `tools/gate_ablation_seeds.py`, log `work_v2/gate_ablation_seeds.log`).
+
+**1. Max-softmax and the gate.** The ablation in Task C identified one-pass max-softmax (the mean top-class probability over predicted-foreground pixels) as the strongest single failure detector out of fold. The brief asked for it to be added as a gate
+indicator if it was not one already. **It already was**: it is `q_confidence`, the first of the production gate's nine indicators (`sitr/reliability.py`, set `extended`). Nothing was added and no new gate replaces the released one. What was run instead is
+the with and without comparison: the same MLP, K=3, tau_train 0.5, 300 epochs and folds, cross-fitted out of fold, then fitted once on the 15 training sequences and scored once on the test sequences, with the nine indicators (seed 0, the production recipe) and with
+the eight that remain when max-softmax is removed (set `extended_no_q`, added for this ablation only; nothing is selected from it).
+- The nine-indicator refit reproduces the released gate: out-of-fold AUROC against the official risk 0.738 (released 0.740), AURC 0.303; test 0.771 and 0.307.
+- Official-IoU label (bad = official frame IoU below 0.5), AUROC / AURC. Out of fold: max-softmax 0.786 / 0.269; gate 0.738 / 0.303; gate without max-softmax 0.729 / 0.304.
+  Test: max-softmax 0.792 / 0.285; gate 0.771 / 0.307; gate without max-softmax 0.775 / 0.302.
+- Instrument-IoU label (bad = instrument IoU below 0.5, risk one minus instrument IoU). Out of fold: max-softmax 0.704 / 0.306; gate 0.787 / 0.269; without 0.785 / 0.269.
+  Test: max-softmax 0.710 / 0.355; gate 0.844 / 0.323; without 0.845 / 0.319.
+- Paired AURC difference against max-softmax on the official risk (gate minus max-softmax, sequence-clustered bootstrap): out of fold +0.031 (95% +0.003 to +0.063), which favours max-softmax; test +0.013 (95% -0.054 to +0.079), which includes zero. Without max-softmax: out of fold +0.031 (95% +0.004 to +0.063); test +0.009 (95% -0.054 to +0.070).
+- **The gate still does not beat max-softmax on the official risk, with or without it as an indicator. Reported plainly; nothing else was changed.** On its own label (instrument IoU) the gate ranks better than max-softmax on both splits, as it was trained to.
+- Correction made: the paper said "every sequence-clustered interval overlaps every other, so no detector is shown to beat another". That holds for the individual intervals only; in the paired comparison the out-of-fold AURC difference between max-softmax and the gate has an interval that just excludes zero. The paper, website and deck now say so.
+
+**2. DeepLabV3+ in full precision.** One more attempt with AMP off and everything else identical (lr 3e-4, both guards on). It diverged at epoch 2 (loss 2.4345, then 1.1098, then a non-finite loss for three consecutive steps), earlier than the four earlier runs (epochs 5 to 6), so mixed-precision
+overflow is **not** the cause. As agreed, it stopped there: two baselines are kept, DeepLabV3+ stays out of the table, and the deviation record is in `P1_PROTOCOL.md`. The driver logged exit code 1 where the guard's message says 3; the message is the record.
+
+**3. Gate seeds.** The nine-indicator gate refit out of fold with seeds 0 to 4 (initialisation, batch draws, scheduled sampling; the segmenter is not re-seeded): AUROC against the official risk 0.726 on average (sd 0.007, range 0.719 to 0.738);
+AURC 0.304 (sd 0.003, range 0.301 to 0.308); instrument label AUROC 0.786 (sd 0.006), AURC 0.268 (sd 0.001).
+**The released gate is seed 0, which is the best of the five on out-of-fold AUROC**, so its published figures sit at the favourable end of this spread; this is stated in the paper. No seed reaches the AURC of max-softmax (0.269). Test-set scores were produced for seed 0 only. This closes the single-seed limitation for the gate;
+the segmenter's single run remains a limitation, and the limitations paragraph says so.

@@ -250,3 +250,67 @@ Each macro `\N<name>` in `cvavish/main.tex` is defined in `cvavish/numbers.tex`,
 | `\NGateOffOof` | -0.020 | results/paper/gate_calibration_offset.json | `groups.oof.offset_score_minus_achieved` |
 | `\NGateAurocOwnTest` | 0.844 | results/paper/gate_calibration_offset.json | `ranking.test.auroc_own_label` |
 | `\NGateAurocOwnOof` | 0.788 | results/paper/gate_calibration_offset.json | `ranking.oof.auroc_own_label` |
+| `\NGaMsOofAuroc` | 0.786 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.max-softmax baseline.auroc_official` |
+| `\NGaMsOofAurc` | 0.269 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.max-softmax baseline.aurc_official` |
+| `\NGaMsOofAurocInst` | 0.704 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.max-softmax baseline.auroc_instrument` |
+| `\NGaMsOofAurcInst` | 0.306 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.max-softmax baseline.aurc_instrument` |
+| `\NGaMsTestAuroc` | 0.792 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.max-softmax baseline.auroc_official` |
+| `\NGaMsTestAurc` | 0.285 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.max-softmax baseline.aurc_official` |
+| `\NGaMsTestAurocInst` | 0.710 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.max-softmax baseline.auroc_instrument` |
+| `\NGaMsTestAurcInst` | 0.355 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.max-softmax baseline.aurc_instrument` |
+| `\NGaWqOofAuroc` | 0.738 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official` |
+| `\NGaWqOofAurc` | 0.303 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official` |
+| `\NGaWqOofAurocInst` | 0.787 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_instrument` |
+| `\NGaWqOofAurcInst` | 0.269 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_instrument` |
+| `\NGaWqTestAuroc` | 0.771 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official` |
+| `\NGaWqTestAurc` | 0.307 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official` |
+| `\NGaWqTestAurocInst` | 0.844 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_instrument` |
+| `\NGaWqTestAurcInst` | 0.323 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_instrument` |
+| `\NGaNqOofAuroc` | 0.729 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official` |
+| `\NGaNqOofAurc` | 0.304 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official` |
+| `\NGaNqOofAurocInst` | 0.785 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_instrument` |
+| `\NGaNqOofAurcInst` | 0.269 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_instrument` |
+| `\NGaNqTestAuroc` | 0.775 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official` |
+| `\NGaNqTestAurc` | 0.302 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official` |
+| `\NGaNqTestAurocInst` | 0.845 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_instrument` |
+| `\NGaNqTestAurcInst` | 0.319 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_instrument` |
+| `\NGaWqOofDAurc` | +0.031 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official_minus_max_softmax.mean` |
+| `\NGaWqOofDAurcLo` | +0.003 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official_minus_max_softmax.ci95.0` |
+| `\NGaWqOofDAurcHi` | +0.063 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official_minus_max_softmax.ci95.1` |
+| `\NGaWqOofDAuroc` | -0.058 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official_minus_max_softmax.mean` |
+| `\NGaWqOofDAurocLo` | -0.154 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official_minus_max_softmax.ci95.0` |
+| `\NGaWqOofDAurocHi` | +0.035 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official_minus_max_softmax.ci95.1` |
+| `\NGaWqTestDAurc` | +0.013 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official_minus_max_softmax.mean` |
+| `\NGaWqTestDAurcLo` | -0.054 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official_minus_max_softmax.ci95.0` |
+| `\NGaWqTestDAurcHi` | +0.079 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.aurc_official_minus_max_softmax.ci95.1` |
+| `\NGaWqTestDAuroc` | -0.051 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official_minus_max_softmax.mean` |
+| `\NGaWqTestDAurocLo` | -0.359 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official_minus_max_softmax.ci95.0` |
+| `\NGaWqTestDAurocHi` | +0.103 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate with max-softmax (9 indicators), refit seed 0.auroc_official_minus_max_softmax.ci95.1` |
+| `\NGaNqOofDAurc` | +0.031 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official_minus_max_softmax.mean` |
+| `\NGaNqOofDAurcLo` | +0.004 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official_minus_max_softmax.ci95.0` |
+| `\NGaNqOofDAurcHi` | +0.063 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official_minus_max_softmax.ci95.1` |
+| `\NGaNqOofDAuroc` | -0.066 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official_minus_max_softmax.mean` |
+| `\NGaNqOofDAurocLo` | -0.163 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official_minus_max_softmax.ci95.0` |
+| `\NGaNqOofDAurocHi` | +0.037 | results/taskC/gate_ablation_seeds.json | `item1.oof.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official_minus_max_softmax.ci95.1` |
+| `\NGaNqTestDAurc` | +0.009 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official_minus_max_softmax.mean` |
+| `\NGaNqTestDAurcLo` | -0.054 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official_minus_max_softmax.ci95.0` |
+| `\NGaNqTestDAurcHi` | +0.070 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.aurc_official_minus_max_softmax.ci95.1` |
+| `\NGaNqTestDAuroc` | -0.044 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official_minus_max_softmax.mean` |
+| `\NGaNqTestDAurocLo` | -0.340 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official_minus_max_softmax.ci95.0` |
+| `\NGaNqTestDAurocHi` | +0.127 | results/taskC/gate_ablation_seeds.json | `item1.test.detectors.gate without max-softmax (8 indicators), refit seed 0.auroc_official_minus_max_softmax.ci95.1` |
+| `\NGaSeedAurocMean` | 0.726 | results/taskC/gate_ablation_seeds.json | `item3.summary.auroc_official.mean` |
+| `\NGaSeedAurocSd` | 0.007 | results/taskC/gate_ablation_seeds.json | `item3.summary.auroc_official.std` |
+| `\NGaSeedAurocMin` | 0.719 | results/taskC/gate_ablation_seeds.json | `item3.summary.auroc_official.min` |
+| `\NGaSeedAurocMax` | 0.738 | results/taskC/gate_ablation_seeds.json | `item3.summary.auroc_official.max` |
+| `\NGaSeedAurcMean` | 0.304 | results/taskC/gate_ablation_seeds.json | `item3.summary.aurc_official.mean` |
+| `\NGaSeedAurcSd` | 0.003 | results/taskC/gate_ablation_seeds.json | `item3.summary.aurc_official.std` |
+| `\NGaSeedAurcMin` | 0.301 | results/taskC/gate_ablation_seeds.json | `item3.summary.aurc_official.min` |
+| `\NGaSeedAurcMax` | 0.308 | results/taskC/gate_ablation_seeds.json | `item3.summary.aurc_official.max` |
+| `\NGaSeedAurocInstMean` | 0.786 | results/taskC/gate_ablation_seeds.json | `item3.summary.auroc_instrument.mean` |
+| `\NGaSeedAurocInstSd` | 0.006 | results/taskC/gate_ablation_seeds.json | `item3.summary.auroc_instrument.std` |
+| `\NGaSeedAurocInstMin` | 0.779 | results/taskC/gate_ablation_seeds.json | `item3.summary.auroc_instrument.min` |
+| `\NGaSeedAurocInstMax` | 0.794 | results/taskC/gate_ablation_seeds.json | `item3.summary.auroc_instrument.max` |
+| `\NGaSeedAurcInstMean` | 0.268 | results/taskC/gate_ablation_seeds.json | `item3.summary.aurc_instrument.mean` |
+| `\NGaSeedAurcInstSd` | 0.001 | results/taskC/gate_ablation_seeds.json | `item3.summary.aurc_instrument.std` |
+| `\NGaSeedAurcInstMin` | 0.267 | results/taskC/gate_ablation_seeds.json | `item3.summary.aurc_instrument.min` |
+| `\NGaSeedAurcInstMax` | 0.270 | results/taskC/gate_ablation_seeds.json | `item3.summary.aurc_instrument.max` |

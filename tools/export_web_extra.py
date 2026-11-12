@@ -192,4 +192,12 @@ def extra_blocks(R):
         S["calibration"] = ["paper/calibration_pixels.json", "paper/gate_calibration_offset.json"]
     else:
         B["calibration"], S["calibration"] = {"available": False}, []
+    # ---- the gate with and without max-softmax, and five seeds (owner's request)
+    ga = _load(R, "taskC/gate_ablation_seeds.json")
+    if ga:
+        B["gateAblation"] = {"available": True, "recipe": ga["recipe"], "note": ga["note"], "item1": ga["item1"],
+                             "seeds": {"summary": ga["item3"]["summary"], "per_seed": ga["item3"]["per_seed"], "max_softmax_oof": ga["item3"]["max_softmax_oof"]}}
+        S["gateAblation"] = ["taskC/gate_ablation_seeds.json"]
+    else:
+        B["gateAblation"], S["gateAblation"] = {"available": False}, []
     return B, S

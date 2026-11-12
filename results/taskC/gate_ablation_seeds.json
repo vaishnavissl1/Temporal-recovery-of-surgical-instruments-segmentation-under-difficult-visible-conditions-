@@ -1,0 +1,362 @@
+{
+ "recipe": {
+  "family": "mlp",
+  "memory_size": 3,
+  "tau_train": 0.5,
+  "epochs": 300,
+  "folds": "work_v2/folds.json (3 folds of 5 sequences)",
+  "theta": 0.5
+ },
+ "note": "Max-softmax is already one of the nine production indicators (q_confidence); nothing was added. Seed 0 with q is the production recipe.",
+ "n_frames": {
+  "oof": 2235,
+  "test": 997
+ },
+ "item1": {
+  "oof": {
+   "n_frames": 2235,
+   "bad_rate_official": 0.13914988814317675,
+   "bad_rate_instrument": 0.27695749440715883,
+   "aurc_floor_official": 0.23025180773232082,
+   "aurc_random_official": 0.34673635235640565,
+   "detectors": {
+    "max-softmax baseline": {
+     "auroc_official": 0.7856497048619235,
+     "aurc_official": 0.26922603976180465,
+     "auroc_instrument": 0.7041684327964299,
+     "aurc_instrument": 0.30614900860026306,
+     "n": 2235,
+     "auroc_official_ci95": [
+      0.6764556301195572,
+      0.8803860515798617
+     ],
+     "aurc_official_ci95": [
+      0.2225991911086781,
+      0.33315012454269854
+     ],
+     "n_clusters": 15
+    },
+    "production gate (released scores)": {
+     "auroc_official": 0.7403754236551664,
+     "aurc_official": 0.3033592577389272,
+     "auroc_instrument": 0.7879724563732625,
+     "aurc_instrument": 0.26802862666324956,
+     "n": 2235,
+     "auroc_official_ci95": [
+      0.6181768789009732,
+      0.8214026976193687
+     ],
+     "aurc_official_ci95": [
+      0.2549191341056932,
+      0.3571104162626404
+     ],
+     "n_clusters": 15,
+     "auroc_official_minus_max_softmax": {
+      "mean": -0.056278973309118026,
+      "ci95": [
+       -0.1565036011546938,
+       0.036597338798914594
+      ]
+     },
+     "aurc_official_minus_max_softmax": {
+      "mean": 0.030628655405135416,
+      "ci95": [
+       0.0005556586913402511,
+       0.06560678762615908
+      ]
+     }
+    },
+    "gate with max-softmax (9 indicators), refit seed 0": {
+     "auroc_official": 0.7380674639517083,
+     "aurc_official": 0.3032827811919857,
+     "auroc_instrument": 0.7871097186455318,
+     "aurc_instrument": 0.26924464293576944,
+     "n": 2235,
+     "auroc_official_ci95": [
+      0.6221137194761142,
+      0.8199493637414916
+     ],
+     "aurc_official_ci95": [
+      0.25565972292661565,
+      0.3566840769838264
+     ],
+     "n_clusters": 15,
+     "auroc_official_minus_max_softmax": {
+      "mean": -0.05839480235112368,
+      "ci95": [
+       -0.15385582770506964,
+       0.034970213554822
+      ]
+     },
+     "aurc_official_minus_max_softmax": {
+      "mean": 0.030658181119530174,
+      "ci95": [
+       0.00261692062885638,
+       0.06314911003811523
+      ]
+     }
+    },
+    "gate without max-softmax (8 indicators), refit seed 0": {
+     "auroc_official": 0.7286885574666925,
+     "aurc_official": 0.3038731574629741,
+     "auroc_instrument": 0.785149314608359,
+     "aurc_instrument": 0.2688563975740626,
+     "n": 2235,
+     "auroc_official_ci95": [
+      0.6246349901958694,
+      0.8000728890789242
+     ],
+     "aurc_official_ci95": [
+      0.2563050252422693,
+      0.35718739260598437
+     ],
+     "n_clusters": 15,
+     "auroc_official_minus_max_softmax": {
+      "mean": -0.06627773761906215,
+      "ci95": [
+       -0.16256768044047093,
+       0.03694616986378597
+      ]
+     },
+     "aurc_official_minus_max_softmax": {
+      "mean": 0.03122225182118288,
+      "ci95": [
+       0.003507948945749183,
+       0.06294242143153658
+      ]
+     }
+    }
+   }
+  },
+  "test": {
+   "n_frames": 997,
+   "bad_rate_official": 0.2948846539618857,
+   "bad_rate_instrument": 0.2978936810431294,
+   "aurc_floor_official": 0.2330034732761081,
+   "aurc_random_official": 0.3871804294646528,
+   "detectors": {
+    "max-softmax baseline": {
+     "auroc_official": 0.7918614102824629,
+     "aurc_official": 0.2851817732672963,
+     "auroc_instrument": 0.7097354497354498,
+     "aurc_instrument": 0.3546646803225879,
+     "n": 997,
+     "auroc_official_ci95": [
+      0.6406161773009599,
+      0.8671196806251593
+     ],
+     "aurc_official_ci95": [
+      0.19403077514125533,
+      0.4754675339315786
+     ],
+     "n_clusters": 4
+    },
+    "production gate (released scores)": {
+     "auroc_official": 0.770947639368692,
+     "aurc_official": 0.307597017426619,
+     "auroc_instrument": 0.8437085137085137,
+     "aurc_instrument": 0.32269443476166,
+     "n": 997,
+     "auroc_official_ci95": [
+      0.4488638195004029,
+      0.928133517150245
+     ],
+     "aurc_official_ci95": [
+      0.1981877513292227,
+      0.46667384028512365
+     ],
+     "n_clusters": 4,
+     "auroc_official_minus_max_softmax": {
+      "mean": -0.051511557477897256,
+      "ci95": [
+       -0.35908138597904915,
+       0.1031852248394004
+      ]
+     },
+     "aurc_official_minus_max_softmax": {
+      "mean": 0.012861081606439846,
+      "ci95": [
+       -0.05405221758588952,
+       0.07948532279985945
+      ]
+     }
+    },
+    "gate with max-softmax (9 indicators), refit seed 0": {
+     "auroc_official": 0.7710105379278311,
+     "aurc_official": 0.30741514721911806,
+     "auroc_instrument": 0.8438191438191438,
+     "aurc_instrument": 0.3225451870844421,
+     "n": 997,
+     "auroc_official_ci95": [
+      0.44883158742949236,
+      0.9283050513649677
+     ],
+     "aurc_official_ci95": [
+      0.19815077042826046,
+      0.46665343235930284
+     ],
+     "n_clusters": 4,
+     "auroc_official_minus_max_softmax": {
+      "mean": -0.051486831510632734,
+      "ci95": [
+       -0.35911361804995967,
+       0.10305139186295498
+      ]
+     },
+     "aurc_official_minus_max_softmax": {
+      "mean": 0.01274587947067786,
+      "ci95": [
+       -0.05407383037146535,
+       0.07902765705950146
+      ]
+     }
+    },
+    "gate without max-softmax (8 indicators), refit seed 0": {
+     "auroc_official": 0.775253771494373,
+     "aurc_official": 0.3019238805161734,
+     "auroc_instrument": 0.8454256854256854,
+     "aurc_instrument": 0.31910590126308386,
+     "n": 997,
+     "auroc_official_ci95": [
+      0.45462335309078605,
+      0.9419834047109208
+     ],
+     "aurc_official_ci95": [
+      0.19829310640112272,
+      0.4670386971222364
+     ],
+     "n_clusters": 4,
+     "auroc_official_minus_max_softmax": {
+      "mean": -0.04435833438687905,
+      "ci95": [
+       -0.340290088638195,
+       0.12714132762312635
+      ]
+     },
+     "aurc_official_minus_max_softmax": {
+      "mean": 0.009105797260364312,
+      "ci95": [
+       -0.05406796895190419,
+       0.06990349531790793
+      ]
+     }
+    }
+   }
+  }
+ },
+ "item3": {
+  "seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "per_seed": {
+   "0": {
+    "auroc_official": 0.7380674639517083,
+    "aurc_official": 0.3032827811919857,
+    "auroc_instrument": 0.7871097186455318,
+    "aurc_instrument": 0.26924464293576944,
+    "n": 2235
+   },
+   "1": {
+    "auroc_official": 0.7248347159922722,
+    "aurc_official": 0.30350375286625597,
+    "auroc_instrument": 0.7835518002527232,
+    "aurc_instrument": 0.2673143522159668,
+    "n": 2235
+   },
+   "2": {
+    "auroc_official": 0.7234041486453062,
+    "aurc_official": 0.30391499242831677,
+    "auroc_instrument": 0.7862869687614965,
+    "aurc_instrument": 0.26864376079937324,
+    "n": 2235
+   },
+   "3": {
+    "auroc_official": 0.7257455328194878,
+    "aurc_official": 0.30052927364326915,
+    "auroc_instrument": 0.7943785089332843,
+    "aurc_instrument": 0.26669766705441694,
+    "n": 2235
+   },
+   "4": {
+    "auroc_official": 0.718663723084945,
+    "aurc_official": 0.3083184218066903,
+    "auroc_instrument": 0.7793565756010173,
+    "aurc_instrument": 0.269989946027936,
+    "n": 2235
+   }
+  },
+  "summary": {
+   "auroc_official": {
+    "values": [
+     0.7380674639517083,
+     0.7248347159922722,
+     0.7234041486453062,
+     0.7257455328194878,
+     0.718663723084945
+    ],
+    "mean": 0.7261431168987439,
+    "std": 0.007202487722775162,
+    "min": 0.718663723084945,
+    "max": 0.7380674639517083
+   },
+   "aurc_official": {
+    "values": [
+     0.3032827811919857,
+     0.30350375286625597,
+     0.30391499242831677,
+     0.30052927364326915,
+     0.3083184218066903
+    ],
+    "mean": 0.30390984438730356,
+    "std": 0.002802764639372307,
+    "min": 0.30052927364326915,
+    "max": 0.3083184218066903
+   },
+   "auroc_instrument": {
+    "values": [
+     0.7871097186455318,
+     0.7835518002527232,
+     0.7862869687614965,
+     0.7943785089332843,
+     0.7793565756010173
+    ],
+    "mean": 0.7861367144388106,
+    "std": 0.005512453039394275,
+    "min": 0.7793565756010173,
+    "max": 0.7943785089332843
+   },
+   "aurc_instrument": {
+    "values": [
+     0.26924464293576944,
+     0.2673143522159668,
+     0.26864376079937324,
+     0.26669766705441694,
+     0.269989946027936
+    ],
+    "mean": 0.2683780738066925,
+    "std": 0.0013578415009524107,
+    "min": 0.26669766705441694,
+    "max": 0.269989946027936
+   }
+  },
+  "max_softmax_oof": {
+   "auroc_official": 0.7856497048619235,
+   "aurc_official": 0.26922603976180465,
+   "auroc_instrument": 0.7041684327964299,
+   "aurc_instrument": 0.30614900860026306,
+   "n": 2235
+  },
+  "production_oof": {
+   "auroc_official": 0.7403754236551664,
+   "aurc_official": 0.3033592577389272,
+   "auroc_instrument": 0.7879724563732625,
+   "aurc_instrument": 0.26802862666324956,
+   "n": 2235
+  },
+  "statement": "the segmenter is not re-seeded; only the gate (initialisation, batch draws, scheduled sampling) is"
+ }
+}

@@ -187,6 +187,25 @@ SPEC = [
 ]
 
 
+# ---- owner's request: gate with and without max-softmax, and five gate seeds (tools/gate_ablation_seeds.py)
+GA = "results/taskC/gate_ablation_seeds.json"
+_GA_DET = {"Ms": "max-softmax baseline", "Wq": "gate with max-softmax (9 indicators), refit seed 0", "Nq": "gate without max-softmax (8 indicators), refit seed 0"}
+_GA_MET = {"Auroc": "auroc_official", "Aurc": "aurc_official", "AurocInst": "auroc_instrument", "AurcInst": "aurc_instrument"}
+for _d, _dn in _GA_DET.items():
+    for _g, _gn in (("Oof", "oof"), ("Test", "test")):
+        for _m, _mn in _GA_MET.items():
+            SPEC.append((f"Ga{_d}{_g}{_m}", GA, ["item1", _gn, "detectors", _dn, _mn], "{:.3f}", 1))
+for _d in ("Wq", "Nq"):
+    for _g, _gn in (("Oof", "oof"), ("Test", "test")):
+        for _k, _kn in (("Aurc", "aurc_official_minus_max_softmax"), ("Auroc", "auroc_official_minus_max_softmax")):
+            SPEC.append((f"Ga{_d}{_g}D{_k}", GA, ["item1", _gn, "detectors", _GA_DET[_d], _kn, "mean"], "{:+.3f}", 1))
+            SPEC.append((f"Ga{_d}{_g}D{_k}Lo", GA, ["item1", _gn, "detectors", _GA_DET[_d], _kn, "ci95", 0], "{:+.3f}", 1))
+            SPEC.append((f"Ga{_d}{_g}D{_k}Hi", GA, ["item1", _gn, "detectors", _GA_DET[_d], _kn, "ci95", 1], "{:+.3f}", 1))
+for _m, _mn in _GA_MET.items():
+    for _s, _sn, _f in (("Mean", "mean", "{:.3f}"), ("Sd", "std", "{:.3f}"), ("Min", "min", "{:.3f}"), ("Max", "max", "{:.3f}")):
+        SPEC.append((f"GaSeed{_m}{_s}", GA, ["item3", "summary", _mn, _sn], _f, 1))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--out", default="results/paper")

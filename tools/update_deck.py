@@ -170,7 +170,7 @@ def main():
         f"Selectivity is the defensible gain: {V['CostSelNoA']} ms against {V['CostAllTwo']} ms for correcting every frame, with reliable frames untouched.",
         f"Under one recipe the segmenter leads SegFormer-B0 and a from-scratch U-Net; scored once on EndoVis 2017 with no adaptation it separates instrument from background at {V['ZsIou']} mean IoU.",
         f"We measure what had been assumed: consecutive masks overlap at {V['KMean']} IoU; two definition choices move mIoU by over ten points; harmful corrections are reported with both denominators.",
-        "Limitations: one training dataset, four test sequences, one run per model, DeepLabV3+ baseline absent, conformal budget and 40 ms target not met, needle at zero IoU. Future work: a relabelling identity stage, needle training, more sequences and datasets.",
+        "Limitations: one training dataset, four test sequences, one run per model, DeepLabV3+ baseline absent, conformal budget not met, needle at zero IoU. Future work: a relabelling identity stage, needle training, more sequences and datasets.",
     ])
     prs.save(cur)
     print("deck updated:", cur)

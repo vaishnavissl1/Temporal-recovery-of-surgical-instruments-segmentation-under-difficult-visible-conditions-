@@ -134,12 +134,31 @@ def t_baselines(out):
     write(out, "baseline_comparison", "lcccccccc", ["Model", "mIoU", "mcIoU", "bF1", "clD sh.", "clD thr.", "Par. (M)", "GFLOPs", "ms"], rows)
 
 
+def t_gate_ablation(out):
+    src = "results/taskC/gate_ablation_seeds.json"
+    if not os.path.exists(src):
+        SKIPPED.append(("gate_ablation", f"{src} does not exist yet"))
+        return
+    G = J(src)
+    names = [("max-softmax baseline", "Max-softmax"), ("gate with max-softmax (9 indicators), refit seed 0", "Gate, 9 indicators"), ("gate without max-softmax (8 indicators), refit seed 0", "Gate, no max-softmax")]
+    rows = []
+    for lab, ak, uk in (("Official", "auroc_official", "aurc_official"), ("Instrument", "auroc_instrument", "aurc_instrument")):
+        for key, nm in names:
+            r = [lab if key == names[0][0] else "", nm]
+            for g in ("oof", "test"):
+                m = ["item1", g, "detectors", key]
+                r += [N("gate_ablation", f"{nm} {lab} {g} AUROC", G, m + [ak], src), N("gate_ablation", f"{nm} {lab} {g} AURC", G, m + [uk], src)]
+            rows.append(r)
+        rows[-1][0] = rows[-1][0]
+    write(out, "gate_ablation", "llcccc", ["Label", "Detector", "AUROC oof", "AURC oof", "AUROC test", "AURC test"], rows)
+
+
 def main():
     import argparse as ap_
     ap = ap_.ArgumentParser(description=__doc__, formatter_class=ap_.RawDescriptionHelpFormatter)
     ap.add_argument("--out", default="results/paper")
     a = ap.parse_args()
-    for fn, nm in ((t_failure, "failure_detection"), (t_policy, "policies"), (t_perclass, "per_class"), (t_ablation, "metric_ablation"), (t_baselines, "baseline_comparison")):
+    for fn, nm in ((t_failure, "failure_detection"), (t_policy, "policies"), (t_perclass, "per_class"), (t_ablation, "metric_ablation"), (t_baselines, "baseline_comparison"), (t_gate_ablation, "gate_ablation")):
         try:
             fn(a.out)
         except Exception as e:  # noqa: BLE001 -- reported, never hidden
